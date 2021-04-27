@@ -63,7 +63,7 @@ void Game::run()
         do
         {
             std::shared_ptr<PhysButton> pressedButton = keyboardHook->getPressedButton();
-            if(pressedButton != nullptr)
+            if (pressedButton != nullptr)
             {
                 if ( (getTimeMs() - lastInputTimeMs) > 200 )
                 {
