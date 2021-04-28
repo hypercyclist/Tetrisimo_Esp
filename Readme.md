@@ -21,4 +21,4 @@ The layout of the console board based on ESP-12E can be viewed in the repository
 The first prototype based on Arduino Nano board.
 The layout of the console board based on Arduino can be viewed in the repository named [Boards](https://github.com/hypercyclist/Boards).
 
-[![Video](https://i9.ytimg.com/vi_webp/la7uFopkpTI/mqdefault.webp?time=1619546400000&sqp=CKCioYQG&rs=AOn4CLDpB5J-U1GuBkFMUynAI8gDJYxp3A)](https://youtu.be/la7uFopkpTI)
+[![Video](https://img.youtube.com/vi/la7uFopkpTI/0.jpg)](https://youtu.be/la7uFopkpTI)

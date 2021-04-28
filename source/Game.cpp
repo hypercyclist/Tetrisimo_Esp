@@ -7,7 +7,6 @@
 #include "Background.h"
 #include "Scene.h"
 #include "Label.h"
-#include "Line.h"
 #include "VerticalLayout.h"
 #include "Button.h"
 #include "Resistor.h"

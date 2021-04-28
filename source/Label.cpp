@@ -6,28 +6,36 @@
 #include "Color.h"
 
 Label::Label(std::string _text)
-    : Widget(nullptr), textSize(2)
+    : 
+    Widget(nullptr),
+    text(_text), 
+    textSize(2),
+    underlined(false)
 {
-    widgetPosition = std::make_unique<Point>(0, 0);
-    setText(_text);
-    isUnderlined = false;
 }
 
 Label::~Label()
 {
 }
 
+
+
 void Label::render()
 {
     painter->setDrawColor( painter->getResourceTheme()->getUnfocusColor() );
     painter->setTextSize(textSize);
-    painter->drawText(text, *widgetPosition);
-    if(isUnderlined)
+    painter->drawText(text, *position);
+    if (underlined)
     {
         // int lineThickness = textSize == 3 ? 2 : 1;
         int lineThickness = 2;
-        Point pointA(widgetPosition->getX(), widgetPosition->getY() + widgetSize->getHeight() - 1);
-        Point pointB(widgetPosition->getX() + widgetSize->getWidth(), widgetPosition->getY() + widgetSize->getHeight() - 1);
+        
+        Point pointA(position->getX(), 
+            position->getY() + size->getHeight() - 1);
+
+        Point pointB(position->getX() + size->getWidth(),
+             position->getY() + size->getHeight() - 1);
+        
         painter->drawLine(pointA, pointB, lineThickness);
     }
 }
@@ -36,11 +44,11 @@ void Label::processSizeUpdate()
 {
     std::string russianCharacters = "абвгдеёжзиклмнопрстуфхцчшщъыьэюя";
     int realStringLength = 0;
-    for(int i = 0; i < text.length(); )
+    for (int i = 0; i < text.length(); )
     {
         realStringLength += 1;
         bool isRussianCharacter = false;
-        for(int j = 0; j < russianCharacters.length(); j++)
+        for (int j = 0; j < russianCharacters.length(); j++)
         {
             if (text[i] == russianCharacters[j])
             {
@@ -51,19 +59,21 @@ void Label::processSizeUpdate()
         int increment = isRussianCharacter ? 2 : 1;
         i += increment;
     }
-    int textWidth = 5 * textSize * realStringLength + ( realStringLength - 1) * textSize;
+    int textWidth = 5 * textSize * realStringLength 
+        + ( realStringLength - 1) * textSize;
     int textHeight = 7 * textSize;
-    if(isUnderlined)
+    if (underlined)
     {
         textHeight = textSize == 3 ? textHeight + 4 : textHeight + 3;
     }
-    int nextWidth = widgetSize->getWidth();
-    int nextHeight = widgetSize->getHeight();
+    int nextWidth = size->getWidth();
+    int nextHeight = size->getHeight();
     nextWidth = textWidth > nextWidth ? textWidth : nextWidth;
     nextHeight = textHeight > nextHeight ? textHeight : nextHeight;
     setSize( Size(nextWidth, nextHeight) );
-    update();
 }
+
+
 
 std::string Label::getText()
 {
@@ -87,9 +97,11 @@ void Label::setTextSize(int _textSize)
     processSizeUpdate();
 }
 
-bool Label::getUnderline()
+
+
+bool Label::isUnderlined()
 {
-    return isUnderlined;
+    return underlined;
 }
 
 void Label::setUnderline(bool _underline)
