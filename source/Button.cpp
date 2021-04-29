@@ -1,26 +1,28 @@
 #include "Button.h"
-#include "Size.h"
-#include "Point.h"
 #include "Painter.h"
-#include "ResourceTheme.h"
 #include "Color.h"
+#include "ResourceTheme.h"
+#include "Point.h"
+#include "Size.h"
 
 Button::Button(std::string _text) 
-    : Widget(nullptr), 
+    : 
+    Widget(nullptr),
+    text(_text),
     textSize(2)
 {
-    widgetPosition = std::make_unique<Point>(0, 0);
-    widgetCanBeFocused = true;
-    setText(_text);
+    focusability = true;
 }
 
 Button::~Button()
 {
 }
 
+
+
 void Button::render()
 {
-    if (widgetIsFocused)
+    if (focused)
     {
         painter->setDrawColor( painter->getResourceTheme()->getFocusColor() );
     }
@@ -29,18 +31,18 @@ void Button::render()
         painter->setDrawColor( painter->getResourceTheme()->getUnfocusColor() );
     }
     painter->setTextSize(textSize);
-    painter->drawText(text, *widgetPosition);
+    painter->drawText(text, *position);
 }
 
 void Button::processSizeUpdate()
 {
     std::string russianCharacters = "абвгдеёжзиклмнопрстуфхцчшщъыьэюя";
     int realStringLength = 0;
-    for(int i = 0; i < text.length(); )
+    for (int i = 0; i < text.length(); )
     {
         realStringLength += 1;
         bool isRussianCharacter = false;
-        for(int j = 0; j < russianCharacters.length(); j++)
+        for (int j = 0; j < russianCharacters.length(); j++)
         {
             if (text[i] == russianCharacters[j])
             {
@@ -51,15 +53,17 @@ void Button::processSizeUpdate()
         int increment = isRussianCharacter ? 2 : 1; 
         i += increment;
     }
-    int textWidth = 5 * textSize * realStringLength + ( realStringLength - 1) * textSize;
+    int textWidth = 5 * textSize * realStringLength 
+        + ( realStringLength - 1) * textSize;
     int textHeight = 7 * textSize;
-    int nextWidth = widgetSize->getWidth();
-    int nextHeight = widgetSize->getHeight();
+    int nextWidth = size->getWidth();
+    int nextHeight = size->getHeight();
     nextWidth = textWidth > nextWidth ? textWidth : nextWidth;
     nextHeight = textHeight > nextHeight ? textHeight : nextHeight;
     setSize( Size(nextWidth, nextHeight) );
-    update();
 }
+
+
 
 std::string Button::getText()
 {

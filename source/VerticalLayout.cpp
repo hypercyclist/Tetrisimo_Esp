@@ -1,10 +1,13 @@
 #include "VerticalLayout.h"
 #include "Widget.h"
-#include "Size.h"
 #include "Point.h"
+#include "Size.h"
+
 #include <SoftwareSerial.h>
-VerticalLayout::VerticalLayout(std::shared_ptr<Widget> _parentWidget)
-    : Layout(_parentWidget)
+
+VerticalLayout::VerticalLayout(std::shared_ptr<Widget> _parent)
+    : 
+    Layout(_parent)
 {
 
 }
@@ -14,9 +17,34 @@ VerticalLayout::~VerticalLayout()
 
 }
 
+
+
+void VerticalLayout::executeActiveWidget()
+{
+    int widgetIndex = -1;
+    int childrensCount = childrens.size();
+    for (int i = 0; i < childrensCount; i++) // Ищем виджет, который был в фокусе.
+    {
+        if ( childrens[i]->isFocused() )
+        {
+            widgetIndex = i;
+            Serial.println(i);
+            break;
+        }
+    }
+    if (widgetIndex == -1) // Если виджета в фокусе нет.
+    {
+        return;
+    }
+    else
+    {
+        childrens[widgetIndex]->execute();
+    }
+}
+
 void VerticalLayout::render()
 {
-    for(int i = 0; i < childrens.size(); i++)
+    for (int i = 0; i < childrens.size(); i++)
     {
         childrens[i]->draw();
     }
@@ -26,15 +54,15 @@ void VerticalLayout::addWidget(std::shared_ptr<Widget> _widget)
 {
     childrens.push_back(_widget);
     countLayout();
-    widgetIsNeedUpdate = true;
+    update();
 }
 
 //notificate parent about changing size.
 void VerticalLayout::countLayout()
 {
     // (Ширина экрана - Кол-во символов * Пикселей на букву) / 2
-    int layoutWidth = widgetSize->getWidth();
-    int layoutHeight = widgetSize->getHeight();
+    int layoutWidth = size->getWidth();
+    int layoutHeight = size->getHeight();
     int childrensCount = childrens.size();
     int heightOfAllWidgets = 0;
     for(int i = 0; i < childrensCount; i++)
@@ -77,7 +105,7 @@ void VerticalLayout::focusNext()
     {
         for (int i = widgetIndex + 1; i < childrensCount; i++)
         {
-            if ( childrens[i]->canBeFocused() )
+            if ( childrens[i]->isFocusable() )
             {
                 childrens[widgetIndex]->unfocus();
                 childrens[i]->focus();
@@ -86,7 +114,7 @@ void VerticalLayout::focusNext()
         }
         for (int i = 0; i < widgetIndex; i++)
         {
-            if ( childrens[i]->canBeFocused() )
+            if ( childrens[i]->isFocusable() )
             {
                 childrens[widgetIndex]->unfocus();
                 childrens[i]->focus();
@@ -98,7 +126,7 @@ void VerticalLayout::focusNext()
     {
         for (int i = 0; i < widgetIndex; i++)
         {
-            if ( childrens[i]->canBeFocused() )
+            if ( childrens[i]->isFocusable() )
             {
                 childrens[widgetIndex]->unfocus();
                 childrens[i]->focus();
@@ -130,7 +158,7 @@ void VerticalLayout::focusPrevious()
     {
         for (int i = widgetIndex - 1; i >= 0; i--)
         {
-            if ( childrens[i]->canBeFocused() )
+            if ( childrens[i]->isFocusable() )
             {
                 childrens[widgetIndex]->unfocus();
                 childrens[i]->focus();
@@ -139,7 +167,7 @@ void VerticalLayout::focusPrevious()
         }
         for (int i = childrensCount - 1; i > widgetIndex; i--)
         {
-            if ( childrens[i]->canBeFocused() )
+            if ( childrens[i]->isFocusable() )
             {
                 childrens[widgetIndex]->unfocus();
                 childrens[i]->focus();
@@ -151,7 +179,7 @@ void VerticalLayout::focusPrevious()
     {
         for (int i = childrensCount - 1; i > widgetIndex; i--)
         {
-            if ( childrens[i]->canBeFocused() )
+            if ( childrens[i]->isFocusable() )
             {
                 childrens[widgetIndex]->unfocus();
                 childrens[i]->focus();
@@ -162,26 +190,6 @@ void VerticalLayout::focusPrevious()
     update();
 }
 
-void VerticalLayout::executeActiveWidget()
-{
-    int widgetIndex = -1;
-    int childrensCount = childrens.size();
-    for (int i = 0; i < childrensCount; i++) // Ищем виджет, который был в фокусе.
-    {
-        if ( childrens[i]->isFocused() )
-        {
-            widgetIndex = i;
-            Serial.println(i);
-            break;
-        }
-    }
-    if (widgetIndex == -1) // Если виджета в фокусе нет.
-    {
-        return;
-    }
-    else
-    {
-        childrens[widgetIndex]->execute();
-    }
-}
-        // int cellHeight = childrensCount / ( widgetSize->getHeight() + (margin * 2) );
+
+
+// int cellHeight = childrensCount / ( widgetSize->getHeight() + (margin * 2) );

@@ -106,6 +106,6 @@ bool Label::isUnderlined()
 
 void Label::setUnderline(bool _underline)
 {
-    isUnderlined = _underline;
+    underlined = _underline;
     processSizeUpdate();
 }

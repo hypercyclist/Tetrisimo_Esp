@@ -53,12 +53,12 @@ void Widget::setExecuteFunction(std::function<void()> _function)
 
 std::shared_ptr<Widget> Widget::getParent()
 {
-    return parentWidget;
+    return parent;
 }
 
-void Widget::setParent(std::shared_ptr<Widget> _parentWidget)
+void Widget::setParent(std::shared_ptr<Widget> _parent)
 {
-    parentWidget = _parentWidget;
+    parent = _parent;
     // processParent();
 }
 

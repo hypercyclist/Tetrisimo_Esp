@@ -13,6 +13,7 @@ class Label : public Widget
         std::string text;
         int textSize;
         bool underlined;
+    
     public:
         Label(std::string _text);
         ~Label();
