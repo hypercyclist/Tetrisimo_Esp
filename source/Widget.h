@@ -9,7 +9,7 @@ class Size;
 #include <memory>
 #include <vector>
 
-class Widget
+class Widget : public std::enable_shared_from_this<Widget>
 {
     private:
         int id;
@@ -30,7 +30,7 @@ class Widget
         bool focused;
     
     public:
-        Widget(std::shared_ptr<Widget> _parent);
+        Widget();
         ~Widget();
 
         int getId();
@@ -58,7 +58,7 @@ class Widget
 
         void draw();
         virtual void render();
-        void update();
+        virtual void update();
         void updated();
         bool isNeedUpdate();
         

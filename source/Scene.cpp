@@ -9,9 +9,9 @@
 
 #include <SoftwareSerial.h>
 
-Scene::Scene(std::shared_ptr<Widget> _parent)
+Scene::Scene()
     : 
-    Widget(_parent),
+    Widget(),
     previousScene(nullptr),
     framesPerSeconds(30),
     background(nullptr),
@@ -65,17 +65,20 @@ std::shared_ptr<Scene> Scene::getPreviousScene()
 void Scene::setPreviousScene(std::shared_ptr<Scene> _previousScene)
 {
     previousScene = _previousScene;
+    _previousScene->update();
 }
 
 void Scene::setBackgroundWidget(std::shared_ptr<Background> _background)
 {
     background = _background;
+    update();
 }    
 
 void Scene::setCentralWidget(std::shared_ptr<Widget> _widget)
 {
     widget = _widget;
     widget->setSize(*size);
+    update();
 }
 
 
@@ -90,7 +93,14 @@ void Scene::setFrameTime(int _framesPerSeconds)
     framesPerSeconds = _framesPerSeconds;
 }
 
-
+void Scene::update()
+{
+    needUpdate = true;
+    if (background != nullptr)
+    {
+        background->update();
+    }
+}
 
 void Scene::initializeStandartFunctions()
 {
@@ -114,7 +124,7 @@ void Scene::initializeStandartFunctions()
 void Scene::pressedButtonUp()
 {
     pressedButtonUpFunctionPointer();
-    widget->update();
+    update();
 }
 
 void Scene::setPressedButtonUpFunction(std::function<void()> _function)
@@ -125,7 +135,7 @@ void Scene::setPressedButtonUpFunction(std::function<void()> _function)
 void Scene::pressedButtonDown()
 {
     pressedButtonDownFunctionPointer();
-    widget->update();
+    update();
 }
 
 void Scene::setPressedButtonDownFunction(std::function<void()> _function)

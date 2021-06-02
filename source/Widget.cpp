@@ -6,14 +6,14 @@
 
 #include <SoftwareSerial.h>
 
-Widget::Widget(std::shared_ptr<Widget> _parent) 
+Widget::Widget() 
     : 
     id( generateId() ),
     executeFunction(nullptr),
-    parent(_parent),
+    parent(nullptr),
     painter( Painter::getPainter() ),
-    position( std::make_unique<Point>(0, 0) ), 
-    size( std::make_unique<Size>(10, 10) ), 
+    position( std::make_unique<Point>(1, 1) ), 
+    size( std::make_unique<Size>(1, 1) ), 
     needUpdate(true),
     visible(true),
     focusability(false), 
@@ -59,6 +59,7 @@ std::shared_ptr<Widget> Widget::getParent()
 void Widget::setParent(std::shared_ptr<Widget> _parent)
 {
     parent = _parent;
+    update();
     // processParent();
 }
 
@@ -88,6 +89,7 @@ void Widget::removeChildren(std::shared_ptr<Widget> _children)
             childrens.erase( childrens.begin() + i );
         }
     }
+    update();
 }
 
 
@@ -153,11 +155,19 @@ void Widget::draw()
 
 void Widget::render()
 {
+    for (int i = 0; i < childrens.size(); i++)
+    {
+        childrens[i]->draw();
+    }
 }
 
 void Widget::update()
 {
     needUpdate = true;
+    if (parent != nullptr)
+    {
+        parent->update();
+    }
 }
 
 void Widget::updated()

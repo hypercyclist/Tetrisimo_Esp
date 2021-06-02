@@ -6,7 +6,7 @@
 
 Layout::Layout(std::shared_ptr<Widget> _parent)
     : 
-    Widget(_parent),
+    Widget(),
     spacing(0),
     margin(5)
 {

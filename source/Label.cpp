@@ -7,11 +7,12 @@
 
 Label::Label(std::string _text)
     : 
-    Widget(nullptr),
+    Widget(),
     text(_text), 
     textSize(2),
     underlined(false)
 {
+    processSizeUpdate();
 }
 
 Label::~Label()

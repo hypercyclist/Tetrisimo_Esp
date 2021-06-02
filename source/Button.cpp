@@ -7,11 +7,12 @@
 
 Button::Button(std::string _text) 
     : 
-    Widget(nullptr),
+    Widget(),
     text(_text),
     textSize(2)
 {
     focusability = true;
+    processSizeUpdate();
 }
 
 Button::~Button()

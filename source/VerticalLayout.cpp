@@ -28,7 +28,7 @@ void VerticalLayout::executeActiveWidget()
         if ( childrens[i]->isFocused() )
         {
             widgetIndex = i;
-            Serial.println(i);
+            // Serial.println(i);
             break;
         }
     }
@@ -46,13 +46,14 @@ void VerticalLayout::render()
 {
     for (int i = 0; i < childrens.size(); i++)
     {
-        childrens[i]->draw();
+        childrens[i]->render();
     }
 }
 
 void VerticalLayout::addWidget(std::shared_ptr<Widget> _widget)
 {
     childrens.push_back(_widget);
+    _widget->setParent(shared_from_this());
     countLayout();
     update();
 }
@@ -75,6 +76,7 @@ void VerticalLayout::countLayout()
     for(int i = 0; i < childrensCount; i++)
     {
         Size countedWidgetSize = childrens[i]->getSize();
+        Serial.println(countedWidgetSize.getWidth());
         int widgetX = ( layoutWidth - countedWidgetSize.getWidth() ) / 2;
         int widgetY = savedHeight + freeSpace;
         childrens[i]->setPosition( Point(widgetX, widgetY) );

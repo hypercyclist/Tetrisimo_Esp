@@ -7,7 +7,7 @@
 
 Background::Background(std::shared_ptr<Widget> _parent) 
     : 
-    Widget(_parent)
+    Widget()
 {
 }
 

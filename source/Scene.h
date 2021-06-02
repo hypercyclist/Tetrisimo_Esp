@@ -24,7 +24,7 @@ class Scene : public Widget
         std::function<void()> pressedButtonBackFunctionPointer;
     
     public:
-        Scene(std::shared_ptr<Widget> _parent = nullptr);
+        Scene();
         ~Scene();
 
         void render();
@@ -38,6 +38,8 @@ class Scene : public Widget
         
         int getFrameTime();
         void setFrameTime(int _framesPerSeconds);
+        
+        void update();
 
         void initializeStandartFunctions();
         void pressedButtonUp();
