@@ -5,7 +5,7 @@
 #include "Point.h"
 #include "Size.h"
 
-Background::Background(std::shared_ptr<Widget> _parent) 
+Background::Background() 
     : 
     Widget()
 {

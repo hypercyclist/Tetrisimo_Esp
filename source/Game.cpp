@@ -47,6 +47,7 @@ void Game::initialize()
     initializeBackground();
     initializeMainMenu();
     initializeSettings();
+    initializeMultiplayer();
 
     display->setActiveScene(mainMenu);
 }
@@ -145,8 +146,8 @@ void Game::initializeDisplay()
 
 void Game::initializeBackground()
 {
-    background = std::make_shared<Background>(nullptr);
-    background->setSize( config->getDisplaySize() ); //bad
+    background = std::make_shared<Background>();
+    background->setSize( display->getSize() );
 }
 
 void Game::initializeMainMenu()
@@ -184,7 +185,7 @@ void Game::initializeMainMenu()
     std::shared_ptr<Label> highScoreLabel = std::make_shared<Label>("000000");
     menuLayout->addWidget(highScoreLabel);
 
-    singleGameButton->focus();
+    // mainMenu->focus();
 }
 
 void Game::initializeSingleGame()
@@ -194,7 +195,23 @@ void Game::initializeSingleGame()
 
 void Game::initializeMultiplayer()
 {
+    multiplayer = std::make_shared<Scene>();
+    multiplayer->setSize( display->getSize() );
+    multiplayer->setBackgroundWidget(background);
 
+    std::shared_ptr<VerticalLayout> multiplayerLayout = std::make_shared<VerticalLayout>();
+    settings->setCentralWidget(multiplayerLayout);
+
+    std::shared_ptr<Label> header = std::make_shared<Label>("Сеть");
+    header->setTextSize(2);
+    header->setUnderline(true);
+    multiplayerLayout->addWidget(header);
+
+    std::shared_ptr<Button> gameSettingsButton = std::make_shared<Button>("Я клиент");
+    multiplayerLayout->addWidget(gameSettingsButton);
+
+    std::shared_ptr<Button> networkSettingsButton = std::make_shared<Button>("Я сервер");
+    multiplayerLayout->addWidget(networkSettingsButton);
 }
 
 void Game::initializeServerBrowser()
@@ -243,7 +260,7 @@ void Game::initializeSettings()
     std::shared_ptr<Button> advancedSettingsButton = std::make_shared<Button>("Другие");
     settingsLayout->addWidget(advancedSettingsButton);
     
-    std::shared_ptr<Label> aboutButton = std::make_shared<Label>("О проекте");
+    std::shared_ptr<Button> aboutButton = std::make_shared<Button>("О проекте");
     settingsLayout->addWidget(aboutButton);
 }
 

@@ -66,7 +66,7 @@ class Widget : public std::enable_shared_from_this<Widget>
         void hide();
         bool isVisible();
 
-        void focus();
+        virtual void focus();
         void unfocus();
         bool isFocusable();
         bool isFocused();

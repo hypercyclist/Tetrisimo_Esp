@@ -35,11 +35,13 @@ class Scene : public Widget
         void setPreviousScene(std::shared_ptr<Scene> _previousScene);
         void setBackgroundWidget(std::shared_ptr<Background> _background);
         void setCentralWidget(std::shared_ptr<Widget> _widget);
+        std::shared_ptr<Widget> getCentralWidget();
         
         int getFrameTime();
         void setFrameTime(int _framesPerSeconds);
         
         void update();
+        void updateAll();
 
         void initializeStandartFunctions();
         void pressedButtonUp();

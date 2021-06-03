@@ -50,6 +50,8 @@ std::shared_ptr<Scene> Display::getActiveScene()
 void Display::setActiveScene(std::shared_ptr<Scene> _activeScene)
 {
     activeScene = _activeScene;
-    activeScene->setSize(*displaySize);
+    // activeScene->setSize(*displaySize);
+    activeScene->getCentralWidget()->focus();
+    activeScene->updateAll();
     // activeScene->redraw();
 }

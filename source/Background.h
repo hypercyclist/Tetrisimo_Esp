@@ -9,7 +9,7 @@ class Background : public Widget
 {
     private:
     public:
-        Background(std::shared_ptr<Widget> _parent);
+        Background();
         ~Background();
 
         void render();

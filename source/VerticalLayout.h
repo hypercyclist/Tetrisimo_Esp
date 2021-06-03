@@ -19,6 +19,7 @@ class VerticalLayout : public Layout
         void addWidget(std::shared_ptr<Widget> _widget);
         void countLayout();
         
+        void focus();
         void focusNext();
         void focusPrevious();
 };

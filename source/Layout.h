@@ -15,7 +15,7 @@ class Layout : public Widget
     public:
         Layout(std::shared_ptr<Widget> _parent);
         ~Layout();
-
+        void draw();
         virtual void render();
         void processChild(std::shared_ptr<Widget> _childWidget);
         virtual void addWidget(std::shared_ptr<Widget> _widget);

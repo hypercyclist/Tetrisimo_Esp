@@ -204,13 +204,13 @@ bool Widget::isVisible()
 void Widget::focus()
 {
     focused = true;
-    update();
+    render();
 }
 
 void Widget::unfocus()
 {
     focused = false;
-    update();
+    render();
 }
 
 bool Widget::isFocusable()

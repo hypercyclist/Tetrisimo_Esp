@@ -38,17 +38,17 @@ void Scene::render()
     }
 }
 
-// void Scene::redraw()
-// {
-//     if (background != nullptr)
-//     {
-//         background->render();
-//     }
-//     if (widget != nullptr)
-//     {
-//         widget->render();
-//     }
-// }
+void Scene::updateAll()
+{
+    if (background != nullptr)
+    {
+        background->render();
+    }
+    if (widget != nullptr)
+    {
+        widget->render();
+    }
+}
 
 // void Scene::processChild(std::shared_ptr<Widget> _childWidget)
 // {
@@ -81,7 +81,10 @@ void Scene::setCentralWidget(std::shared_ptr<Widget> _widget)
     update();
 }
 
-
+std::shared_ptr<Widget> Scene::getCentralWidget()
+{
+    return widget;
+}
 
 int Scene::getFrameTime()
 {
@@ -124,7 +127,6 @@ void Scene::initializeStandartFunctions()
 void Scene::pressedButtonUp()
 {
     pressedButtonUpFunctionPointer();
-    update();
 }
 
 void Scene::setPressedButtonUpFunction(std::function<void()> _function)
@@ -135,7 +137,6 @@ void Scene::setPressedButtonUpFunction(std::function<void()> _function)
 void Scene::pressedButtonDown()
 {
     pressedButtonDownFunctionPointer();
-    update();
 }
 
 void Scene::setPressedButtonDownFunction(std::function<void()> _function)

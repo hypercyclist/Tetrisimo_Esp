@@ -76,7 +76,7 @@ void VerticalLayout::countLayout()
     for(int i = 0; i < childrensCount; i++)
     {
         Size countedWidgetSize = childrens[i]->getSize();
-        Serial.println(countedWidgetSize.getWidth());
+        // Serial.println(countedWidgetSize.getWidth());
         int widgetX = ( layoutWidth - countedWidgetSize.getWidth() ) / 2;
         int widgetY = savedHeight + freeSpace;
         childrens[i]->setPosition( Point(widgetX, widgetY) );
@@ -84,6 +84,18 @@ void VerticalLayout::countLayout()
     }
         //disable stretch
         //use spacing and stretch
+}
+
+void VerticalLayout::focus()
+{
+    for(int i = 0; i < childrens.size(); i++)
+    {
+        if ( childrens[i]->isFocusable() )
+        {
+            childrens[i]->focus();
+            return;
+        }
+    }
 }
 
 void VerticalLayout::focusNext()
@@ -95,7 +107,7 @@ void VerticalLayout::focusNext()
         if ( childrens[i]->isFocused() )
         {
             widgetIndex = i;
-            Serial.println(i);
+            // Serial.println(i);
             break;
         }
     }
@@ -148,7 +160,7 @@ void VerticalLayout::focusPrevious()
         if ( childrens[i]->isFocused() )
         {
             widgetIndex = i;
-            Serial.println(i);
+            // Serial.println(i);
             break;
         }
     }
