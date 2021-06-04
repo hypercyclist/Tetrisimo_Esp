@@ -11,6 +11,7 @@ class Layout : public Widget
     protected:
         int spacing;
         int margin;
+        bool adjusting;
 
     public:
         Layout(std::shared_ptr<Widget> _parent);
@@ -24,6 +25,8 @@ class Layout : public Widget
         
         virtual void focusNext();
         virtual void focusPrevious();
+        void setAdjusting(bool _adjusting);
+        bool isAdjusting();
 };
 
 #endif

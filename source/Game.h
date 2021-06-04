@@ -11,7 +11,7 @@ class Display;
 #include <memory>
 #include <time.h>
 
-class Game
+class Game : public std::enable_shared_from_this<Game>
 {
     private:
         std::shared_ptr<Config> config;
@@ -52,10 +52,14 @@ class Game
         ~Game();
         void start();
         void initialize();
+        void run();
+        void processPressedButton(std::shared_ptr<PhysButton> _pressedButton);
         void initializeConfig();
         void initializeButtons();
         void initializeDisplay();
         void initializeBackground();
+        void initializeBasicScene(std::shared_ptr<Scene> _scene, 
+            std::string _headerText, int _headerTextSize);
         void initializeMainMenu();
         void initializeSingleGame();
         void initializeMultiplayer();
@@ -72,8 +76,9 @@ class Game
         void initializeCustomColorsSettings();
         void initializeCustomFigureSettings();
         void initializeAboutSettings();
-        void run();
-        void processPressedButton(std::shared_ptr<PhysButton> _pressedButton);
+        std::shared_ptr<Display> getDisplay();
+
+        void beep();
 };
 
 #endif

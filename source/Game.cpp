@@ -45,9 +45,9 @@ void Game::initialize()
     display->getPainter()->setResourceTheme( config->getCaveLightsTheme() );
 
     initializeBackground();
-    initializeMainMenu();
-    initializeSettings();
     initializeMultiplayer();
+    initializeSettings();
+    initializeMainMenu();
 
     display->setActiveScene(mainMenu);
 }
@@ -107,7 +107,7 @@ void Game::processPressedButton(std::shared_ptr<PhysButton> _pressedButton)
     }
     if (_pressedButton == buttonBack)
     {
-        // display->getActiveScene()->pressedButtonDown();
+        display->getActiveScene()->pressedButtonBack();
     }
 }
 
@@ -150,42 +150,61 @@ void Game::initializeBackground()
     background->setSize( display->getSize() );
 }
 
-void Game::initializeMainMenu()
+void Game::initializeBasicScene(
+    std::shared_ptr<Scene> _scene, 
+    std::string _headerText, 
+    int _headerTextSize
+    )
 {
-    mainMenu = std::make_shared<Scene>();
-    mainMenu->setSize( display->getSize() );
-    mainMenu->setBackgroundWidget(background);
+    _scene->setSize( display->getSize() );
+    _scene->setBackgroundWidget(background);
 
     std::shared_ptr<VerticalLayout> menuLayout = std::make_shared<VerticalLayout>();
-    mainMenu->setCentralWidget(menuLayout);
+    _scene->setCentralWidget(menuLayout);
 
-    std::shared_ptr<Label> header = std::make_shared<Label>("Тетрис");
-    header->setTextSize(3);
+    std::shared_ptr<Label> header = std::make_shared<Label>(_headerText);
+    header->setTextSize(_headerTextSize);
     header->setUnderline(true);
     menuLayout->addWidget(header);
+}
+
+void Game::initializeMainMenu()
+{
+    shared_from_this()->beep();
+    mainMenu = std::make_shared<Scene>( shared_from_this() );
+    initializeBasicScene(mainMenu, "Тетрис", 3);
+    std::shared_ptr<VerticalLayout> menuLayout = 
+        std::static_pointer_cast<VerticalLayout>( mainMenu->getCentralWidget() );
+    // menuLayout->setAdjusting(true);
 
     std::shared_ptr<Button> singleGameButton = std::make_shared<Button>("Новая игра");
     menuLayout->addWidget(singleGameButton);
 
     std::shared_ptr<Button> multiplayerButton = std::make_shared<Button>("Сеть");
     menuLayout->addWidget(multiplayerButton);
+    multiplayerButton->setExecuteFunction(
+        [this] ()
+        {
+            display->setActiveScene(multiplayer);
+        }
+    );
+    multiplayer->setPreviousScene(mainMenu);
     
     std::shared_ptr<Button> settingsButton = std::make_shared<Button>("Настройки");
+    menuLayout->addWidget(settingsButton);
     settingsButton->setExecuteFunction(
-        [this] () 
+        [this] ()
         {
             display->setActiveScene(settings);
         }
     );
-    menuLayout->addWidget(settingsButton);
+    settings->setPreviousScene(mainMenu);
     
     std::shared_ptr<Button> highScoreButton = std::make_shared<Button>("Рекорды");
     menuLayout->addWidget(highScoreButton);
 
     std::shared_ptr<Label> highScoreLabel = std::make_shared<Label>("000000");
     menuLayout->addWidget(highScoreLabel);
-
-    // mainMenu->focus();
 }
 
 void Game::initializeSingleGame()
@@ -195,23 +214,16 @@ void Game::initializeSingleGame()
 
 void Game::initializeMultiplayer()
 {
-    multiplayer = std::make_shared<Scene>();
-    multiplayer->setSize( display->getSize() );
-    multiplayer->setBackgroundWidget(background);
+    multiplayer = std::make_shared<Scene>( shared_from_this() );
+    initializeBasicScene(multiplayer, "Сеть", 2);
+    std::shared_ptr<VerticalLayout> multiplayerLayout = 
+        std::static_pointer_cast<VerticalLayout>( multiplayer->getCentralWidget() );
 
-    std::shared_ptr<VerticalLayout> multiplayerLayout = std::make_shared<VerticalLayout>();
-    settings->setCentralWidget(multiplayerLayout);
+    std::shared_ptr<Button> clientButton = std::make_shared<Button>("Я клиент");
+    multiplayerLayout->addWidget(clientButton);
 
-    std::shared_ptr<Label> header = std::make_shared<Label>("Сеть");
-    header->setTextSize(2);
-    header->setUnderline(true);
-    multiplayerLayout->addWidget(header);
-
-    std::shared_ptr<Button> gameSettingsButton = std::make_shared<Button>("Я клиент");
-    multiplayerLayout->addWidget(gameSettingsButton);
-
-    std::shared_ptr<Button> networkSettingsButton = std::make_shared<Button>("Я сервер");
-    multiplayerLayout->addWidget(networkSettingsButton);
+    std::shared_ptr<Button> hostButton = std::make_shared<Button>("Я сервер");
+    multiplayerLayout->addWidget(hostButton);
 }
 
 void Game::initializeServerBrowser()
@@ -236,7 +248,7 @@ void Game::initializeVersusGame()
 
 void Game::initializeSettings()
 {
-    settings = std::make_shared<Scene>();
+    settings = std::make_shared<Scene>( shared_from_this() );
     settings->setSize( display->getSize() );
     settings->setBackgroundWidget(background);
 
@@ -302,4 +314,14 @@ void Game::initializeCustomFigureSettings()
 void Game::initializeAboutSettings()
 {
 
+}
+
+std::shared_ptr<Display> Game::getDisplay()
+{
+    return display;
+}
+
+void Game::beep()
+{
+    Serial.println("HUI2");
 }

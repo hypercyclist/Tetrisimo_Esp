@@ -7,8 +7,9 @@
 Layout::Layout(std::shared_ptr<Widget> _parent)
     : 
     Widget(),
-    spacing(0),
-    margin(5)
+    spacing(9),
+    margin(5),
+    adjusting(false)
 {
 }
 
@@ -60,6 +61,16 @@ void Layout::focusNext()
 
 void Layout::focusPrevious()
 {
+}
+
+void Layout::setAdjusting(bool _adjusting)
+{
+    adjusting = _adjusting;
+}
+
+bool Layout::isAdjusting()
+{
+    return adjusting;
 }
 
 

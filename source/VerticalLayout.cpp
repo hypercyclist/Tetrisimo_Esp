@@ -61,29 +61,45 @@ void VerticalLayout::addWidget(std::shared_ptr<Widget> _widget)
 //notificate parent about changing size.
 void VerticalLayout::countLayout()
 {
-    // (Ширина экрана - Кол-во символов * Пикселей на букву) / 2
     int layoutWidth = size->getWidth();
     int layoutHeight = size->getHeight();
-    int childrensCount = childrens.size();
     int heightOfAllWidgets = 0;
-    for(int i = 0; i < childrensCount; i++)
+    int childrensCount = childrens.size();
+    if (adjusting)
     {
-        heightOfAllWidgets += childrens[i]->getSize().getHeight(); // + (margin * 2);
-    }
-    int freeSpace = heightOfAllWidgets < layoutHeight ? (layoutHeight - heightOfAllWidgets) / (childrensCount + 1) : 0;
-    int savedHeight = 0;
+        // (Ширина экрана - Кол-во символов * Пикселей на букву) / 2
+        for(int i = 0; i < childrensCount; i++)
+        {
+            heightOfAllWidgets += childrens[i]->getSize().getHeight(); // + (margin * 2);
+        }
+        int freeSpace = heightOfAllWidgets < layoutHeight ? (layoutHeight - heightOfAllWidgets) / (childrensCount + 1) : 0;
+        int savedHeight = 0;
 
-    for(int i = 0; i < childrensCount; i++)
-    {
-        Size countedWidgetSize = childrens[i]->getSize();
-        // Serial.println(countedWidgetSize.getWidth());
-        int widgetX = ( layoutWidth - countedWidgetSize.getWidth() ) / 2;
-        int widgetY = savedHeight + freeSpace;
-        childrens[i]->setPosition( Point(widgetX, widgetY) );
-        savedHeight = widgetY + countedWidgetSize.getHeight();
+        for(int i = 0; i < childrensCount; i++)
+        {
+            Size countedWidgetSize = childrens[i]->getSize();
+            // Serial.println(countedWidgetSize.getWidth());
+            int widgetX = ( layoutWidth - countedWidgetSize.getWidth() ) / 2;
+            int widgetY = savedHeight + freeSpace;
+            childrens[i]->setPosition( Point(widgetX, widgetY) );
+            savedHeight = widgetY + countedWidgetSize.getHeight();
+        }
+            //disable stretch
+            //use spacing and stretch
     }
-        //disable stretch
-        //use spacing and stretch
+    else
+    {
+        heightOfAllWidgets = spacing;
+        for(int i = 0; i < childrensCount; i++)
+        {
+            Size countedWidgetSize = childrens[i]->getSize();
+            // Serial.println(countedWidgetSize.getWidth());
+            int widgetX = ( layoutWidth - countedWidgetSize.getWidth() ) / 2;
+            int widgetY = heightOfAllWidgets;
+            childrens[i]->setPosition( Point(widgetX, widgetY) );
+            heightOfAllWidgets = widgetY + countedWidgetSize.getHeight() + spacing;
+        }
+    }
 }
 
 void VerticalLayout::focus()

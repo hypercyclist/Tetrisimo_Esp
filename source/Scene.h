@@ -3,6 +3,7 @@
 
 #include "Widget.h"
 class Background;
+class Game;
 
 #include <vector>
 #include <memory>
@@ -11,6 +12,7 @@ class Background;
 class Scene : public Widget
 {
     private:
+        std::shared_ptr<Game> game;
         std::shared_ptr<Background> background;
         std::shared_ptr<Widget> widget;
         std::shared_ptr<Scene> previousScene;
@@ -24,7 +26,7 @@ class Scene : public Widget
         std::function<void()> pressedButtonBackFunctionPointer;
     
     public:
-        Scene();
+        Scene(std::shared_ptr<Game> _game);
         ~Scene();
 
         void render();

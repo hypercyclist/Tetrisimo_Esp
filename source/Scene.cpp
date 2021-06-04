@@ -1,4 +1,6 @@
 #include "Scene.h"
+#include "Game.h"
+#include "Display.h"
 #include "Painter.h"
 #include "Color.h"
 #include "Point.h"
@@ -9,9 +11,10 @@
 
 #include <SoftwareSerial.h>
 
-Scene::Scene()
+Scene::Scene(std::shared_ptr<Game> _game)
     : 
     Widget(),
+    game(_game),
     previousScene(nullptr),
     framesPerSeconds(30),
     background(nullptr),
@@ -121,7 +124,10 @@ void Scene::initializeStandartFunctions()
     {
         std::static_pointer_cast<VerticalLayout>(widget)->executeActiveWidget();
     };
-    pressedButtonBackFunctionPointer = [this] () {};
+    pressedButtonBackFunctionPointer = [this] () 
+    {
+        game->getDisplay()->setActiveScene(previousScene);
+    };
 }
 
 void Scene::pressedButtonUp()
