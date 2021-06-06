@@ -9,6 +9,7 @@
 #include "Label.h"
 #include "VerticalLayout.h"
 #include "Button.h"
+#include "CheckBox.h"
 #include "Resistor.h"
 #include "PhysButton.h"
 #include "Display.h"
@@ -45,6 +46,7 @@ void Game::initialize()
     display->getPainter()->setResourceTheme( config->getCaveLightsTheme() );
 
     initializeBackground();
+    initializeGameSettings();
     initializeMultiplayer();
     initializeSettings();
     initializeMainMenu();
@@ -249,19 +251,19 @@ void Game::initializeVersusGame()
 void Game::initializeSettings()
 {
     settings = std::make_shared<Scene>( shared_from_this() );
-    settings->setSize( display->getSize() );
-    settings->setBackgroundWidget(background);
-
-    std::shared_ptr<VerticalLayout> settingsLayout = std::make_shared<VerticalLayout>();
-    settings->setCentralWidget(settingsLayout);
-
-    std::shared_ptr<Label> header = std::make_shared<Label>("Настройки");
-    header->setTextSize(2);
-    header->setUnderline(true);
-    settingsLayout->addWidget(header);
+    initializeBasicScene(settings, "Настройки", 2);
+    std::shared_ptr<VerticalLayout> settingsLayout = 
+        std::static_pointer_cast<VerticalLayout>( settings->getCentralWidget() );
 
     std::shared_ptr<Button> gameSettingsButton = std::make_shared<Button>("Игровые");
     settingsLayout->addWidget(gameSettingsButton);
+    gameSettingsButton->setExecuteFunction(
+        [this] ()
+        {
+            display->setActiveScene(gameSettings);
+        }
+    );
+    gameSettings->setPreviousScene(settings);
 
     std::shared_ptr<Button> networkSettingsButton = std::make_shared<Button>("Сетевые");
     settingsLayout->addWidget(networkSettingsButton);
@@ -278,7 +280,19 @@ void Game::initializeSettings()
 
 void Game::initializeGameSettings()
 {
+    gameSettings = std::make_shared<Scene>( shared_from_this() );
+    initializeBasicScene(gameSettings, "Настройки", 2);
+    std::shared_ptr<VerticalLayout> gameSettingsLayout = 
+        std::static_pointer_cast<VerticalLayout>( gameSettings->getCentralWidget() );
 
+    std::shared_ptr<CheckBox> useNetButton = std::make_shared<CheckBox>("Сетка");
+    gameSettingsLayout->addWidget(useNetButton);
+
+    std::shared_ptr<CheckBox> useGhostButton = std::make_shared<CheckBox>("Тень");
+    gameSettingsLayout->addWidget(useGhostButton);
+
+    std::shared_ptr<CheckBox> useVibrationButton = std::make_shared<CheckBox>("Вибрация");
+    gameSettingsLayout->addWidget(useVibrationButton);
 }
 
 void Game::initializeNetworkSettings()
@@ -323,5 +337,4 @@ std::shared_ptr<Display> Game::getDisplay()
 
 void Game::beep()
 {
-    Serial.println("HUI2");
 }

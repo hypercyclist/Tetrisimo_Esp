@@ -78,7 +78,6 @@ void VerticalLayout::countLayout()
         for(int i = 0; i < childrensCount; i++)
         {
             Size countedWidgetSize = childrens[i]->getSize();
-            // Serial.println(countedWidgetSize.getWidth());
             int widgetX = ( layoutWidth - countedWidgetSize.getWidth() ) / 2;
             int widgetY = savedHeight + freeSpace;
             childrens[i]->setPosition( Point(widgetX, widgetY) );
@@ -96,6 +95,8 @@ void VerticalLayout::countLayout()
             // Serial.println(countedWidgetSize.getWidth());
             int widgetX = ( layoutWidth - countedWidgetSize.getWidth() ) / 2;
             int widgetY = heightOfAllWidgets;
+            Serial.print("countLayout()");
+            Serial.println(widgetX);
             childrens[i]->setPosition( Point(widgetX, widgetY) );
             heightOfAllWidgets = widgetY + countedWidgetSize.getHeight() + spacing;
         }

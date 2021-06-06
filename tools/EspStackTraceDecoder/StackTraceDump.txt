@@ -1,28 +1,33 @@
+
 --------------- CUT HERE FOR EXCEPTION DECODER ---------------
 
-Exception (29):
-epc1=0x4020460e epc2=0x00000000 epc3=0x00000000 excvaddr=0x00000060 depc=0x00000000
+Exception (28):
+epc1=0x4020a014 epc2=0x00000000 epc3=0x00000000 excvaddr=0x00000040 depc=0x00000000
 
 >>>stack>>>
 
 ctx: cont
-sp: 3ffffd20 end: 3fffffc0 offset: 0190
-3ffffeb0:  3fff04b4 3fff0224 3ffef86c 3ffeeac8  
-3ffffec0:  3fff04b4 3ffef8bc 3ffef86c 40202e15  
-3ffffed0:  3fff03e4 3fff01cc 40209758 40202260  
-3ffffee0:  3fff01f0 00000000 00000014 40204f89  
-3ffffef0:  00000080 000000a0 3fff064c 3fff06dc  
-3fffff00:  3fff05dc 3fff059c 3fff04b4 3fff0224  
-3fffff10:  00000080 000000a0 00000000 3ffeeac8  
-3fffff20:  3fffdad0 3fff0074 3ffef86c 402030b3  
-3fffff30:  3fff0124 3fff013c 3fff0154 3fff016c  
-3fffff40:  3fff0184 3fff019c 3fff01b4 3fff01cc  
-3fffff50:  3fff01e4 3fff01fc 3fff0214 3fff022c  
-3fffff60:  3fff0244 3fff0074 3fff00f4 402011e2  
-3fffff70:  3fffdad0 00000000 3ffef86c 40203108  
-3fffff80:  3fffdad0 00000000 3ffeea88 40201204  
-3fffff90:  3ffef86c 3ffef95c feefeffe feefeffe  
-3fffffa0:  feefeffe feefeffe feefeffe 40207ab0  
+sp: 3ffffce0 end: 3fffffc0 offset: 0190
+3ffffe70:  3fff05cc 00000000 3fff0614 40210dd8  
+3ffffe80:  00000000 00000000 3fff0614 4020515b  
+3ffffe90:  00000000 3fff0614 3fff0614 40201464  
+3ffffea0:  3ffffec0 3ffef91c 3fffff08 40207bdc  
+3ffffeb0:  00000000 3fff0614 3fffff08 40202a44  
+3ffffec0:  3fff05d8 00000002 3ffe8680 40210aca  
+3ffffed0:  3fffff00 00000000 3fff0144 3ffeeae8  
+3ffffee0:  3fffdad0 3ffef91c 3ffef88c 40203245  
+3ffffef0:  3fff04d4 3fff024c 3fff0210 00000000  
+3fffff00:  00000000 00000000 00000000 00000000  
+3fffff10:  3fff04d4 3fff024c 00000000 00000000  
+3fffff20:  3fffdad0 3fff0094 3ffef88c 402033ba  
+3fffff30:  3fff0144 3fff015c 3fff0174 3fff018c  
+3fffff40:  3fff01a4 3fff01bc 3fff01d4 3fff01ec  
+3fffff50:  3fff0204 3fff021c 3fff0234 3fff024c  
+3fffff60:  3fff0264 3fff0094 3fff0114 402011e2  
+3fffff70:  3fffdad0 00000000 3ffef88c 40203414  
+3fffff80:  3fffdad0 00000000 3ffeeaa8 40201204  
+3fffff90:  3ffef88c 3ffef97c feefeffe feefeffe  
+3fffffa0:  feefeffe feefeffe feefeffe 40207dd4  
 3fffffb0:  feefeffe feefeffe 3ffe84e0 40100c49  
 <<<stack<<<
 

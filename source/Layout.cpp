@@ -27,6 +27,7 @@ void Layout::draw()
 
 void Layout::render()
 {
+    // countLayout();
     for (int i = 0; i < childrens.size(); i++)
     {
         childrens[i]->draw();
