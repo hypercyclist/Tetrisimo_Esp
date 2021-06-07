@@ -20,6 +20,7 @@ Background::~Background()
 void Background::render()
 {
     drawNet();
+    // Serial.println("Background::render()");
 }
 
 void Background::drawNet()

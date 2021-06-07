@@ -29,11 +29,16 @@ CheckBox::~CheckBox()
 {
 }
 
-
+void CheckBox::setParent(std::shared_ptr<Widget> _parent)
+{
+    parent = _parent;
+    processSizeUpdate();
+    // processParent();
+}
 
 void CheckBox::render()
 {
-    processSizeUpdate();
+    // processSizeUpdate();
     if (focused)
     {
         painter->setDrawColor( painter->getResourceTheme()->getFocusColor() );
@@ -46,6 +51,34 @@ void CheckBox::render()
     painter->drawText(text, *position);
 
     // painter->drawLine(pointA, pointB, lineThickness);
+    int x = position->getX() + size->getWidth() - size->getHeight();
+    int y = position->getY();
+    int checkBoxSize = size->getHeight();
+    uint16_t focusColor = painter->getDrawColor().toUint16();
+    uint16_t bacgroundColor = painter->getResourceTheme()->getBackgroundMenuColor().toUint16();
+    painter->drawRect(x, y, checkBoxSize, checkBoxSize, focusColor);
+    painter->drawRect(x + 1, y + 1, checkBoxSize - 2, checkBoxSize - 2, focusColor);
+    painter->fillRect(x + 2, y + 2, checkBoxSize - 4, checkBoxSize - 4, bacgroundColor);
+    // tft->drawRect(x, y, checkBoxSize, checkBoxSize, config->styleYellowColor);
+    // tft->drawRect(x + 1, y + 1, checkBoxSize - 2, checkBoxSize - 2, config->styleYellowColor);
+    // tft->fillRect(x + 2, y + 2, checkBoxSize - 4, checkBoxSize - 4, config->backgroundColor);
+    // tft->setPenColor(config->styleRedColor);
+    // if(state)
+    // {
+    //     tft->drawLine(x, y + 6, x + 5, y + 12);
+    //     tft->drawLine(x + 1, y + 6, x + 6, y + 12);
+    //     tft->drawLine(x + 2, y + 6, x + 7, y + 12);
+    //     tft->drawLine(x + 6, y + 13, x + 12, y);
+    //     tft->drawLine(x + 7, y + 13, x + 13, y);
+    // }
+    // else
+    // {
+    //     tft->drawLine(x + 13, y, x, y + 13);
+    //     tft->drawLine(x + 14, y, x, y + 13);
+    //     tft->drawLine(x + 15, y, x + 1, y + 13);
+    //     tft->drawLine(x, y, x + 14, y + 14);
+    //     tft->drawLine(x + 1, y, x + 15, y + 14);
+    // }
 }
 
 void CheckBox::processSizeUpdate()
@@ -55,10 +88,10 @@ void CheckBox::processSizeUpdate()
     if (parent != nullptr)
     {
         Size layoutSize = parent->getSize();
-        nextWidth = layoutSize.getWidth() * 0.90f;
+        nextWidth = layoutSize.getWidth() * 0.74f;
+        Serial.println(nextWidth);
         nextHeight = size->getHeight();
-        Serial.println("parent != nullptr ");
-        // Serial.println(text.c_str());
+        update();
     }
     else
     {
@@ -93,7 +126,15 @@ void CheckBox::processSizeUpdate()
     setSize( Size(nextWidth, nextHeight) );
 }
 
-
+void CheckBox::update()
+{
+    Serial.println("CheckBox::update()");
+    needUpdate = true;
+    if (parent != nullptr)
+    {
+        parent->update();
+    }
+}
 
 std::string CheckBox::getText()
 {

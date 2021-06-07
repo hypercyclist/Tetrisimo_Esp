@@ -41,6 +41,11 @@ void Painter::setDrawColor(Color _drawColor)
     drawColor = std::make_unique<Color>(_drawColor);
 }
 
+Color Painter::getDrawColor()
+{
+    return *drawColor;
+}
+
 void Painter::setResourceTheme(ResourceTheme _resourceTheme)
 {
     currentResourceTheme = std::make_shared<ResourceTheme>(_resourceTheme);

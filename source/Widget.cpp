@@ -103,7 +103,7 @@ Point Widget::getPosition()
 void Widget::setPosition(Point _position)
 {
     position = std::make_unique<Point>(_position);
-    update();
+    // update();
 }
 
 int Widget::getX()
@@ -147,11 +147,8 @@ void Widget::processSizeUpdate()
 
 void Widget::draw()
 {
-    if (needUpdate)
-    {
-        render();
-        updated();
-    }
+    render();
+    updated();
 }
 
 void Widget::render()
@@ -164,10 +161,21 @@ void Widget::render()
 
 void Widget::update()
 {
+    Serial.println("Widget::update()");
     needUpdate = true;
     if (parent != nullptr)
     {
         parent->update();
+    }
+}
+
+void Widget::updateOne()
+{
+    Serial.println("Widget::updateOne()");
+    needUpdate = true;
+    if (parent != nullptr)
+    {
+        parent->check();
     }
 }
 
@@ -178,7 +186,7 @@ void Widget::updated()
 
 bool Widget::isNeedUpdate()
 {
-    return needUpdate ? false : true;
+    return needUpdate ? true : false;
 }
 
 void Widget::check()
@@ -203,19 +211,18 @@ bool Widget::isNeedCheck()
 void Widget::traverse()
 {
     needCheck = false;
+    checked();
+    updated();
     for (int i = 0; i < childrens.size(); i++)
     {
-        // childrens[i]->draw();
         if (childrens[i]->isNeedUpdate())
         {
-            checked();
-            updated();
-            childrens[i]->render();
+            // Serial.println(i);
+            childrens[i]->draw();
         }
         else if (childrens[i]->isNeedCheck())
         {
-            checked();
-            childrens[i]->check();
+            childrens[i]->traverse();
         }
     }
 }
@@ -242,13 +249,13 @@ bool Widget::isVisible()
 void Widget::focus()
 {
     focused = true;
-    render();
+    updateOne();
 }
 
 void Widget::unfocus()
 {
     focused = false;
-    render();
+    updateOne();
 }
 
 bool Widget::isFocusable()

@@ -29,7 +29,7 @@ class Scene : public Widget
         Scene(std::shared_ptr<Game> _game);
         ~Scene();
 
-        void render();
+        // void render();
         // void redraw();
         // void processChild(std::shared_ptr<Widget> _child);
         
@@ -44,7 +44,7 @@ class Scene : public Widget
         void setFrameTime(int _framesPerSeconds);
         
         void update();
-        void updateAll();
+        // void updateAll();
 
         void initializeStandartFunctions();
         void pressedButtonUp();

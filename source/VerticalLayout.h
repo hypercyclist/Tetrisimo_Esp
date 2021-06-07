@@ -15,9 +15,11 @@ class VerticalLayout : public Layout
         ~VerticalLayout();
 
         void executeActiveWidget();
-        void render();
+        // void render();
         void addWidget(std::shared_ptr<Widget> _widget);
         void countLayout();
+
+        void update();
         
         void focus();
         void focusNext();

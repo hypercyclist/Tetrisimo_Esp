@@ -19,6 +19,8 @@ class Button : public Widget
 
         void render();
         void processSizeUpdate();
+
+        void update();
         
         std::string getText();
         void setText(std::string _text);

@@ -64,7 +64,15 @@ void Button::processSizeUpdate()
     setSize( Size(nextWidth, nextHeight) );
 }
 
-
+void Button::update()
+{
+    Serial.println("Button::update()");
+    needUpdate = true;
+    if (parent != nullptr)
+    {
+        parent->update();
+    }
+}
 
 std::string Button::getText()
 {

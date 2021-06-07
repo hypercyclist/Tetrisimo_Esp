@@ -18,8 +18,12 @@ class CheckBox : public Widget
         CheckBox();
         ~CheckBox();
 
+        void setParent(std::shared_ptr<Widget> _parent);
+
         void render();
         void processSizeUpdate();
+
+        void update();
         
         std::string getText();
         void setText(std::string _text);

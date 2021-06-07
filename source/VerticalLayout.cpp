@@ -51,6 +51,7 @@ void VerticalLayout::addWidget(std::shared_ptr<Widget> _widget)
 //notificate parent about changing size.
 void VerticalLayout::countLayout()
 {
+    Serial.println("VerticalLayout::countLayout()");
     int layoutWidth = size->getWidth();
     int layoutHeight = size->getHeight();
     int heightOfAllWidgets = 0;
@@ -85,7 +86,7 @@ void VerticalLayout::countLayout()
             // Serial.println(countedWidgetSize.getWidth());
             int widgetX = ( layoutWidth - countedWidgetSize.getWidth() ) / 2;
             int widgetY = heightOfAllWidgets;
-            Serial.print("countLayout()");
+            // Serial.print("countLayout()");
             Serial.println(widgetX);
             childrens[i]->setPosition( Point(widgetX, widgetY) );
             heightOfAllWidgets = widgetY + countedWidgetSize.getHeight() + spacing;
@@ -93,13 +94,26 @@ void VerticalLayout::countLayout()
     }
 }
 
+void VerticalLayout::update()
+{
+    Serial.println("VerticalLayout::update()");
+    countLayout();
+    needUpdate = true;
+    if (parent != nullptr)
+    {
+        parent->update();
+    }
+}
+
 void VerticalLayout::focus()
 {
+    Serial.println("VerticalLayout::focus()");
     for(int i = 0; i < childrens.size(); i++)
     {
         if ( childrens[i]->isFocusable() )
         {
             childrens[i]->focus();
+            update();
             return;
         }
     }
@@ -107,6 +121,7 @@ void VerticalLayout::focus()
 
 void VerticalLayout::focusNext()
 {
+    Serial.println("VerticalLayout::focusNext()");
     int widgetIndex = -1;
     int childrensCount = childrens.size();
     for (int i = 0; i < childrensCount; i++) // Ищем виджет, который был в фокусе.
@@ -155,11 +170,11 @@ void VerticalLayout::focusNext()
             }
         }
     }
-    update();
 }
 
 void VerticalLayout::focusPrevious()
 {
+    Serial.println("VerticalLayout::focusPrevious()");
     int widgetIndex = -1;
     int childrensCount = childrens.size();
     for (int i = 0; i < childrensCount; i++) // Ищем виджет, который был в фокусе.
@@ -208,7 +223,6 @@ void VerticalLayout::focusPrevious()
             }
         }
     }
-    update();
 }
 
 

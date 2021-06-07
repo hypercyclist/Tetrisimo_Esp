@@ -40,7 +40,7 @@ class Widget : public std::enable_shared_from_this<Widget>
         void setExecuteFunction(std::function<void()> _function);
 
         std::shared_ptr<Widget> getParent();
-        void setParent(std::shared_ptr<Widget> _parent);
+        virtual void setParent(std::shared_ptr<Widget> _parent);
 
         static int indexOf( std::vector< std::shared_ptr<Widget> >& _vector, 
             std::shared_ptr<Widget> _widget);
@@ -60,6 +60,7 @@ class Widget : public std::enable_shared_from_this<Widget>
         void draw();
         virtual void render();
         virtual void update();
+        void updateOne();
         void updated();
         bool isNeedUpdate();
         virtual void check();

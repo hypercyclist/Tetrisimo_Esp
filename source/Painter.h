@@ -25,6 +25,7 @@ class Painter : public Adafruit_ST7735
         static std::shared_ptr<Painter> getPainter();
         void background(Color _backgroundColor);
         void setDrawColor(Color _drawColor);
+        Color getDrawColor();
         std::shared_ptr<ResourceTheme> getResourceTheme();
         void setResourceTheme(ResourceTheme _resourceTheme);
         void drawText(std::string _text, Point _positionPoint);

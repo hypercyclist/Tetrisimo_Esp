@@ -61,7 +61,7 @@ void Game::run()
     while (true)
     {
         roundTimeMs = getTimeMs();
-        display->getActiveScene()->render();
+        display->getActiveScene()->traverse();
         do
         {
             std::shared_ptr<PhysButton> pressedButton = keyboardHook->getPressedButton();
@@ -177,7 +177,7 @@ void Game::initializeMainMenu()
     initializeBasicScene(mainMenu, "Тетрис", 3);
     std::shared_ptr<VerticalLayout> menuLayout = 
         std::static_pointer_cast<VerticalLayout>( mainMenu->getCentralWidget() );
-    // menuLayout->setAdjusting(true);
+    menuLayout->setAdjusting(true);
 
     std::shared_ptr<Button> singleGameButton = std::make_shared<Button>("Новая игра");
     menuLayout->addWidget(singleGameButton);
@@ -291,7 +291,7 @@ void Game::initializeGameSettings()
     std::shared_ptr<CheckBox> useGhostButton = std::make_shared<CheckBox>("Тень");
     gameSettingsLayout->addWidget(useGhostButton);
 
-    std::shared_ptr<CheckBox> useVibrationButton = std::make_shared<CheckBox>("Вибрация");
+    std::shared_ptr<CheckBox> useVibrationButton = std::make_shared<CheckBox>("Вибро");
     gameSettingsLayout->addWidget(useVibrationButton);
 }
 

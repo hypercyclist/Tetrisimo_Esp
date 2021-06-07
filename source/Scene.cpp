@@ -30,17 +30,17 @@ Scene::~Scene()
 
 
 
-void Scene::render()
-{
-    // if (background != nullptr)
-    // {
-    //     background->draw();
-    // }
-    // if (widget != nullptr)
-    // {
-    //     widget->draw();
-    // }
-}
+// void Scene::render()
+// {
+//     // if (background != nullptr)
+//     // {
+//     //     background->draw();
+//     // }
+//     // if (widget != nullptr)
+//     // {
+//     //     widget->draw();
+//     // }
+// }
 
 // void Scene::processChild(std::shared_ptr<Widget> _childWidget)
 // {
@@ -98,6 +98,16 @@ int Scene::getFrameTime()
 void Scene::setFrameTime(int _framesPerSeconds)
 {
     framesPerSeconds = _framesPerSeconds;
+}
+
+void Scene::update()
+{
+    Serial.println("Scene::update()");
+    needUpdate = true;
+    if (parent != nullptr)
+    {
+        parent->update();
+    }
 }
 
 void Scene::initializeStandartFunctions()
