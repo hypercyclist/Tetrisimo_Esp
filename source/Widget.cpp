@@ -6,7 +6,7 @@
 
 #include <SoftwareSerial.h>
 
-Widget::Widget() 
+Widget::Widget()
     : 
     id( generateId() ),
     executeFunction(nullptr),
@@ -15,8 +15,9 @@ Widget::Widget()
     position( std::make_unique<Point>(1, 1) ), 
     size( std::make_unique<Size>(1, 1) ), 
     needUpdate(true),
+    needCheck(true),
     visible(true),
-    focusability(false), 
+    focusability(false),
     focused(false)
 {
 }
@@ -157,7 +158,7 @@ void Widget::render()
 {
     for (int i = 0; i < childrens.size(); i++)
     {
-        childrens[i]->draw();
+        childrens[i]->render();
     }
 }
 
@@ -180,7 +181,44 @@ bool Widget::isNeedUpdate()
     return needUpdate ? false : true;
 }
 
+void Widget::check()
+{
+    if (parent != nullptr)
+    {
+        parent->check();
+    }
+    needCheck = true;
+}
 
+void Widget::checked()
+{
+    needCheck = false;
+}
+
+bool Widget::isNeedCheck()
+{
+    return needCheck ? true : false;
+}
+
+void Widget::traverse()
+{
+    needCheck = false;
+    for (int i = 0; i < childrens.size(); i++)
+    {
+        // childrens[i]->draw();
+        if (childrens[i]->isNeedUpdate())
+        {
+            checked();
+            updated();
+            childrens[i]->render();
+        }
+        else if (childrens[i]->isNeedCheck())
+        {
+            checked();
+            childrens[i]->check();
+        }
+    }
+}
 
 void Widget::show()
 {

@@ -16,11 +16,12 @@ Scene::Scene(std::shared_ptr<Game> _game)
     Widget(),
     game(_game),
     previousScene(nullptr),
-    framesPerSeconds(30),
-    background(nullptr),
-    widget(nullptr)
+    framesPerSeconds(30)
+    // background(nullptr),
+    // widget(nullptr)
 {
     initializeStandartFunctions();
+    childrens.resize(2);
 }
 
 Scene::~Scene()
@@ -31,26 +32,14 @@ Scene::~Scene()
 
 void Scene::render()
 {
-    if (background != nullptr)
-    {
-        background->draw();
-    }
-    if (widget != nullptr)
-    {
-        widget->draw();
-    }
-}
-
-void Scene::updateAll()
-{
-    if (background != nullptr)
-    {
-        background->render();
-    }
-    if (widget != nullptr)
-    {
-        widget->render();
-    }
+    // if (background != nullptr)
+    // {
+    //     background->draw();
+    // }
+    // if (widget != nullptr)
+    // {
+    //     widget->draw();
+    // }
 }
 
 // void Scene::processChild(std::shared_ptr<Widget> _childWidget)
@@ -73,20 +62,32 @@ void Scene::setPreviousScene(std::shared_ptr<Scene> _previousScene)
 
 void Scene::setBackgroundWidget(std::shared_ptr<Background> _background)
 {
-    background = _background;
-    update();
-}    
+    // background = _background;
+    // update();
+    childrens[0] = _background;
+    childrens[0]->update();
+}
+
+std::shared_ptr<Widget> Scene::getBackground()
+{
+    // return background;
+    return childrens[0];
+}
 
 void Scene::setCentralWidget(std::shared_ptr<Widget> _widget)
 {
-    widget = _widget;
-    widget->setSize(*size);
-    update();
+
+    // widget = _widget;
+    // widget->setSize(*size);
+    // update();
+    childrens[1] = _widget;
+    childrens[1]->setSize(*size);
 }
 
 std::shared_ptr<Widget> Scene::getCentralWidget()
 {
-    return widget;
+    // return widget;
+    return childrens[1];
 }
 
 int Scene::getFrameTime()
@@ -99,30 +100,21 @@ void Scene::setFrameTime(int _framesPerSeconds)
     framesPerSeconds = _framesPerSeconds;
 }
 
-void Scene::update()
-{
-    needUpdate = true;
-    if (background != nullptr)
-    {
-        background->update();
-    }
-}
-
 void Scene::initializeStandartFunctions()
 {
     pressedButtonUpFunctionPointer = [this] () 
     {
-        std::static_pointer_cast<VerticalLayout>(widget)->focusPrevious();
+        std::static_pointer_cast<VerticalLayout>(childrens[1])->focusPrevious();
     };
     pressedButtonDownFunctionPointer = [this] ()
     {
-        std::static_pointer_cast<VerticalLayout>(widget)->focusNext();
+        std::static_pointer_cast<VerticalLayout>(childrens[1])->focusNext();
     };
     pressedButtonRightFunctionPointer = [this] () {};
     pressedButtonLeftFunctionPointer = [this] () {};
     pressedButtonOkFunctionPointer = [this] () 
     {
-        std::static_pointer_cast<VerticalLayout>(widget)->executeActiveWidget();
+        std::static_pointer_cast<VerticalLayout>(childrens[1])->executeActiveWidget();
     };
     pressedButtonBackFunctionPointer = [this] () 
     {

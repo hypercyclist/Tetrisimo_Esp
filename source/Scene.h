@@ -13,8 +13,8 @@ class Scene : public Widget
 {
     private:
         std::shared_ptr<Game> game;
-        std::shared_ptr<Background> background;
-        std::shared_ptr<Widget> widget;
+        // std::shared_ptr<Background> background;
+        // std::shared_ptr<Widget> widget;
         std::shared_ptr<Scene> previousScene;
         int framesPerSeconds;
 
@@ -36,6 +36,7 @@ class Scene : public Widget
         std::shared_ptr<Scene> getPreviousScene();
         void setPreviousScene(std::shared_ptr<Scene> _previousScene);
         void setBackgroundWidget(std::shared_ptr<Background> _background);
+        std::shared_ptr<Widget> getBackground();
         void setCentralWidget(std::shared_ptr<Widget> _widget);
         std::shared_ptr<Widget> getCentralWidget();
         

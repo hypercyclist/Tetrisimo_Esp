@@ -25,6 +25,7 @@ class Widget : public std::enable_shared_from_this<Widget>
         std::unique_ptr<Point> position;
         std::unique_ptr<Size> size;
         bool needUpdate;
+        bool needCheck;
         bool visible;
         bool focusability;
         bool focused;
@@ -61,6 +62,10 @@ class Widget : public std::enable_shared_from_this<Widget>
         virtual void update();
         void updated();
         bool isNeedUpdate();
+        virtual void check();
+        void checked();
+        bool isNeedCheck();
+        void traverse();
         
         void show();
         void hide();

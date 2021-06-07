@@ -17,8 +17,6 @@ VerticalLayout::~VerticalLayout()
 
 }
 
-
-
 void VerticalLayout::executeActiveWidget()
 {
     int widgetIndex = -1;
@@ -42,20 +40,12 @@ void VerticalLayout::executeActiveWidget()
     }
 }
 
-void VerticalLayout::render()
-{
-    for (int i = 0; i < childrens.size(); i++)
-    {
-        childrens[i]->render();
-    }
-}
-
 void VerticalLayout::addWidget(std::shared_ptr<Widget> _widget)
 {
     childrens.push_back(_widget);
     _widget->setParent(shared_from_this());
     countLayout();
-    update();
+    // update();
 }
 
 //notificate parent about changing size.
