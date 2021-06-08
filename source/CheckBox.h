@@ -12,9 +12,10 @@ class CheckBox : public Widget
     private:
         std::string text;
         int textSize;
+        bool state;
     
     public:
-        CheckBox(std::string _text);
+        CheckBox(std::string _text, bool _state);
         CheckBox();
         ~CheckBox();
 
@@ -29,6 +30,9 @@ class CheckBox : public Widget
         void setText(std::string _text);
         int getTextSize();
         void setTextSize(int _textSize);
+
+        int getState();
+        void setState(int _state);
 };
 
 #endif

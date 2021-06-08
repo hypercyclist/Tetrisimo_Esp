@@ -132,6 +132,17 @@ void Painter::drawLine(Point _pointA, Point _pointB)
     );
 }
 
+void Painter::drawLine(int _x1, int _y1, int _x2, int _y2)
+{
+    Adafruit_ST7735::drawLine( 
+        _x1, 
+        _y1, 
+        _x2, 
+        _y2, 
+        drawColor->getUint16()
+    );
+}
+
 void Painter::drawLine(Point _pointA, Point _pointB, int _lineWidth)
 {
     int offsetX;

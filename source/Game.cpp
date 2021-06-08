@@ -285,14 +285,35 @@ void Game::initializeGameSettings()
     std::shared_ptr<VerticalLayout> gameSettingsLayout = 
         std::static_pointer_cast<VerticalLayout>( gameSettings->getCentralWidget() );
 
-    std::shared_ptr<CheckBox> useNetButton = std::make_shared<CheckBox>("Сетка");
+    std::shared_ptr<CheckBox> useNetButton = std::make_shared<CheckBox>("Сетка", true);
     gameSettingsLayout->addWidget(useNetButton);
+    useNetButton->setExecuteFunction(
+        [this, useNetButton] ()
+        {
+            useNetButton->setState( !useNetButton->getState() );
+            useNetButton->updateOne();
+        }
+    );
 
-    std::shared_ptr<CheckBox> useGhostButton = std::make_shared<CheckBox>("Тень");
+    std::shared_ptr<CheckBox> useGhostButton = std::make_shared<CheckBox>("Тень", true);
     gameSettingsLayout->addWidget(useGhostButton);
+    useGhostButton->setExecuteFunction(
+        [this, useGhostButton] ()
+        {
+            useGhostButton->setState( !useGhostButton->getState() );
+            useGhostButton->updateOne();
+        }
+    );
 
-    std::shared_ptr<CheckBox> useVibrationButton = std::make_shared<CheckBox>("Вибро");
+    std::shared_ptr<CheckBox> useVibrationButton = std::make_shared<CheckBox>("Вибро", true);
     gameSettingsLayout->addWidget(useVibrationButton);
+    useVibrationButton->setExecuteFunction(
+        [this, useVibrationButton] ()
+        {
+            useVibrationButton->setState( !useVibrationButton->getState() );
+            useVibrationButton->updateOne();
+        }
+    );
 }
 
 void Game::initializeNetworkSettings()

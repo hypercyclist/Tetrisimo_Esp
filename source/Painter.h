@@ -33,6 +33,7 @@ class Painter : public Adafruit_ST7735
         static std::string fromCyrilic(std::string _cytilicString);
         void drawLine(Point _pointA, Point _pointB);
         void drawLine(Point _pointA, Point _pointB, int _lineWidth);
+        void drawLine(int _x1, int _y1, int _x2, int _y2);
 };
 
 #endif

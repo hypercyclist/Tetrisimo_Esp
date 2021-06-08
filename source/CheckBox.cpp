@@ -5,11 +5,12 @@
 #include "Point.h"
 #include "Size.h"
 
-CheckBox::CheckBox(std::string _text) 
+CheckBox::CheckBox(std::string _text, bool _state) 
     : 
     Widget(),
     text(_text),
-    textSize(2)
+    textSize(2),
+    state(_state)
 {
     focusability = true;
     processSizeUpdate();
@@ -19,7 +20,8 @@ CheckBox::CheckBox()
     : 
     Widget(),
     text(""),
-    textSize(2)
+    textSize(2),
+    state(false)
 {
     focusability = false;
     processSizeUpdate();
@@ -50,7 +52,6 @@ void CheckBox::render()
     painter->setTextSize(textSize);
     painter->drawText(text, *position);
 
-    // painter->drawLine(pointA, pointB, lineThickness);
     int x = position->getX() + size->getWidth() - size->getHeight();
     int y = position->getY();
     int checkBoxSize = size->getHeight();
@@ -59,26 +60,24 @@ void CheckBox::render()
     painter->drawRect(x, y, checkBoxSize, checkBoxSize, focusColor);
     painter->drawRect(x + 1, y + 1, checkBoxSize - 2, checkBoxSize - 2, focusColor);
     painter->fillRect(x + 2, y + 2, checkBoxSize - 4, checkBoxSize - 4, bacgroundColor);
-    // tft->drawRect(x, y, checkBoxSize, checkBoxSize, config->styleYellowColor);
-    // tft->drawRect(x + 1, y + 1, checkBoxSize - 2, checkBoxSize - 2, config->styleYellowColor);
-    // tft->fillRect(x + 2, y + 2, checkBoxSize - 4, checkBoxSize - 4, config->backgroundColor);
-    // tft->setPenColor(config->styleRedColor);
-    // if(state)
-    // {
-    //     tft->drawLine(x, y + 6, x + 5, y + 12);
-    //     tft->drawLine(x + 1, y + 6, x + 6, y + 12);
-    //     tft->drawLine(x + 2, y + 6, x + 7, y + 12);
-    //     tft->drawLine(x + 6, y + 13, x + 12, y);
-    //     tft->drawLine(x + 7, y + 13, x + 13, y);
-    // }
-    // else
-    // {
-    //     tft->drawLine(x + 13, y, x, y + 13);
-    //     tft->drawLine(x + 14, y, x, y + 13);
-    //     tft->drawLine(x + 15, y, x + 1, y + 13);
-    //     tft->drawLine(x, y, x + 14, y + 14);
-    //     tft->drawLine(x + 1, y, x + 15, y + 14);
-    // }
+
+    painter->setDrawColor(painter->getResourceTheme()->getFocusColor());
+    if(state)
+    {
+        painter->drawLine(x + 2, y + 7, x + 5, y + 11);
+        painter->drawLine(x + 3, y + 7, x + 6, y + 11);
+        painter->drawLine(x + 4, y + 7, x + 7, y + 11);
+        painter->drawLine(x + 7, y + 11, x + 10, y + 2);
+        painter->drawLine(x + 8, y + 11, x + 11, y + 2);
+    }
+    else
+    {
+        painter->drawLine(x + 2, y + 2, x + 10, y + 11);
+        painter->drawLine(x + 2, y + 3, x + 10, y + 11);
+        painter->drawLine(x + 2, y + 2, x + 11, y + 11);
+        painter->drawLine(x + 10, y + 2, x + 2, y + 11);
+        painter->drawLine(x + 11, y + 2, x + 3, y + 11);
+    }
 }
 
 void CheckBox::processSizeUpdate()
@@ -156,4 +155,14 @@ void CheckBox::setTextSize(int _textSize)
 {
     textSize = _textSize;
     processSizeUpdate();
+}
+
+int CheckBox::getState()
+{
+    return state;
+}
+
+void CheckBox::setState(int _state)
+{
+    state = _state;
 }
