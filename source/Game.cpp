@@ -10,6 +10,7 @@
 #include "VerticalLayout.h"
 #include "Button.h"
 #include "CheckBox.h"
+#include "TableView.h"
 #include "Resistor.h"
 #include "PhysButton.h"
 #include "Display.h"
@@ -47,6 +48,7 @@ void Game::initialize()
 
     initializeBackground();
     initializeGameSettings();
+    initializeAboutSettings();
     initializeMultiplayer();
     initializeSettings();
     initializeMainMenu();
@@ -276,6 +278,13 @@ void Game::initializeSettings()
     
     std::shared_ptr<Button> aboutButton = std::make_shared<Button>("О проекте");
     settingsLayout->addWidget(aboutButton);
+    aboutButton->setExecuteFunction(
+        [this] ()
+        {
+            display->setActiveScene(aboutSettings);
+        }
+    );
+    aboutSettings->setPreviousScene(settings);
 }
 
 void Game::initializeGameSettings()
@@ -348,7 +357,18 @@ void Game::initializeCustomFigureSettings()
 
 void Game::initializeAboutSettings()
 {
+    aboutSettings = std::make_shared<Scene>( shared_from_this() );
+    initializeBasicScene(aboutSettings, "Настройки", 2);
+    std::shared_ptr<VerticalLayout> aboutSettingsLayout = 
+        std::static_pointer_cast<VerticalLayout>( aboutSettings->getCentralWidget() );
 
+    std::shared_ptr<TableView> thanksTable = std::make_shared<TableView>("Спасибо!");
+    aboutSettingsLayout->addWidget(thanksTable);
+    // thanksTable->setExecuteFunction(
+    //     [this, thanksTable] ()
+    //     {
+    //     }
+    // );
 }
 
 std::shared_ptr<Display> Game::getDisplay()
