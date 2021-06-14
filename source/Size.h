@@ -7,17 +7,20 @@ class Size
         int width;
         int height;
     public:
-        // Size();
+        Size();
         Size(int, int);
-        // Size operator=(Size _size);
         
         void setSize(int, int);
 
         void setWidth(int);
-        int getWidth();
+        int getWidth() const;
 
         void setHeight(int);
-        int getHeight();
+        int getHeight() const;
+
+        // Size operator=(Size _size);
+        bool operator==(const Size& foo);
+        bool operator!=(const Size& foo);
 };
 
 #endif

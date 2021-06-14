@@ -14,7 +14,7 @@ class TableView : public Widget
         std::string name;
         std::string textOriginal;
         std::vector<std::string> text;
-        int WRAP_SIZE;
+        int wrapSize;
         int textSize;
     
     public:

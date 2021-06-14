@@ -3,6 +3,7 @@
 
 class Color;
 class Point;
+class Size;
 class ResourceTheme;
 #include <Adafruit_GFX.h>
 #include <Adafruit_ST7735.h>
@@ -18,6 +19,8 @@ class Painter : public Adafruit_ST7735
         static std::shared_ptr<Painter> painter;
         std::shared_ptr<ResourceTheme> currentResourceTheme;
         std::unique_ptr<Color> drawColor;
+        
+        std::string russianCharacters = "абвгдеёжзиклмнопрстуфхцчшщъыьэюя";
     public:
         Painter(int _pinDisplayCS, int _pinDisplayDC, int _pinDisplayRST);
         ~Painter();
@@ -29,11 +32,14 @@ class Painter : public Adafruit_ST7735
         std::shared_ptr<ResourceTheme> getResourceTheme();
         void setResourceTheme(ResourceTheme _resourceTheme);
         void drawText(std::string _text, Point _positionPoint);
-        bool isTextRussian(std::string _text);
         static std::string fromCyrilic(std::string _cytilicString);
         void drawLine(Point _pointA, Point _pointB);
         void drawLine(Point _pointA, Point _pointB, int _lineWidth);
         void drawLine(int _x1, int _y1, int _x2, int _y2);
+
+        int countWrapSize(int _textSize, int _widgetWidth);
+        bool isCharacterRussian(char* _letter);
+        Size countTextSize(std::string _text, int _textSize);
 };
 
 #endif

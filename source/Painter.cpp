@@ -1,6 +1,7 @@
 #include "Painter.h"
 #include "Color.h"
 #include "Point.h"
+#include "Size.h"
 #include "ResourceTheme.h"
 #include <SoftwareSerial.h>
 
@@ -60,29 +61,8 @@ void Painter::drawText(std::string _text, Point _positionPoint)
 {
     setTextColor( drawColor->getUint16() );
     setCursor( _positionPoint.getX(), _positionPoint.getY() );
-    if ( isTextRussian(_text) )
-    {
-        print( fromCyrilic(_text).c_str() );
-    }
-    else
-    {
-        print( _text.c_str() );
-    }
-}
-
-bool Painter::isTextRussian(std::string _text)
-{
-    std::string russianCharacters = "абвгдеёжзиклмнопрстуфхцчшщъыьэюя";
-    for(int i = 0; i < _text.length(); i++)
-    {
-        for(int j = 0; j < russianCharacters.length(); j++)
-        {
-            if (_text[i] == russianCharacters[j])
-            {
-                return true;
-            }
-        }
-    }
+    print( fromCyrilic(_text).c_str() );
+    // Maybe we can do only print( _text.c_str() ); if text only English. 
 }
 
 std::string Painter::fromCyrilic(std::string _cytilicString)
@@ -169,4 +149,44 @@ void Painter::drawLine(Point _pointA, Point _pointB, int _lineWidth)
                 _pointB.getY() + (i * offsetY) ) 
         );
     }
+}
+
+// Non-painter functions, but i don't know how to attach it to std::string.
+int Painter::countWrapSize(int _textSize, int _widgetWidth)
+{
+    return ( _widgetWidth / (_textSize * 5 + _textSize) ) - 1;
+}
+
+bool Painter::isCharacterRussian(char* _letter)
+{
+    for(int i = 0; i < russianCharacters.length(); i += 2)
+    {
+        if (russianCharacters[i] == _letter[0]
+            && russianCharacters[i + 1] == _letter[1])
+        {
+            return true;
+        }
+    }
+}
+
+Size Painter::countTextSize(std::string _text, int _textSize)
+{
+    int realLength = 0;
+    for (int i = 0; i < _text.length(); i++)
+    {
+        char letter[2] = {_text[i], _text[i + 1]};
+        if (isCharacterRussian(letter))
+        {
+            i++;
+        }
+        realLength++;
+    }
+    // Every character takes (5x7px * textSize) 
+    // + spacing between characters which takes (textSize px).
+    Size textSize;
+    textSize.setWidth(
+        (5 * _textSize * realLength) + ((realLength - 1) * _textSize)
+    );
+    textSize.setHeight( 7 * _textSize );
+    return textSize;
 }
