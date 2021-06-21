@@ -4,6 +4,7 @@
 #include "ResourceTheme.h"
 #include "Point.h"
 #include "Size.h"
+#include "StringUtf.h"
 
 TableView::TableView(std::string _name, std::string _text) 
     : 
@@ -11,7 +12,7 @@ TableView::TableView(std::string _name, std::string _text)
     name(_name),
     textOriginal(_text),
     textSize(1),
-    wrapSize(name.length())
+    wrapSize(name.length()) // Bad.
 {
     focusability = true;
     processSizeUpdate();
@@ -136,15 +137,15 @@ std::string TableView::getName()
 void TableView::setText(std::string _text)
 {
     textOriginal = _text;
-    int tempSizeCount = textOriginal.length() / wrapSize;
-    tempSizeCount = (float)tempSizeCount < (float)textOriginal.length() / (float)wrapSize ? tempSizeCount + 1 : tempSizeCount;
+    int tempSizeCount = StringUtf::length(textOriginal) / wrapSize;
+    tempSizeCount = (float)tempSizeCount < (float)StringUtf::length(textOriginal) / (float)wrapSize ? tempSizeCount + 1 : tempSizeCount;
     tempSizeCount = tempSizeCount == 0 ? 1 : tempSizeCount;
     text.resize(tempSizeCount);
     for(int i = 0; i < text.size() - 1; i++)
     {
-        text[i] = textOriginal.substr(wrapSize * i, wrapSize);
+        text[i] = StringUtf::substr(textOriginal, wrapSize * i, wrapSize);
     }
-    text[text.size() - 1] = _text.substr(wrapSize * (text.size() - 1));
+    text[text.size() - 1] = StringUtf::substr(_text, wrapSize * (text.size() - 1));
 }
 
 std::string TableView::getText()

@@ -174,7 +174,6 @@ void Game::initializeBasicScene(
 
 void Game::initializeMainMenu()
 {
-    shared_from_this()->beep();
     mainMenu = std::make_shared<Scene>( shared_from_this() );
     initializeBasicScene(mainMenu, "Тетрис", 3);
     std::shared_ptr<VerticalLayout> menuLayout = 
@@ -362,7 +361,7 @@ void Game::initializeAboutSettings()
     std::shared_ptr<VerticalLayout> aboutSettingsLayout = 
         std::static_pointer_cast<VerticalLayout>( aboutSettings->getCentralWidget() );
 
-    std::shared_ptr<TableView> thanksTable = std::make_shared<TableView>("Спасибо!", "***"); // Никите, Льву, Анастасии, Дмитрию, Игорю, Александру, Александре.
+    std::shared_ptr<TableView> thanksTable = std::make_shared<TableView>("Спасибо!", "Никите, Льву, Анастасии, Дмитрию, Игорю, Александру, Александре.");
     aboutSettingsLayout->addWidget(thanksTable);
     // thanksTable->setExecuteFunction(
     //     [this, thanksTable] ()
