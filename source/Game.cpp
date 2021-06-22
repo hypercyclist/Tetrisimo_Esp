@@ -357,12 +357,15 @@ void Game::initializeCustomFigureSettings()
 void Game::initializeAboutSettings()
 {
     aboutSettings = std::make_shared<Scene>( shared_from_this() );
-    initializeBasicScene(aboutSettings, "Настройки", 2);
+    initializeBasicScene(aboutSettings, "О проекте", 2);
     std::shared_ptr<VerticalLayout> aboutSettingsLayout = 
         std::static_pointer_cast<VerticalLayout>( aboutSettings->getCentralWidget() );
 
-    std::shared_ptr<TableView> thanksTable = std::make_shared<TableView>("Спасибо!", "Никите, Льву, Анастасии, Дмитрию, Игорю, Александру, Александре.");
+    std::shared_ptr<TableView> thanksTable = std::make_shared<TableView>("Спасибо!", "Всем товарищам, чьи имена я скрыл для этого скриншота!"); 
+    //Никите, Льву, Анастасии, Дмитрию, Игорю, Александру, Александре.
     aboutSettingsLayout->addWidget(thanksTable);
+    std::shared_ptr<TableView> contactsTable = std::make_shared<TableView>("Контакты", "warstar441@gmail.com");
+    aboutSettingsLayout->addWidget(contactsTable);
     // thanksTable->setExecuteFunction(
     //     [this, thanksTable] ()
     //     {

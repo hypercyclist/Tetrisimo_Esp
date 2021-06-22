@@ -1,7 +1,7 @@
 #include "StringUtf.h"
 #include <SoftwareSerial.h>
 
-std::string StringUtf::russianCharacters = "абвгдеёжзиклмнопрстуфхцчшщъыьэюя";
+std::string StringUtf::russianCharacters = "АБВГДЕЁЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзиклмнопрстуфхцчшщъыьэюя";
 
 int StringUtf::length(std::string _string)
 {
@@ -9,7 +9,7 @@ int StringUtf::length(std::string _string)
     for (int i = 0; i < _string.length(); i++)
     {
         char letter[2] = {_string[i], _string[i + 1]};
-        if (isCharacterRussian(_string, letter))
+        if (isCharacterRussian(letter))
         {
             i++;
         }
@@ -18,7 +18,7 @@ int StringUtf::length(std::string _string)
     return realLength;
 }
 
-bool StringUtf::isCharacterRussian(std::string _string, char* _letter)
+bool StringUtf::isCharacterRussian(char* _letter)
 {
     for(int i = 0; i < russianCharacters.length(); i += 2)
     {
@@ -28,12 +28,11 @@ bool StringUtf::isCharacterRussian(std::string _string, char* _letter)
             return true;
         }
     }
+    return false;
 }
 
 std::string StringUtf::substr(std::string _string, int _startIndex, int _number)
 {
-    Serial.println("wrap:");
-    Serial.println(_number);
     int realIndex = 0;
     int realStartIndex = 0;
     int realNumber = 0;
@@ -45,11 +44,11 @@ std::string StringUtf::substr(std::string _string, int _startIndex, int _number)
         }
         if (realIndex == _startIndex + _number)
         {
-            realNumber = i - realStartIndex; // Bug is here.
+            realNumber = i - realStartIndex;
             break;
         }
         char letter[] = {_string[i], _string[i + 1]};
-        if (isCharacterRussian(_string, letter))
+        if (isCharacterRussian(letter))
         {
             i++;
         }
@@ -70,7 +69,7 @@ std::string StringUtf::substr(std::string _string, int _startIndex)
             break;
         }
         char letter[] = {_string[i], _string[i + 1]};
-        if (isCharacterRussian(_string, letter))
+        if (isCharacterRussian(letter))
         {
             i++;
         }
