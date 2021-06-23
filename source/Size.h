@@ -1,6 +1,7 @@
 #ifndef SIZE_H
 #define SIZE_H
 
+// Default widget size structure.
 class Size
 {
     private:

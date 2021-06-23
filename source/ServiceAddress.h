@@ -3,8 +3,10 @@
 
 class IpAddress;
 class Port;
+
 #include <memory>
 
+// Class describe full service address with IP adress and port. Like a structure.
 class ServiceAddress
 {
     private:

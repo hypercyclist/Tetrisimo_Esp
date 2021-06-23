@@ -1,9 +1,12 @@
 #include "ServiceAddress.h"
+
 #include "IpAddress.h"
 #include "Port.h"
 
 ServiceAddress::ServiceAddress(IpAddress _ipAddress, Port _port)
-    : ipAddress( std::make_unique<IpAddress>(_ipAddress) ), port( std::make_unique<Port>(_port) )
+    : 
+    ipAddress( std::make_unique<IpAddress>(_ipAddress) ),
+    port( std::make_unique<Port>(_port) )
 {
 }
 

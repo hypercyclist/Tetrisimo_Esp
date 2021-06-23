@@ -2,6 +2,9 @@
 
 #include <string>
 
+// Russian language support string functions. Russian unicoded symbol take two
+// char in string, so length of 2-symbols string is 4-symbols by native length
+// function. Static functions override classic functions with same arguments.
 class StringUtf
 {
     private:

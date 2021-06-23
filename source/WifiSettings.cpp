@@ -1,4 +1,5 @@
 #include "WifiSettings.h"
+
 #include "IpAddress.h"
 
 WifiSettings::WifiSettings()

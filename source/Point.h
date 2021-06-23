@@ -1,6 +1,7 @@
 #ifndef POINT_H
 #define POINT_H
 
+// Default point or poisition structure.
 class Point
 {
     private:

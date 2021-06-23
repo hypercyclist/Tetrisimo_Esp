@@ -1,7 +1,8 @@
 #include "StringUtf.h"
 #include <SoftwareSerial.h>
 
-std::string StringUtf::russianCharacters = "АБВГДЕЁЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзиклмнопрстуфхцчшщъыьэюя";
+std::string StringUtf::russianCharacters = 
+    "АБВГДЕЁЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзиклмнопрстуфхцчшщъыьэюя";
 
 int StringUtf::length(std::string _string)
 {

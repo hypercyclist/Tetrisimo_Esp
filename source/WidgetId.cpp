@@ -1,6 +1,7 @@
 #include "WidgetId.h"
 
 int WidgetId::lastId = 0;
+
 std::vector<int> WidgetId::emptyIdHoles;
 
 int WidgetId::generateId()

@@ -1,6 +1,7 @@
 #ifndef RESISTOR_H
 #define RESISTOR_H
 
+// This class describe physical resistor with his characteristics.
 class Resistor
 {
     private:

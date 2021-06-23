@@ -2,8 +2,10 @@
 #define PHYSBUTTON_H
 
 class Resistor;
+
 #include <memory>
 
+// This class describe physical button with his characteristics.
 class PhysButton
 {
     private:

@@ -1,8 +1,9 @@
 #include "Widget.h"
-#include "WidgetId.h"
+
 #include "Painter.h"
 #include "Point.h"
 #include "Size.h"
+#include "WidgetId.h"
 
 #include <SoftwareSerial.h>
 
@@ -27,8 +28,6 @@ Widget::~Widget()
     WidgetId::removeId(id);
 }
 
-
-
 int Widget::getId()
 {
     return id;
@@ -39,8 +38,6 @@ int Widget::generateId()
     return WidgetId::generateId();
 }
 
-
-
 void Widget::execute()
 {
     executeFunction();
@@ -49,8 +46,6 @@ void Widget::setExecuteFunction(std::function<void()> _function)
 {
     executeFunction = _function;
 }
-
-
 
 std::shared_ptr<Widget> Widget::getParent()
 {
@@ -61,10 +56,7 @@ void Widget::setParent(std::shared_ptr<Widget> _parent)
 {
     parent = _parent;
     update();
-    // processParent();
 }
-
-
 
 int Widget::indexOf( std::vector< std::shared_ptr<Widget> >& _vector, 
     std::shared_ptr<Widget> _widget )
@@ -93,8 +85,6 @@ void Widget::removeChildren(std::shared_ptr<Widget> _children)
     update();
 }
 
-
-
 Point Widget::getPosition()
 {
     return *position;
@@ -103,7 +93,6 @@ Point Widget::getPosition()
 void Widget::setPosition(Point _position)
 {
     position = std::make_unique<Point>(_position);
-    // update();
 }
 
 int Widget::getX()
@@ -115,8 +104,6 @@ int Widget::getY()
 {
     return position->getY();
 }
-
-
 
 Size Widget::getSize()
 {
@@ -142,8 +129,6 @@ int Widget::getHeight()
 void Widget::processSizeUpdate()
 {
 }
-
-
 
 void Widget::draw()
 {
@@ -244,8 +229,6 @@ bool Widget::isVisible()
     return visible ? true : false;
 }
 
-
-
 void Widget::focus()
 {
     focused = true;
@@ -267,22 +250,3 @@ bool Widget::isFocused()
 {
     return focused ? true : false;
 }
-
-
-
-// void Widget::processParent()
-// {
-//     if (parentWidget != nullptr)
-//     {
-//         parentWidget->processChild( shared_from_this() );
-//     }
-// }
-
-// void Widget::processChild(std::shared_ptr<Widget> _childWidget)
-// {
-// }
-
-// void Widget::addChildren(std::shared_ptr<Widget> _children)
-// {
-//     childrens.push_back(_children);
-// }

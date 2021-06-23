@@ -3,6 +3,7 @@
 
 #include <ESP8266WiFi.h>
 
+// Class for TCP IP address. Like a structure.
 class IpAddress : public IPAddress
 {
     private:

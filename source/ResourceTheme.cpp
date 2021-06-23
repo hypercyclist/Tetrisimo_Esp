@@ -1,4 +1,5 @@
 #include "ResourceTheme.h"
+
 #include "Color.h"
 
 ResourceTheme::ResourceTheme()

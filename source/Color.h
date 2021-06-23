@@ -3,12 +3,14 @@
 
 #include <stdint.h>
 
+// Color structure.
 class Color
 {
     private:
         int r;
         int g;
         int b;
+        // Uint16_t colors need to native display painter library.
         uint16_t color16;
     public:
         Color(int _r, int _g, int _b);

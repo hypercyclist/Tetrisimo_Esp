@@ -2,9 +2,11 @@
 #define WIFISETTINGS_H
 
 class IpAddress;
-#include <string>
-#include <memory>
 
+#include <memory>
+#include <string>
+
+// This class contain WiFi settings for the game.
 class WifiSettings
 {
     private:
@@ -16,6 +18,7 @@ class WifiSettings
         std::unique_ptr<IpAddress> subnetMask;
         std::unique_ptr<IpAddress> dns1Address;
         std::unique_ptr<IpAddress> dns2Address;
+
     public:
         WifiSettings();
         WifiSettings(WifiSettings& _fromWifiSettings);

@@ -2,11 +2,13 @@
 #define RESOURCETHEME_H
 
 class Color;
+
 #include <memory>
 
+// This is game resource theme object. From there we should take a colors for
+// painting widgets. One of the theme selected to game necessarily.
 class ResourceTheme
 {
-    private:
     public:
         std::unique_ptr<Color> focusColor;
         std::unique_ptr<Color> unfocusColor;
