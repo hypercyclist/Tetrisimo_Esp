@@ -1,12 +1,13 @@
 #include "Scene.h"
-#include "Game.h"
-#include "Display.h"
-#include "Painter.h"
+
+#include "Background.h"
 #include "Color.h"
+#include "Display.h"
+#include "Game.h"
+#include "Layout.h"
+#include "Painter.h"
 #include "Point.h"
 #include "Size.h"
-#include "Background.h"
-#include "Layout.h"
 #include "VerticalLayout.h"
 
 #include <SoftwareSerial.h>
@@ -17,8 +18,6 @@ Scene::Scene(std::shared_ptr<Game> _game)
     game(_game),
     previousScene(nullptr),
     framesPerSeconds(30)
-    // background(nullptr),
-    // widget(nullptr)
 {
     initializeStandartFunctions();
     childrens.resize(2);
@@ -27,27 +26,6 @@ Scene::Scene(std::shared_ptr<Game> _game)
 Scene::~Scene()
 {
 }
-
-
-
-// void Scene::render()
-// {
-//     // if (background != nullptr)
-//     // {
-//     //     background->draw();
-//     // }
-//     // if (widget != nullptr)
-//     // {
-//     //     widget->draw();
-//     // }
-// }
-
-// void Scene::processChild(std::shared_ptr<Widget> _childWidget)
-// {
-//     setCentralWidget(_childWidget);
-// }
-
-
 
 std::shared_ptr<Scene> Scene::getPreviousScene()
 {

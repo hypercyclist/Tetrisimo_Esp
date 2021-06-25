@@ -1,16 +1,18 @@
 #ifndef GAME_H
 #define GAME_H
 
-class Size;
-class Config;
-class KeyboardHook;
 class Background;
-class Scene;
-class PhysButton;
+class Config;
 class Display;
+class KeyboardHook;
+class PhysButton;
+class Size;
+class Scene;
+
 #include <memory>
 #include <time.h>
 
+// Game class initialize and connects all parts together.
 class Game : public std::enable_shared_from_this<Game>
 {
     private:

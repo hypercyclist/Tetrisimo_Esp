@@ -1,23 +1,30 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "Widget.h"
 class Background;
 class Game;
 
-#include <vector>
-#include <memory>
-#include <functional>
+#include "Widget.h"
 
+#include <functional>
+#include <memory>
+#include <vector>
+
+// This class describe ingame widget scene.
 class Scene : public Widget
 {
     private:
+        // Every scene know single game object. Game is scene parent.
         std::shared_ptr<Game> game;
         // std::shared_ptr<Background> background;
         // std::shared_ptr<Widget> widget;
+        // If scene was changed from parent to it, then we should be able to come
+        // back to parent scene.
         std::shared_ptr<Scene> previousScene;
+        // If our scene is static, then we can decrease game framerate. Or increase.
         int framesPerSeconds;
 
+        // This is a pointers to functions, that was set from lambda.
         std::function<void()> pressedButtonUpFunctionPointer;
         std::function<void()> pressedButtonDownFunctionPointer;
         std::function<void()> pressedButtonRightFunctionPointer;
@@ -62,8 +69,6 @@ class Scene : public Widget
 };
 
 #endif
-
-
 
 // virtual void logic();
 // virtual void input(int);
