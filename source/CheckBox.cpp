@@ -1,8 +1,9 @@
 #include "CheckBox.h"
-#include "Painter.h"
+
 #include "Color.h"
-#include "ResourceTheme.h"
+#include "Painter.h"
 #include "Point.h"
+#include "ResourceTheme.h"
 #include "Size.h"
 
 CheckBox::CheckBox(std::string _text, bool _state) 

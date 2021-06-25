@@ -1,9 +1,10 @@
 #include "Label.h"
-#include "Point.h"
-#include "Size.h"
-#include "Painter.h"
-#include "ResourceTheme.h"
+
 #include "Color.h"
+#include "Painter.h"
+#include "Point.h"
+#include "ResourceTheme.h"
+#include "Size.h"
 
 Label::Label(std::string _text)
     : 
@@ -18,8 +19,6 @@ Label::Label(std::string _text)
 Label::~Label()
 {
 }
-
-
 
 void Label::render()
 {
@@ -74,8 +73,6 @@ void Label::processSizeUpdate()
     setSize( Size(nextWidth, nextHeight) );
 }
 
-
-
 std::string Label::getText()
 {
     return text;
@@ -97,8 +94,6 @@ void Label::setTextSize(int _textSize)
     textSize = _textSize;
     processSizeUpdate();
 }
-
-
 
 bool Label::isUnderlined()
 {

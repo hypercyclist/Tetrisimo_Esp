@@ -1,13 +1,13 @@
 #include "Config.h"
 
-#include "Size.h"
 #include "Color.h"
-#include "WifiSettings.h"
 #include "IpAddress.h"
 #include "Port.h"
-#include "ServiceAddress.h"
 #include "Resistor.h"
 #include "ResourceTheme.h"
+#include "ServiceAddress.h"
+#include "Size.h"
+#include "WifiSettings.h"
 
 Config::Config()
 {

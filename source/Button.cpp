@@ -1,8 +1,9 @@
 #include "Button.h"
-#include "Painter.h"
+
 #include "Color.h"
-#include "ResourceTheme.h"
+#include "Painter.h"
 #include "Point.h"
+#include "ResourceTheme.h"
 #include "Size.h"
 
 Button::Button(std::string _text) 
@@ -18,8 +19,6 @@ Button::Button(std::string _text)
 Button::~Button()
 {
 }
-
-
 
 void Button::render()
 {

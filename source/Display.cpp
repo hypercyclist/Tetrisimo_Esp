@@ -53,7 +53,4 @@ void Display::setActiveScene(std::shared_ptr<Scene> _activeScene)
     activeScene->getBackground()->update();
     activeScene->getCentralWidget()->update();
     activeScene->getCentralWidget()->focus();
-    // activeScene->setSize(*displaySize);
-    // activeScene->updateAll();
-    // activeScene->redraw();
 }

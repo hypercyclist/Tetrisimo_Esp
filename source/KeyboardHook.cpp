@@ -1,5 +1,7 @@
 #include "KeyboardHook.h"
+
 #include "PhysButton.h"
+
 #include <wiring_private.h>
 
 KeyboardHook::KeyboardHook(int _pinKeyboardADC)
@@ -39,16 +41,3 @@ std::shared_ptr<PhysButton> KeyboardHook::getPressedButton()
     }
     return nullptr;
 }
-
-
-// #include <Резюме.h>
-
-// // Комментарий.
-// /*Гений - это не человек
-// - это крокодил гена в тапках*/
-
-// int main()
-// {
-//     std::cout << "Текст для вывода" << std::endl; 
-//     return приглашение на работу;
-// }

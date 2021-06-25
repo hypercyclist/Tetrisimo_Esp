@@ -6,11 +6,14 @@
 #include <memory>
 #include <vector>
 
+// Class describe ingame widget layout. This is the base class for layouts.
 class Layout : public Widget
 {
     protected:
         int spacing;
         int margin;
+        // If adjusting is true, then children widgets fill whole height,
+        // else widgets take their height + spacings, align to top.
         bool adjusting;
 
     public:

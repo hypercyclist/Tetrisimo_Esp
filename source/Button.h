@@ -1,12 +1,14 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "Widget.h"
 class Point;
 
-#include <string>
-#include <memory>
+#include "Widget.h"
 
+#include <memory>
+#include <string>
+
+// Class describe ingame widget button.
 class Button : public Widget
 {
     private:

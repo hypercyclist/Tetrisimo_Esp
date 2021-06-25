@@ -1,13 +1,15 @@
 #ifndef TABLEVIEW_H
 #define TABLEVIEW_H
 
-#include "Widget.h"
 class Point;
 
+#include "Widget.h"
+
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 
+// Class describe ingame widget table.
 class TableView : public Widget
 {
     private:

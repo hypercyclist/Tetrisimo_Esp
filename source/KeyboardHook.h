@@ -2,9 +2,12 @@
 #define KEYBOARDHOOK
 
 class PhysButton;
-#include <vector>
-#include <memory>
 
+#include <memory>
+#include <vector>
+
+// This class help to determine which physical button was pressed. Firstly
+// we add all buttons, that it must controll, then check is buttons pressed.
 class KeyboardHook
 {
     private:
@@ -17,8 +20,6 @@ class KeyboardHook
         int getPinKeyboardADC();
         void addButton(std::shared_ptr<PhysButton> _physButton);
         std::shared_ptr<PhysButton> getPressedButton();
-        
 };
 
 #endif
-

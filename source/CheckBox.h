@@ -1,12 +1,14 @@
 #ifndef CHECKBOX_H
 #define CHECKBOX_H
 
-#include "Widget.h"
 class Point;
 
-#include <string>
-#include <memory>
+#include "Widget.h"
 
+#include <memory>
+#include <string>
+
+// Class describe ingame widget checkbox.
 class CheckBox : public Widget
 {
     private:

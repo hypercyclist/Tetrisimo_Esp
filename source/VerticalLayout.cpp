@@ -224,7 +224,3 @@ void VerticalLayout::focusPrevious()
         }
     }
 }
-
-
-
-// int cellHeight = childrensCount / ( widgetSize->getHeight() + (margin * 2) );

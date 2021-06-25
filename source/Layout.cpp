@@ -1,4 +1,5 @@
 #include "Layout.h"
+
 #include "Point.h"
 #include "Size.h"
 
@@ -73,10 +74,3 @@ bool Layout::isAdjusting()
 {
     return adjusting;
 }
-
-
-
-// void Layout::processChild(std::shared_ptr<Widget> _childWidget)
-// {
-//     addWidget(_childWidget);
-// }

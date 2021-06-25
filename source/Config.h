@@ -1,15 +1,19 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-class Size;
 class Color;
-class WifiSettings;
-class ServiceAddress;
 class Resistor;
 class ResourceTheme;
+class Size;
+class ServiceAddress;
+class WifiSettings;
+
 #include <memory>
 #include <string>
 
+// Class describe game config. Config values load values from EEPROM if it's
+// changeable values, or initialize from hardcode. Nextly values will be pushed 
+// to the objects.
 class Config
 {
     private:
@@ -19,19 +23,24 @@ class Config
         int pinDisplayCS;
         int pinDisplayDC;
         int pinDisplayRST;
+        // Pre-made themes and one custom.
         std::unique_ptr<ResourceTheme> caveLightsTheme;
         std::unique_ptr<ResourceTheme> redQuakeTheme;
         std::unique_ptr<ResourceTheme> customTheme;
         std::string playerName;
         std::unique_ptr<WifiSettings> wifiSettings;
         std::unique_ptr<ServiceAddress> globalServerAddress;
+        // As long I will use in my physical buttons resistors it will need to
+        // count and store their voltage to compare with ADC values.
         std::unique_ptr<Resistor> upButtonResistor;
         std::unique_ptr<Resistor> downButtonResistor;
         std::unique_ptr<Resistor> leftButtonResistor;
         std::unique_ptr<Resistor> rightButtonResistor;
         std::unique_ptr<Resistor> okButtonResistor;
         std::unique_ptr<Resistor> backButtonResistor;
+        // ADC pin on processor.
         int pinKeyboardAdc;
+        
     public:
         Config();
         ~Config();
