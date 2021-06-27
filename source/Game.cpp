@@ -15,6 +15,7 @@
 #include "Size.h"
 #include "Scene.h"
 #include "TableView.h"
+#include "TextView.h"
 #include "user_interface.h"
 #include "VerticalLayout.h"
 
@@ -52,6 +53,7 @@ void Game::initialize()
     initializeAboutSettings();
     initializeMultiplayer();
     initializeSettings();
+    initializeHighScore();
     initializeMainMenu();
 
     display->setActiveScene(aboutSettings);
@@ -206,6 +208,13 @@ void Game::initializeMainMenu()
     
     std::shared_ptr<Button> highScoreButton = std::make_shared<Button>("Рекорды");
     menuLayout->addWidget(highScoreButton);
+    highScoreButton->setExecuteFunction(
+        [this] ()
+        {
+            display->setActiveScene(highScore);
+        }
+    );
+    highScore->setPreviousScene(mainMenu);
 
     std::shared_ptr<Label> highScoreLabel = std::make_shared<Label>("000000");
     menuLayout->addWidget(highScoreLabel);
@@ -362,10 +371,12 @@ void Game::initializeAboutSettings()
     std::shared_ptr<VerticalLayout> aboutSettingsLayout = 
         std::static_pointer_cast<VerticalLayout>( aboutSettings->getCentralWidget() );
 
-    std::shared_ptr<TableView> thanksTable = std::make_shared<TableView>("Спасибо!", "Всем товарищам, чьи имена я скрыл для этого скриншота!"); 
+    std::shared_ptr<TextView> thanksTable = std::make_shared<TextView>
+        ("Спасибо!", "Всем товарищам, чьи имена я скрыл для этого скриншота!"); 
     //Никите, Льву, Анастасии, Дмитрию, Игорю, Александру, Александре.
     aboutSettingsLayout->addWidget(thanksTable);
-    std::shared_ptr<TableView> contactsTable = std::make_shared<TableView>("Контакты", "warstar441@gmail.com");
+    std::shared_ptr<TextView> contactsTable = std::make_shared<TextView>
+        ("Контакты", "warstar441@gmail.com");
     aboutSettingsLayout->addWidget(contactsTable);
     // thanksTable->setExecuteFunction(
     //     [this, thanksTable] ()
@@ -374,11 +385,25 @@ void Game::initializeAboutSettings()
     // );
 }
 
+void Game::initiazlieKeyboard()
+{
+
+}
+
+void Game::initializeHighScore()
+{
+    highScore = std::make_shared<Scene>( shared_from_this() );
+    initializeBasicScene(highScore, "Рекорды", 2);
+    std::shared_ptr<VerticalLayout> highScoreLayout = 
+        std::static_pointer_cast<VerticalLayout>( highScore->getCentralWidget() );
+
+    std::shared_ptr<TableView> personalBest = std::make_shared<TableView>
+        ("Мои рекорды", "1. Yuki...10 000");
+    //Никите, Льву, Анастасии, Дмитрию, Игорю, Александру, Александре.
+    highScoreLayout->addWidget(personalBest);
+}
+
 std::shared_ptr<Display> Game::getDisplay()
 {
     return display;
-}
-
-void Game::beep()
-{
 }

@@ -1,22 +1,29 @@
-Exception Cause: 0  [Illegal instruction]
+Exception Cause: Not found
 
-0x4000e25d: ?? ??:0
-0x4020598b: TableView::TableView(std::string, std::string) at s:\product\programming\ArduinoOutput\sketch/TableView.cpp:177
-0x4021200e: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) at /workdir/arena.x86_64/gcc/xtensa-lx106-elf/libstdc++-v3/include/bits/basic_string.tcc:734
-0x402039bc: void __gnu_cxx::new_allocator<TableView>::construct<TableView, char const (&) [16], char const (&) [7]>(TableView*, char const (&) [16], char const (&) [7]) at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr_base.h:127
- (inlined by) std::enable_if<std::__and_<std::allocator_traits<std::allocator<TableView> >::__construct_helper<TableView, char const (&) [16], char const (&) [7]>::type>::value, void>::type std::allocator_traits<std::allocator<TableView> >::_S_construct<TableView, char const (&) [16], char const (&) [7]>(std::allocator<TableView>&, TableView*, char const (&) [16], char const (&) [7]) at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/alloc_traits.h:256
- (inlined by) decltype (_S_construct({parm#1}, {parm#2}, (forward<char const (&) [16]>)({parm#3}), (forward<char const (&) [7]>)({parm#3}))) std::allocator_traits<std::allocator<TableView> >::construct<TableView, char const (&) [16], char const (&) [7]>(std::allocator<TableView>&, TableView*, char const (&) [16], char const (&) [7]) at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/alloc_traits.h:402
- (inlined by) std::__shared_ptr<TableView, (__gnu_cxx::_Lock_policy)0>::__shared_ptr<std::allocator<TableView>, char const (&) [16], char const (&) [7]>(std::_Sp_make_shared_tag, std::allocator<TableView> const&, char const (&) [16], char const (&) [7]) at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr_base.h:1129
- (inlined by) std::shared_ptr<TableView>::shared_ptr<std::allocator<TableView>, char const (&) [16], char const (&) [7]>(std::_Sp_make_shared_tag, std::allocator<TableView> const&, char const (&) [16], char const (&) [7]) at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr.h:319
- (inlined by) std::shared_ptr<TableView> std::allocate_shared<TableView, std::allocator<TableView>, char const (&) [16], char const (&) [7]>(std::allocator<TableView> const&, char const (&) [16], char const (&) [7]) at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr.h:614
- (inlined by) std::shared_ptr<TableView> std::make_shared<TableView, char const (&) [16], char const (&) [7]>(char const (&) [16], char const (&) [7]) at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr.h:630
- (inlined by) Game::initializeAboutSettings() at s:\product\programming\ArduinoOutput\sketch/Game.cpp:365
-0x40203b06: Game::initialize() at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr_base.h:127
-0x402011e2: std::__shared_ptr<Game, (__gnu_cxx::_Lock_policy)0>::__shared_ptr<std::allocator<Game>>(std::_Sp_make_shared_tag, std::allocator<Game> const&) at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr_base.h:127
-0x40203b60: Game::start() at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr_base.h:127
+0x40205c9b: TextView::render() at s:\product\programming\ArduinoOutput\sketch/TextView.cpp:58
+0x40203186: std::__shared_ptr<Label, (__gnu_cxx::_Lock_policy)0>::__shared_ptr<std::allocator<Label>, std::string&>(std::_Sp_make_shared_tag, std::allocator<Label> const&, std::string&) at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr_base.h:488
+ (inlined by) std::shared_ptr<Label>::shared_ptr<std::allocator<Label>, std::string&>(std::_Sp_make_shared_tag, std::allocator<Label> const&, std::string&) at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr.h:319
+ (inlined by) std::shared_ptr<Label> std::allocate_shared<Label, std::allocator<Label>, std::string&>(std::allocator<Label> const&, std::string&) at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr.h:614
+ (inlined by) std::shared_ptr<Label> std::make_shared<Label, std::string&>(std::string&) at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr.h:630
+ (inlined by) Game::initializeBasicScene(std::shared_ptr<Scene>, std::string, int) at s:\product\programming\ArduinoOutput\sketch/Game.cpp:171
+0x402010a2: Background::drawNet() at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr_base.h:127
+0x40203186: std::__shared_ptr<Label, (__gnu_cxx::_Lock_policy)0>::__shared_ptr<std::allocator<Label>, std::string&>(std::_Sp_make_shared_tag, std::allocator<Label> const&, std::string&) at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr_base.h:488
+ (inlined by) std::shared_ptr<Label>::shared_ptr<std::allocator<Label>, std::string&>(std::_Sp_make_shared_tag, std::allocator<Label> const&, std::string&) at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr.h:319
+ (inlined by) std::shared_ptr<Label> std::allocate_shared<Label, std::allocator<Label>, std::string&>(std::allocator<Label> const&, std::string&) at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr.h:614
+ (inlined by) std::shared_ptr<Label> std::make_shared<Label, std::string&>(std::string&) at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr.h:630
+ (inlined by) Game::initializeBasicScene(std::shared_ptr<Scene>, std::string, int) at s:\product\programming\ArduinoOutput\sketch/Game.cpp:171
+0x4020ca46: fde_unencoded_compare at /workdir/repo/gcc/libgcc/unwind-dw2-fde.c:344
+0x4020b4be: Widget::draw() at s:\product\programming\ArduinoOutput\sketch/Widget.cpp:137
+0x40203f84: Layout::render() at s:\product\programming\ArduinoOutput\sketch/Layout.cpp:76
+0x4020b4be: Widget::draw() at s:\product\programming\ArduinoOutput\sketch/Widget.cpp:137
+0x40206638: Widget::traverse() at s:\product\programming\ArduinoOutput\sketch/Widget.cpp:106
+0x40202850: std::__shared_ptr<Scene, (__gnu_cxx::_Lock_policy)0>::~__shared_ptr() at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr_base.h:488
+ (inlined by) std::shared_ptr<Scene>::~shared_ptr() at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr.h:93
+ (inlined by) Game::run() at s:\product\programming\ArduinoOutput\sketch/Game.cpp:68
+0x40203b71: Game::start() at ??:?
 0x40201204: std::__shared_ptr<Game, (__gnu_cxx::_Lock_policy)0>::~__shared_ptr() at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr_base.h:127
  (inlined by) std::shared_ptr<Game>::~shared_ptr() at c:\users\ev7\appdata\local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\2.5.0-4-b40a506\xtensa-lx106-elf\include\c++\5.2.0\bits/shared_ptr.h:93
- (inlined by) setup at s:\product\programming\Tetrisimo_Esp\source/Tetrisimo_Esp.ino:5
-0x40208da4: loop_wrapper() at C:\Users\EV7\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/core_esp8266_main.cpp:194
+ (inlined by) setup at s:\product\programming\Tetrisimo_Esp\source/Tetrisimo_Esp.ino:6
+0x402091d4: loop_wrapper() at C:\Users\EV7\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/core_esp8266_main.cpp:194
 0x40100c49: cont_wrapper at C:\Users\EV7\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/cont.S:81
 0x4010f000: ?? ??:0

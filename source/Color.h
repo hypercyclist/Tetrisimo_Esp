@@ -24,13 +24,13 @@ class Color
         
         void setColorRgb(int _r, int _g, int _b);
 
-        int getR();
+        int getR() const;
         void setR(int _r);
 
-        int getG();
+        int getG() const;
         void setG(int _g);
 
-        int getB();
+        int getB() const;
         void setB(int _b);
 };
 

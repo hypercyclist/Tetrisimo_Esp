@@ -1,5 +1,7 @@
 #include "Color.h"
 
+#include <SoftwareSerial.h>
+
 Color::Color(int _r, int _g, int _b) : r(_r), g(_g), b(_b)
 {
     update();
@@ -26,7 +28,7 @@ Color::~Color()
 
 void Color::update()
 {
-    color16 = this->toUint16();
+    color16 = toUint16();
 }
 
 uint16_t Color::getUint16()
@@ -36,7 +38,7 @@ uint16_t Color::getUint16()
 
 uint16_t Color::toUint16()
 {
-    return ((this->getR() & 0xF8) << 8) | ((this->getG() & 0xFC) << 3) | (this->getB() >> 3);
+    return ((getR() & 0xF8) << 8) | ((getG() & 0xFC) << 3) | (getB() >> 3);
 }
 
 void Color::setColorRgb(int _r, int _g, int _b)
@@ -47,7 +49,7 @@ void Color::setColorRgb(int _r, int _g, int _b)
     update();
 }
 
-int Color::getR()
+int Color::getR() const
 {
     return r;
 }
@@ -58,7 +60,7 @@ void Color::setR(int _r)
     update();
 }
 
-int Color::getG()
+int Color::getG() const
 {
     return g;
 }
@@ -69,7 +71,7 @@ void Color::setG(int _g)
     update();
 }
 
-int Color::getB()
+int Color::getB() const
 {
     return b;
 }

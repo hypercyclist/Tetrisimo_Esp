@@ -18,9 +18,9 @@ Line::~Line()
 
 void Line::render()
 {
-    painter->setDrawColor( painter->getResourceTheme()->getUnfocusColor() );
+    painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );
     Point pointB(widgetPosition->getX() + lineWidth, widgetPosition->getY());
-    painter->drawLine(*widgetPosition, pointB, lineThickness);
+    painter->paintLine(*widgetPosition, pointB, lineThickness);
 }
 
 int Line::getWidth()

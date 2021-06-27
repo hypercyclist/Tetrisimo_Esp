@@ -1,4 +1,4 @@
-#include "TableView.h"
+#include "TextView.h"
 
 #include "Color.h"
 #include "Painter.h"
@@ -7,7 +7,7 @@
 #include "Size.h"
 #include "StringUtf.h"
 
-TableView::TableView(std::string _name, std::string _text) 
+TextView::TextView(std::string _name, std::string _text) 
     : 
     Widget(),
     name(_name),
@@ -19,18 +19,18 @@ TableView::TableView(std::string _name, std::string _text)
     processSizeUpdate();
 }
 
-TableView::~TableView()
+TextView::~TextView()
 {
 }
 
-void TableView::setParent(std::shared_ptr<Widget> _parent)
+void TextView::setParent(std::shared_ptr<Widget> _parent)
 {
     parent = _parent;
     processSizeUpdate();
     // processParent();
 }
 
-void TableView::render()
+void TextView::render()
 {
     // Widget height is table header + separator + body.
     // Header is 3px border + textHeight + 3px border.
@@ -96,7 +96,7 @@ void TableView::render()
     }
 }
 
-void TableView::processSizeUpdate()
+void TextView::processSizeUpdate()
 {
     // Widget height is table header + separator + body.
     // Header is 3px border + textHeight + 3px border.
@@ -143,9 +143,9 @@ void TableView::processSizeUpdate()
     setSize(countedSize);
 }
 
-void TableView::update()
+void TextView::update()
 {
-    Serial.println("TableView::update()");
+    Serial.println("TextView::update()");
     needUpdate = true;
     if (parent != nullptr)
     {
@@ -153,18 +153,18 @@ void TableView::update()
     }
 }
 
-void TableView::setName(std::string _name)
+void TextView::setName(std::string _name)
 {
     name = _name;
     processSizeUpdate();
 }
 
-std::string TableView::getName()
+std::string TextView::getName()
 {
     return name;
 }
 
-void TableView::setText(std::string _text)
+void TextView::setText(std::string _text)
 {
     textOriginal = _text;
     int tempSizeCount = StringUtf::length(textOriginal) / wrapSize;
@@ -180,23 +180,23 @@ void TableView::setText(std::string _text)
     text[text.size() - 1] = StringUtf::substr(_text, wrapSize * (text.size() - 1));
 }
 
-std::string TableView::getText()
+std::string TextView::getText()
 {
     return textOriginal;
 }
 
-int TableView::getTextSize()
+int TextView::getTextSize()
 {
     return textSize;
 }
 
-void TableView::setTextSize(int _textSize)
+void TextView::setTextSize(int _textSize)
 {
     textSize = _textSize;
     processSizeUpdate();
 }
 
-int TableView::getLinesCount()
+int TextView::getLinesCount()
 {
     return text.size();
 }

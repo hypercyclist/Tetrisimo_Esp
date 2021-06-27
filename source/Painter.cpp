@@ -33,17 +33,28 @@ std::shared_ptr<Painter> Painter::getPainter()
     return painter;
 }
 
-void Painter::background(Color _backgroundColor)
+void Painter::paintRect(int _x, int _y, int _width, int _height, Color& _color)
+{
+    fillRect(_x, _y, _width, _height, _color.toUint16());
+}
+
+void Painter::paintBorder(int _x, int _y, int _width, int _height, Color& _color)
+{
+    drawRect(_x, _y, _width, _height, _color.toUint16());
+}
+
+
+void Painter::background(Color& _backgroundColor)
 {
     fillScreen( _backgroundColor.getUint16() );
 }
 
-void Painter::setDrawColor(Color _drawColor)
+void Painter::setPaintColor(Color _drawColor)
 {
     drawColor = std::make_unique<Color>(_drawColor);
 }
 
-Color Painter::getDrawColor()
+Color Painter::getPaintColor()
 {
     return *drawColor;
 }
@@ -58,7 +69,7 @@ std::shared_ptr<ResourceTheme> Painter::getResourceTheme()
     return currentResourceTheme;
 }
 
-void Painter::drawText(std::string _text, Point _positionPoint)
+void Painter::paintText(std::string _text, Point _positionPoint)
 {
     setTextColor( drawColor->getUint16() );
     setCursor( _positionPoint.getX(), _positionPoint.getY() );
@@ -102,7 +113,7 @@ std::string Painter::fromCyrilic(std::string _cytilicString)
     return target;
 }
 
-void Painter::drawLine(Point _pointA, Point _pointB)
+void Painter::paintLine(Point _pointA, Point _pointB)
 {
     Adafruit_ST7735::drawLine( 
         _pointA.getX(), 
@@ -113,7 +124,7 @@ void Painter::drawLine(Point _pointA, Point _pointB)
     );
 }
 
-void Painter::drawLine(int _x1, int _y1, int _x2, int _y2)
+void Painter::paintLine(int _x1, int _y1, int _x2, int _y2)
 {
     Adafruit_ST7735::drawLine( 
         _x1, 
@@ -124,7 +135,7 @@ void Painter::drawLine(int _x1, int _y1, int _x2, int _y2)
     );
 }
 
-void Painter::drawLine(Point _pointA, Point _pointB, int _lineWidth)
+void Painter::paintLine(Point _pointA, Point _pointB, int _lineWidth)
 {
     int offsetX;
     int offsetY;
@@ -141,7 +152,7 @@ void Painter::drawLine(Point _pointA, Point _pointB, int _lineWidth)
     }
     for(int i = 0; i < _lineWidth; i++)
     {
-        drawLine( 
+        paintLine( 
             Point( 
                 _pointA.getX() + (i * offsetX), 
                 _pointA.getY() + (i * offsetY) ), 

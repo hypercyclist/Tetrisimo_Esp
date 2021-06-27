@@ -24,14 +24,14 @@ void Button::render()
 {
     if (focused)
     {
-        painter->setDrawColor( painter->getResourceTheme()->getFocusColor() );
+        painter->setPaintColor( painter->getResourceTheme()->getFocusColor() );
     }
     else
     {
-        painter->setDrawColor( painter->getResourceTheme()->getUnfocusColor() );
+        painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );
     }
     painter->setTextSize(textSize);
-    painter->drawText(text, *position);
+    painter->paintText(text, *position);
 }
 
 void Button::processSizeUpdate()

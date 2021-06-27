@@ -28,16 +28,17 @@ void Background::render()
 
 void Background::drawNet()
 {
-    std::shared_ptr<ResourceTheme> theme = painter->getResourceTheme();
-    painter->background( theme->getBackgroundMenuColor() );
-    painter->setDrawColor( theme->getNetColor() );
-    
+    Color backgroundColor = painter->getResourceTheme()->getBackgroundMenuColor();
+    Color netColor = painter->getResourceTheme()->getNetColor();
+    painter->background( backgroundColor );
+    painter->setPaintColor( netColor );
+
     for (int i = size->getWidth(); i >= 0; i -= 8)
     {
-        painter->drawLine( Point(i, 0), Point(i, size->getHeight()) );
+        painter->paintLine( Point(i, 0), Point(i, size->getHeight()) );
     }
     for (int i = -1; i < size->getHeight(); i += 8)
     {
-        painter->drawLine( Point(size->getWidth(), i), Point(0, i) );
+        painter->paintLine( Point(size->getWidth(), i), Point(0, i) );
     }
 }

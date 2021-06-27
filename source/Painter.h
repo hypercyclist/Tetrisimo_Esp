@@ -28,16 +28,24 @@ class Painter : public Adafruit_ST7735
         ~Painter();
         static void setDefault(std::shared_ptr<Painter> _painter);
         static std::shared_ptr<Painter> getPainter();
-        void background(Color _backgroundColor);
-        void setDrawColor(Color _drawColor);
-        Color getDrawColor();
+        void background(Color& _backgroundColor);
+
+        void paintRect(int _x, int _y, int _width, int _height, Color& _color);
+        void paintBorder(int _x, int _y, int _width, int _height, Color& _color);
+
+        void setPaintColor(Color _drawColor);
+        Color getPaintColor();
+
         std::shared_ptr<ResourceTheme> getResourceTheme();
         void setResourceTheme(ResourceTheme _resourceTheme);
-        void drawText(std::string _text, Point _positionPoint);
+
+        void paintText(std::string _text, Point _positionPoint);
+        // Maybe it need to be moved 
         static std::string fromCyrilic(std::string _cytilicString);
-        void drawLine(Point _pointA, Point _pointB);
-        void drawLine(Point _pointA, Point _pointB, int _lineWidth);
-        void drawLine(int _x1, int _y1, int _x2, int _y2);
+
+        void paintLine(Point _pointA, Point _pointB);
+        void paintLine(Point _pointA, Point _pointB, int _lineWidth);
+        void paintLine(int _x1, int _y1, int _x2, int _y2);
 
         // This function count how many letters can be contained into widget width.
         int countWrapSize(int _textSize, int _widgetWidth);

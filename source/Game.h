@@ -78,9 +78,9 @@ class Game : public std::enable_shared_from_this<Game>
         void initializeCustomColorsSettings();
         void initializeCustomFigureSettings();
         void initializeAboutSettings();
+        void initiazlieKeyboard();
+        void initializeHighScore();
         std::shared_ptr<Display> getDisplay();
-
-        void beep();
 };
 
 #endif

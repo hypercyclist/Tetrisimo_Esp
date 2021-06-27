@@ -22,9 +22,9 @@ Label::~Label()
 
 void Label::render()
 {
-    painter->setDrawColor( painter->getResourceTheme()->getUnfocusColor() );
+    painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );
     painter->setTextSize(textSize);
-    painter->drawText(text, *position);
+    painter->paintText(text, *position);
     if (underlined)
     {
         // int lineThickness = textSize == 3 ? 2 : 1;
@@ -36,7 +36,7 @@ void Label::render()
         Point pointB(position->getX() + size->getWidth(),
              position->getY() + size->getHeight() - 1);
         
-        painter->drawLine(pointA, pointB, lineThickness);
+        painter->paintLine(pointA, pointB, lineThickness);
     }
 }
 
