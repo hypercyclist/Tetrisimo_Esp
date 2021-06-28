@@ -42,8 +42,8 @@ class Game : public std::enable_shared_from_this<Game>
         std::shared_ptr<Scene> customColorsSettings;
         std::shared_ptr<Scene> customFigureSettings;
         std::shared_ptr<Scene> aboutSettings;
-        std::shared_ptr<Scene> keyboard;
         std::shared_ptr<Scene> highScore;
+        std::shared_ptr<Scene> widgetViewer;
         std::shared_ptr<Display> display;
 
         time_t inputTimeStartMs;
@@ -78,7 +78,7 @@ class Game : public std::enable_shared_from_this<Game>
         void initializeCustomColorsSettings();
         void initializeCustomFigureSettings();
         void initializeAboutSettings();
-        void initiazlieKeyboard();
+        void initializeWidgetViewer();
         void initializeHighScore();
         std::shared_ptr<Display> getDisplay();
 };

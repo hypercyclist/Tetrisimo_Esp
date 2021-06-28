@@ -49,6 +49,7 @@ void Game::initialize()
     display->getPainter()->setResourceTheme( config->getCaveLightsTheme() );
 
     initializeBackground();
+    initializeWidgetViewer();
     initializeGameSettings();
     initializeResistorSettings();
     initializeAboutSettings();
@@ -396,9 +397,14 @@ void Game::initializeAboutSettings()
     aboutSettingsLayout->addWidget(contactsTable);
 }
 
-void Game::initiazlieKeyboard()
+void Game::initializeWidgetViewer()
 {
+    widgetViewer = std::make_shared<Scene>( shared_from_this() );
+    widgetViewer->setSize( display->getSize() );
+    widgetViewer->setBackgroundWidget(background);
 
+    std::shared_ptr<VerticalLayout> widgetViewerLayout = std::make_shared<VerticalLayout>();
+    widgetViewer->setCentralWidget(widgetViewerLayout);
 }
 
 void Game::initializeHighScore()
@@ -421,13 +427,15 @@ void Game::initializeHighScore()
     personalBest->addText("9...............0");
     personalBest->addText("10..............0");
     personalBest->minimize();
-    // personalBest->setExecuteFunction(
-    //     [this, personalBest, networkBest] ()
-    //     {
-    //         personalBest->maximize();
-    //         networkBest->hide();
-    //     }
-    // );
+    personalBest->focus();
+    personalBest->setExecuteFunction(
+        [this, personalBest] ()
+        {
+            widgetViewer->setPreviousScene(highScore);
+            std::static_pointer_cast<VerticalLayout>(widgetViewer->getCentralWidget())->addWidget(personalBest);
+            display->setActiveScene(widgetViewer);
+        }
+    );
     highScoreLayout->addWidget(personalBest);
 
     std::shared_ptr<TableView> networkBest = std::make_shared<TableView>
