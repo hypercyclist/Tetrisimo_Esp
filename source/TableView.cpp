@@ -7,11 +7,10 @@
 #include "Size.h"
 #include "StringUtf.h"
 
-TableView::TableView(std::string _name, std::string _text) 
+TableView::TableView(std::string _name) 
     : 
     Widget(),
     name(_name),
-    textOriginal(_text),
     textSize(1),
     wrapSize(name.length()) // Bad.
 {
@@ -40,6 +39,8 @@ void TableView::render()
     int border = 3;
     Size textSpace = painter->countTextSize(name, textSize);
     int separator = 1;
+    int lines = getLinesCount() > 0 ? getLinesCount() : 1;
+    lines = (lines > 3) && (!maximized) ? 3 : lines;
     int nameX = x + (size->getWidth() - textSpace.getWidth()) / 2;
     int nameY = y + border + separator;
     int textX = x + 4;
@@ -74,7 +75,7 @@ void TableView::render()
         x + 2, 
         y + ( border * 2) + textSpace.getHeight() + 1, 
         getWidth() - 4, 
-        (textSpace.getHeight() + separator) * getLinesCount() + separator + 2, 
+        (textSpace.getHeight() + separator) * lines + separator + 2, 
         outBorderColor);
 
     painter->setPaintColor(middleBorderColor);
@@ -89,7 +90,7 @@ void TableView::render()
     painter->setTextSize(textSize);
     painter->paintText(name, Point(nameX, nameY));
 
-    for(int i = 0; i < text.size(); i++)
+    for(int i = 0; i < lines; i++)
     {
         painter->paintText(text[i], Point(textX, textY));
         textY += textSpace.getHeight() + separator;
@@ -123,13 +124,13 @@ void TableView::processSizeUpdate()
 
     // Count text array.
     wrapSize = painter->countWrapSize(textSize, countedSize.getWidth());
-    setText(textOriginal);
 
     // Count widget height.
     int border = 3;
     int textHeight = countedSize.getHeight();
     int separator = 1;
     int lines = getLinesCount() > 0 ? getLinesCount() : 1;
+    lines = (lines > 3) && (!maximized) ? 3 : lines;
     countedSize.setHeight(
         textHeight + (border * 2) + 
         (separator * 2) + 
@@ -164,25 +165,21 @@ std::string TableView::getName()
     return name;
 }
 
-void TableView::setText(std::string _text)
+void TableView::addText(std::string _text)
 {
-    textOriginal = _text;
-    int tempSizeCount = StringUtf::length(textOriginal) / wrapSize;
-    tempSizeCount = (float)tempSizeCount < 
-        (float)StringUtf::length(textOriginal) / (float)wrapSize ? 
-        tempSizeCount + 1 : tempSizeCount;
-    tempSizeCount = tempSizeCount == 0 ? 1 : tempSizeCount;
-    text.resize(tempSizeCount);
-    for(int i = 0; i < text.size() - 1; i++)
-    {
-        text[i] = StringUtf::substr(textOriginal, wrapSize * i, wrapSize);
-    }
-    text[text.size() - 1] = StringUtf::substr(_text, wrapSize * (text.size() - 1));
+    text.push_back(_text);
+    processSizeUpdate();
 }
 
-std::string TableView::getText()
+void TableView::removeText(int _index)
 {
-    return textOriginal;
+    text.erase(std::next(text.begin(), _index));
+    processSizeUpdate();
+}
+
+std::string TableView::getText(int _index)
+{
+    return text[_index];
 }
 
 int TableView::getTextSize()

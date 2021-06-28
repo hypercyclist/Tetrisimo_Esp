@@ -40,6 +40,7 @@ class Widget : public std::enable_shared_from_this<Widget>
         bool visible;
         bool focusability;
         bool focused;
+        bool maximized;
     
     public:
         Widget();
@@ -104,6 +105,10 @@ class Widget : public std::enable_shared_from_this<Widget>
         void unfocus();
         bool isFocusable();
         bool isFocused();
+        // Pursuing compactness we can minimize our widget or maximize vice versa.
+        void maximize();
+        void minimize();
+        bool isMaximized();
 };
 
 #endif

@@ -14,13 +14,12 @@ class TableView : public Widget
 {
     private:
         std::string name;
-        std::string textOriginal;
         std::vector<std::string> text;
         int wrapSize;
         int textSize;
     
     public:
-        TableView(std::string _name, std::string _text);
+        TableView(std::string _name);
         ~TableView();
 
         void setParent(std::shared_ptr<Widget> _parent);
@@ -33,8 +32,9 @@ class TableView : public Widget
         void setName(std::string _name);
         std::string getName();
 
-        void setText(std::string _text);
-        std::string getText();
+        void addText(std::string _text);
+        void removeText(int _index);
+        std::string getText(int _index);
 
         void setTextSize(int _textSize);
         int getTextSize();

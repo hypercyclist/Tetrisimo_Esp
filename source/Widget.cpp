@@ -19,7 +19,8 @@ Widget::Widget()
     needCheck(true),
     visible(true),
     focusability(false),
-    focused(false)
+    focused(false),
+    maximized(true)
 {
 }
 
@@ -249,4 +250,21 @@ bool Widget::isFocusable()
 bool Widget::isFocused()
 {
     return focused ? true : false;
+}
+
+void Widget::maximize()
+{
+    maximized = true;
+    update();
+}
+
+void Widget::minimize()
+{
+    maximized = false;
+    update();
+}
+
+bool Widget::isMaximized()
+{
+    return maximized;
 }

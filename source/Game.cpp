@@ -50,13 +50,14 @@ void Game::initialize()
 
     initializeBackground();
     initializeGameSettings();
+    initializeResistorSettings();
     initializeAboutSettings();
     initializeMultiplayer();
     initializeSettings();
     initializeHighScore();
     initializeMainMenu();
 
-    display->setActiveScene(aboutSettings);
+    display->setActiveScene(highScore);
 }
 
 void Game::run()
@@ -346,7 +347,22 @@ void Game::initializeAdvancedSettings()
 
 void Game::initializeResistorSettings()
 {
+    resistorsSettings = std::make_shared<Scene>( shared_from_this() );
+    initializeBasicScene(resistorsSettings, "Резисторы", 2);
+    std::shared_ptr<VerticalLayout> resistorsSettingsLayout = 
+        std::static_pointer_cast<VerticalLayout>( resistorsSettings->getCentralWidget() );
 
+    std::shared_ptr<TableView> resistorTable = std::make_shared<TableView>
+        ("Сопротивления");
+    resistorTable->addText("1.Вверх      100R");
+    resistorTable->addText("2.Вниз       150R");
+    resistorTable->addText("3.Влево        3К");
+    resistorTable->addText("4.Вправо     5.5К");
+    resistorTable->addText("5.ОК          48К");
+    resistorTable->addText("6.Назад       57К");
+    resistorTable->addText("7.Подтягивающий  ");
+    resistorTable->addText("              10К");
+    resistorsSettingsLayout->addWidget(resistorTable);
 }
 
 void Game::initializeColorsSettings()
@@ -378,11 +394,6 @@ void Game::initializeAboutSettings()
     std::shared_ptr<TextView> contactsTable = std::make_shared<TextView>
         ("Контакты", "warstar441@gmail.com");
     aboutSettingsLayout->addWidget(contactsTable);
-    // thanksTable->setExecuteFunction(
-    //     [this, thanksTable] ()
-    //     {
-    //     }
-    // );
 }
 
 void Game::initiazlieKeyboard()
@@ -398,9 +409,41 @@ void Game::initializeHighScore()
         std::static_pointer_cast<VerticalLayout>( highScore->getCentralWidget() );
 
     std::shared_ptr<TableView> personalBest = std::make_shared<TableView>
-        ("Мои рекорды", "1. Yuki...10 000");
-    //Никите, Льву, Анастасии, Дмитрию, Игорю, Александру, Александре.
+        ("Мои рекорды");
+    personalBest->addText("1.Yuki.....10 000");
+    personalBest->addText("2.Yuki......9 500");
+    personalBest->addText("3.Yuki......3 000");
+    personalBest->addText("4.Yuki......2 000");
+    personalBest->addText("5...............0");
+    personalBest->addText("6...............0");
+    personalBest->addText("7...............0");
+    personalBest->addText("8...............0");
+    personalBest->addText("9...............0");
+    personalBest->addText("10..............0");
+    personalBest->minimize();
+    // personalBest->setExecuteFunction(
+    //     [this, personalBest, networkBest] ()
+    //     {
+    //         personalBest->maximize();
+    //         networkBest->hide();
+    //     }
+    // );
     highScoreLayout->addWidget(personalBest);
+
+    std::shared_ptr<TableView> networkBest = std::make_shared<TableView>
+        ("Интернет рекорды");
+    networkBest->addText("1.Yuki.....10 000");
+    networkBest->addText("2.ZigBee....9 900");
+    networkBest->addText("3.Cobra.....9 700");
+    networkBest->addText("4.Cobra.....9 600");
+    networkBest->addText("5...............0");
+    networkBest->addText("6...............0");
+    networkBest->addText("7...............0");
+    networkBest->addText("8...............0");
+    networkBest->addText("9...............0");
+    networkBest->addText("10..............0");
+    networkBest->minimize();
+    highScoreLayout->addWidget(networkBest);
 }
 
 std::shared_ptr<Display> Game::getDisplay()
