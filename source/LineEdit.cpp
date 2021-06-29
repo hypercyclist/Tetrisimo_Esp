@@ -1,4 +1,4 @@
-#include "TextView.h"
+#include "LineEdit.h"
 
 #include "Color.h"
 #include "Painter.h"
@@ -7,7 +7,7 @@
 #include "Size.h"
 #include "StringUtf.h"
 
-TextView::TextView(std::string _name, std::string _text) 
+LineEdit::LineEdit(std::string _name, std::string _text) 
     : 
     Widget(),
     name(_name),
@@ -19,18 +19,18 @@ TextView::TextView(std::string _name, std::string _text)
     processSizeUpdate();
 }
 
-TextView::~TextView()
+LineEdit::~LineEdit()
 {
 }
 
-void TextView::setParent(std::shared_ptr<Widget> _parent)
+void LineEdit::setParent(std::shared_ptr<Widget> _parent)
 {
     parent = _parent;
     processSizeUpdate();
     // processParent();
 }
 
-void TextView::render()
+void LineEdit::render()
 {
     // Widget height is table header + separator + body.
     // Header is 3px border + textHeight + 3px border.
@@ -40,6 +40,8 @@ void TextView::render()
     int border = 3;
     Size textSpace = painter->countTextSize(name, textSize);
     int separator = 1;
+    int lines = getLinesCount() > 0 ? getLinesCount() : 1;
+    lines = (lines > 1) && (!maximized) ? 1 : lines;
     int nameX = x + (size->getWidth() - textSpace.getWidth()) / 2;
     int nameY = y + border + separator;
     int textX = x + 4;
@@ -75,7 +77,7 @@ void TextView::render()
         x + 2, 
         y + ( border * 2) + textSpace.getHeight() + 1, 
         getWidth() - 4, 
-        (textSpace.getHeight() + separator) * getLinesCount() + separator + 2, 
+        (textSpace.getHeight() + separator) * lines + separator + 2, 
         outBorderColor);
 
     painter->setPaintColor(middleBorderColor);
@@ -97,7 +99,7 @@ void TextView::render()
     }
 }
 
-void TextView::processSizeUpdate()
+void LineEdit::processSizeUpdate()
 {
     // Widget height is table header + separator + body.
     // Header is 3px border + textHeight + 3px border.
@@ -131,6 +133,7 @@ void TextView::processSizeUpdate()
     int textHeight = countedSize.getHeight();
     int separator = 1;
     int lines = getLinesCount() > 0 ? getLinesCount() : 1;
+    lines = (lines > 1) && (!maximized) ? 1 : lines;
     countedSize.setHeight(
         textHeight + (border * 2) + 
         (separator * 2) + 
@@ -144,9 +147,9 @@ void TextView::processSizeUpdate()
     setSize(countedSize);
 }
 
-void TextView::update()
+void LineEdit::update()
 {
-    Serial.println("TextView::update()");
+    Serial.println("LineEdit::update()");
     needUpdate = true;
     if (parent != nullptr)
     {
@@ -154,18 +157,18 @@ void TextView::update()
     }
 }
 
-void TextView::setName(std::string _name)
+void LineEdit::setName(std::string _name)
 {
     name = _name;
     processSizeUpdate();
 }
 
-std::string TextView::getName()
+std::string LineEdit::getName()
 {
     return name;
 }
 
-void TextView::setText(std::string _text)
+void LineEdit::setText(std::string _text)
 {
     textOriginal = _text;
     int tempSizeCount = StringUtf::length(textOriginal) / wrapSize;
@@ -181,23 +184,23 @@ void TextView::setText(std::string _text)
     text[text.size() - 1] = StringUtf::substr(_text, wrapSize * (text.size() - 1));
 }
 
-std::string TextView::getText()
+std::string LineEdit::getText()
 {
     return textOriginal;
 }
 
-int TextView::getTextSize()
+int LineEdit::getTextSize()
 {
     return textSize;
 }
 
-void TextView::setTextSize(int _textSize)
+void LineEdit::setTextSize(int _textSize)
 {
     textSize = _textSize;
     processSizeUpdate();
 }
 
-int TextView::getLinesCount()
+int LineEdit::getLinesCount()
 {
     return text.size();
 }

@@ -7,6 +7,7 @@
 #include "Display.h"
 #include "KeyboardHook.h"
 #include "Label.h"
+#include "LineEdit.h"
 #include "Painter.h"
 #include "PhysButton.h"
 #include "Point.h"
@@ -50,8 +51,9 @@ void Game::initialize()
 
     initializeBackground();
     initializeWidgetViewer();
-    initializeResistorSettings();
     initializeGameSettings();
+    initializeResistorSettings();
+    initializeAdvancedSettings();
     initializeAboutSettings();
     initializeMultiplayer();
     initializeSettings();
@@ -289,10 +291,10 @@ void Game::initializeSettings()
     advancedSettingsButton->setExecuteFunction(
         [this] ()
         {
-            display->setActiveScene(resistorsSettings);
+            display->setActiveScene(advansedSettings);
         }
     );
-    resistorsSettings->setPreviousScene(settings);
+    advansedSettings->setPreviousScene(settings);
 
     std::shared_ptr<Button> aboutButton = std::make_shared<Button>("О проекте");
     settingsLayout->addWidget(aboutButton);
@@ -350,7 +352,28 @@ void Game::initializeNetworkSettings()
 
 void Game::initializeAdvancedSettings()
 {
+    advansedSettings = std::make_shared<Scene>( shared_from_this() );
+    initializeBasicScene(advansedSettings, "Другие", 2);
+    std::shared_ptr<VerticalLayout> advansedSettingsLayout = 
+        std::static_pointer_cast<VerticalLayout>( advansedSettings->getCentralWidget() );
 
+    std::shared_ptr<LineEdit> globalIpLineEdit = std::make_shared<LineEdit>
+        ("Адрес гл. сервера", "193.9.61.92");
+    advansedSettingsLayout->addWidget(globalIpLineEdit);
+    std::shared_ptr<LineEdit> globalPortLineEdit = std::make_shared<LineEdit>
+        ("Порт гл. сервера", "6452");
+    advansedSettingsLayout->addWidget(globalPortLineEdit);
+    std::shared_ptr<Button> resistorsButton = std::make_shared<Button>("Резисторы");
+    advansedSettingsLayout->addWidget(resistorsButton);
+    resistorsButton->setExecuteFunction(
+        [this] ()
+        {
+            display->setActiveScene(resistorsSettings);
+        }
+    );
+    resistorsSettings->setPreviousScene(advansedSettings);
+    std::shared_ptr<Button> hardResetButton = std::make_shared<Button>("Сброс");
+    advansedSettingsLayout->addWidget(hardResetButton);
 }
 
 void Game::initializeResistorSettings()
@@ -436,10 +459,10 @@ void Game::initializeHighScore()
 
     std::shared_ptr<TableView> personalBest = std::make_shared<TableView>
         ("Мои рекорды");
-    personalBest->addText("1.Yuki.....10 000");
-    personalBest->addText("2.Yuki......9 500");
-    personalBest->addText("3.Yuki......3 000");
-    personalBest->addText("4.Yuki......2 000");
+    personalBest->addText("1...............0");
+    personalBest->addText("2...............0");
+    personalBest->addText("3...............0");
+    personalBest->addText("4...............0");
     personalBest->addText("5...............0");
     personalBest->addText("6...............0");
     personalBest->addText("7...............0");
@@ -460,10 +483,10 @@ void Game::initializeHighScore()
 
     std::shared_ptr<TableView> networkBest = std::make_shared<TableView>
         ("Интернет рекорды");
-    networkBest->addText("1.Yuki.....10 000");
-    networkBest->addText("2.ZigBee....9 900");
-    networkBest->addText("3.Cobra.....9 700");
-    networkBest->addText("4.Cobra.....9 600");
+    networkBest->addText("1...............0");
+    networkBest->addText("2...............0");
+    networkBest->addText("3...............0");
+    networkBest->addText("4...............0");
     networkBest->addText("5...............0");
     networkBest->addText("6...............0");
     networkBest->addText("7...............0");
