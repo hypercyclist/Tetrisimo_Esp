@@ -119,6 +119,19 @@ void VerticalLayout::focus()
     }
 }
 
+void VerticalLayout::unfocus()
+{
+    Serial.println("unfocus");
+    for (int i = 0; i < childrens.size(); i++) // Ищем виджет, который был в фокусе.
+    {
+        if ( childrens[i]->isFocused() )
+        {
+            childrens[i]->unfocus();
+            Serial.println(i);
+        }
+    }
+}
+
 void VerticalLayout::focusNext()
 {
     Serial.println("VerticalLayout::focusNext()");

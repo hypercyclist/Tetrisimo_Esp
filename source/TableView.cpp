@@ -50,7 +50,8 @@ void TableView::render()
         painter->getResourceTheme()->getBackgroundMenuColor();
     Color outBorderColor = 
         painter->getResourceTheme()->getBackgroundGameColor();
-    Color middleBorderColor =
+    Color middleBorderColor = focused ?
+        painter->getResourceTheme()->getFocusColor() :
         painter->getResourceTheme()->getBorderColor();
 
     // Draw table: background, 2px border, 

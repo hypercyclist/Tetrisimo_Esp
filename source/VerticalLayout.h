@@ -27,6 +27,7 @@ class VerticalLayout : public Layout
         // Focus function focus first focusable widget in layout. focusNext and
         // focustPrevious fonctions move focus to other widgets.
         void focus();
+        void unfocus();
         void focusNext();
         void focusPrevious();
 };
