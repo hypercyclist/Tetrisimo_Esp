@@ -9,6 +9,7 @@
 #include "Label.h"
 #include "LineEdit.h"
 #include "Painter.h"
+#include "PaletteView.h"
 #include "PhysButton.h"
 #include "Point.h"
 #include "Resistor.h"
@@ -52,6 +53,7 @@ void Game::initialize()
     initializeBackground();
     initializeWidgetViewer();
     initializeGameSettings();
+    initializeColorsSettings();
     initializeResistorSettings();
     initializeAdvancedSettings();
     initializeAboutSettings();
@@ -60,7 +62,7 @@ void Game::initialize()
     initializeHighScore();
     initializeMainMenu();
 
-    display->setActiveScene(highScore);
+    display->setActiveScene(colorsSettings);
 }
 
 void Game::run()
@@ -285,6 +287,13 @@ void Game::initializeSettings()
     
     std::shared_ptr<Button> colorsSettingsButton = std::make_shared<Button>("Палитра");
     settingsLayout->addWidget(colorsSettingsButton);
+    colorsSettingsButton->setExecuteFunction(
+        [this] ()
+        {
+            display->setActiveScene(colorsSettings);
+        }
+    );
+    colorsSettings->setPreviousScene(settings);
 
     std::shared_ptr<Button> advancedSettingsButton = std::make_shared<Button>("Другие");
     settingsLayout->addWidget(advancedSettingsButton); 
@@ -398,7 +407,13 @@ void Game::initializeResistorSettings()
 
 void Game::initializeColorsSettings()
 {
+    colorsSettings = std::make_shared<Scene>( shared_from_this() );
+    initializeBasicScene(colorsSettings, "Палитра", 2);
+    std::shared_ptr<VerticalLayout> colorsSettingsLayout = 
+        std::static_pointer_cast<VerticalLayout>( colorsSettings->getCentralWidget() );
 
+    std::shared_ptr<PaletteView> paletteView = std::make_shared<PaletteView>();
+    colorsSettingsLayout->addWidget(paletteView);
 }
 
 void Game::initializeCustomColorsSettings()
