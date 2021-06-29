@@ -25,6 +25,9 @@ class Scene : public Widget
         int framesPerSeconds;
 
         // This is a pointers to functions, that was set from lambda.
+        std::function<void()> onShowFunctionPointer;
+        std::function<void()> onHideFunctionPointer;
+
         std::function<void()> pressedButtonUpFunctionPointer;
         std::function<void()> pressedButtonDownFunctionPointer;
         std::function<void()> pressedButtonRightFunctionPointer;
@@ -54,6 +57,11 @@ class Scene : public Widget
         // void updateAll();
 
         void initializeStandartFunctions();
+        void onShow();
+        void setOnShowFunction(std::function<void()> _function);
+        void onHide();
+        void setOnHideFunction(std::function<void()> _function);
+
         void pressedButtonUp();
         void setPressedButtonUpFunction(std::function<void()> _function);
         void pressedButtonDown();

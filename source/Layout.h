@@ -23,6 +23,7 @@ class Layout : public Widget
         virtual void render();
         void processChild(std::shared_ptr<Widget> _childWidget);
         virtual void addWidget(std::shared_ptr<Widget> _widget);
+        std::shared_ptr<Widget> getWidget(int _index);
         virtual void removeWidget(std::shared_ptr<Widget> _widget);
         virtual void countLayout();
         

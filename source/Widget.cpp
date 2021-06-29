@@ -255,12 +255,14 @@ bool Widget::isFocused()
 void Widget::maximize()
 {
     maximized = true;
+    processSizeUpdate();
     update();
 }
 
 void Widget::minimize()
 {
     maximized = false;
+    processSizeUpdate();
     update();
 }
 

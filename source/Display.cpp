@@ -49,7 +49,12 @@ std::shared_ptr<Scene> Display::getActiveScene()
 
 void Display::setActiveScene(std::shared_ptr<Scene> _activeScene)
 {
+    if (activeScene != nullptr)
+    {
+        activeScene->onHide();
+    }
     activeScene = _activeScene;
+    activeScene->onShow();
     activeScene->getBackground()->update();
     activeScene->getCentralWidget()->update();
     activeScene->getCentralWidget()->focus();

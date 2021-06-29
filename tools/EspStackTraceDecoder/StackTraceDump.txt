@@ -1,25 +1,25 @@
 --------------- CUT HERE FOR EXCEPTION DECODER ---------------
 
 Exception (28):
-epc1=0x402059f5 epc2=0x00000000 epc3=0x00000000 excvaddr=0x00000000 depc=0x00000000
+epc1=0x401000cf epc2=0x00000000 epc3=0x00000000 excvaddr=0x00000078 depc=0x00000000
 
 >>>stack>>>
 
 ctx: cont
 sp: 3ffffd50 end: 3fffffc0 offset: 0190
-3ffffee0:  00000080 3fff05ec 3fff05ec 402059f1  
-3ffffef0:  000000af 3fff053c 3ffefd34 40204214  
-3fffff00:  00000080 000000a0 00000000 00000000  
-3fffff10:  3fffff30 3fff053c 3fffff30 40205114  
-3fffff20:  3fffdad0 3fff053c 3ffefd34 40204329  
-3fffff30:  3fff05ec 3fff0604 3fff061c 3fff0634  
+3ffffee0:  3fff3384 3fff333c 3fff325c 3fff32dc  
+3ffffef0:  3fff3204 3fff319c 3fff30cc 3fff315c  
+3fffff00:  3fff3074 3fff3024 3fff2ef4 40201f6a  
+3fffff10:  3fff1de4 3fff1c44 3fff1c64 3ffeeefc  
+3fffff20:  3fffdad0 3fff04a4 3ffefd34 40204545  
+3fffff30:  3fff25fc 3fff2584 3fff061c 3fff0634  
 3fffff40:  3fff064c 3fff0664 3fff067c 3fff0694  
 3fffff50:  3fff06ac 3fff06c4 3fff06dc 3fff06f4  
 3fffff60:  3fff070c 3fff053c 3fff05bc 4020120a  
-3fffff70:  3fffdad0 00000000 3ffefd34 4020439c  
+3fffff70:  3fffdad0 00000000 3ffefd34 4020457c  
 3fffff80:  3fffdad0 00000000 3ffeeebc 4020122c  
 3fffff90:  3ffefd34 3ffefe24 feefeffe feefeffe  
-3fffffa0:  feefeffe feefeffe feefeffe 4020a110  
+3fffffa0:  feefeffe feefeffe feefeffe 4020a410  
 3fffffb0:  feefeffe feefeffe 3ffe84e0 40100c49  
 <<<stack<<<
 

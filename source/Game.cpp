@@ -50,8 +50,8 @@ void Game::initialize()
 
     initializeBackground();
     initializeWidgetViewer();
-    initializeGameSettings();
     initializeResistorSettings();
+    initializeGameSettings();
     initializeAboutSettings();
     initializeMultiplayer();
     initializeSettings();
@@ -285,8 +285,15 @@ void Game::initializeSettings()
     settingsLayout->addWidget(colorsSettingsButton);
 
     std::shared_ptr<Button> advancedSettingsButton = std::make_shared<Button>("Другие");
-    settingsLayout->addWidget(advancedSettingsButton);
-    
+    settingsLayout->addWidget(advancedSettingsButton); 
+    advancedSettingsButton->setExecuteFunction(
+        [this] ()
+        {
+            display->setActiveScene(resistorsSettings);
+        }
+    );
+    resistorsSettings->setPreviousScene(settings);
+
     std::shared_ptr<Button> aboutButton = std::make_shared<Button>("О проекте");
     settingsLayout->addWidget(aboutButton);
     aboutButton->setExecuteFunction(
@@ -405,6 +412,19 @@ void Game::initializeWidgetViewer()
 
     std::shared_ptr<VerticalLayout> widgetViewerLayout = std::make_shared<VerticalLayout>();
     widgetViewer->setCentralWidget(widgetViewerLayout);
+    widgetViewer->setOnShowFunction(
+        [this, widgetViewerLayout] ()
+        {
+            widgetViewerLayout->getWidget(0)->maximize();
+        }
+    );
+    widgetViewer->setOnHideFunction(
+        [this, widgetViewerLayout] ()
+        {
+            widgetViewerLayout->getWidget(0)->minimize();
+            widgetViewerLayout->removeChildren(widgetViewerLayout->getWidget(0));
+        }
+    );
 }
 
 void Game::initializeHighScore()

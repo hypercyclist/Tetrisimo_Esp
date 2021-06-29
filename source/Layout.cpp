@@ -42,6 +42,11 @@ void Layout::addWidget(std::shared_ptr<Widget> _widget)
     update();
 }
 
+std::shared_ptr<Widget> Layout::getWidget(int _index)
+{
+    return childrens[_index];
+}
+
 // Notificate parent about changing size.
 void Layout::countLayout()
 {

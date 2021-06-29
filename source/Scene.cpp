@@ -90,6 +90,8 @@ void Scene::update()
 
 void Scene::initializeStandartFunctions()
 {
+    onShowFunctionPointer = [this] () {};
+    onHideFunctionPointer = [this] () {};
     pressedButtonUpFunctionPointer = [this] () 
     {
         std::static_pointer_cast<VerticalLayout>(childrens[1])->focusPrevious();
@@ -110,13 +112,35 @@ void Scene::initializeStandartFunctions()
     };
 }
 
+void Scene::onShow()
+{
+    onShowFunctionPointer();
+}
+
+void Scene::setOnShowFunction(std::function<void()> _function)
+{
+    onShowFunctionPointer = _function;
+}
+
+void Scene::onHide()
+{
+    onHideFunctionPointer();
+}
+
+void Scene::setOnHideFunction(std::function<void()> _function)
+{
+    onHideFunctionPointer = _function;
+}
+
 void Scene::pressedButtonUp()
 {
+    Serial.println("3==D");
     pressedButtonUpFunctionPointer();
 }
 
 void Scene::setPressedButtonUpFunction(std::function<void()> _function)
 {
+    Serial.println("3==D");
     pressedButtonUpFunctionPointer = _function;
 }
 
