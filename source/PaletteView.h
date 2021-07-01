@@ -2,6 +2,7 @@
 #define PALETTEVIEW_H
 
 class Point;
+class Color;
 
 #include "Widget.h"
 
@@ -21,6 +22,8 @@ class PaletteView : public Widget
         void processSizeUpdate();
 
         void update();
+
+        void paintBlock(int _x, int _y, Color _color); // Need shared_ptr.
 };
 
 #endif
