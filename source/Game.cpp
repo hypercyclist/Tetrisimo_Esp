@@ -414,6 +414,11 @@ void Game::initializeColorsSettings()
 
     std::shared_ptr<PaletteView> paletteView = std::make_shared<PaletteView>();
     colorsSettingsLayout->addWidget(paletteView);
+    std::shared_ptr<TableView> colorThemesTable = std::make_shared<TableView>("Цветовые темы");
+    colorsSettingsLayout->addWidget(colorThemesTable);
+    colorThemesTable->addText("1.Пещерные огни");
+    colorThemesTable->addText("2.Кровавая тряска");
+    colorThemesTable->addText("3.Своя тема");
 }
 
 void Game::initializeCustomColorsSettings()

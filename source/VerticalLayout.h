@@ -11,6 +11,9 @@ class Widget;
 // Class describe ingame widget vertical layout.
 class VerticalLayout : public Layout
 {
+    private: 
+        int screenRenderOffset;
+
     public:
         VerticalLayout(std::shared_ptr<Widget> _parent = nullptr);
         ~VerticalLayout();
@@ -24,6 +27,8 @@ class VerticalLayout : public Layout
 
         void update();
         
+        void moveUp();
+        void moveDown();
         // Focus function focus first focusable widget in layout. focusNext and
         // focustPrevious fonctions move focus to other widgets.
         void focus();

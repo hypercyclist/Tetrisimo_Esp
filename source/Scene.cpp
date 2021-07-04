@@ -97,11 +97,13 @@ void Scene::initializeStandartFunctions()
     };
     pressedButtonUpFunctionPointer = [this] () 
     {
-        std::static_pointer_cast<VerticalLayout>(childrens[1])->focusPrevious();
+        // std::static_pointer_cast<VerticalLayout>(childrens[1])->focusPrevious();
+        std::static_pointer_cast<VerticalLayout>(childrens[1])->moveUp();
     };
     pressedButtonDownFunctionPointer = [this] ()
     {
-        std::static_pointer_cast<VerticalLayout>(childrens[1])->focusNext();
+        // std::static_pointer_cast<VerticalLayout>(childrens[1])->focusNext();
+        std::static_pointer_cast<VerticalLayout>(childrens[1])->moveDown();
     };
     pressedButtonRightFunctionPointer = [this] () {};
     pressedButtonLeftFunctionPointer = [this] () {};
