@@ -12,7 +12,7 @@ class Widget;
 class VerticalLayout : public Layout
 {
     private: 
-        int screenRenderOffset;
+        int layoutRenderOffset;
 
     public:
         VerticalLayout(std::shared_ptr<Widget> _parent = nullptr);
