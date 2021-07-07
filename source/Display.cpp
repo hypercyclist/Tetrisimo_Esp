@@ -55,7 +55,4 @@ void Display::setActiveScene(std::shared_ptr<Scene> _activeScene)
     }
     activeScene = _activeScene;
     activeScene->onShow();
-    activeScene->getBackground()->update();
-    activeScene->getCentralWidget()->update();
-    activeScene->getCentralWidget()->focus();
 }

@@ -2,6 +2,7 @@
 #define VERTICALLAYOUT_H
 
 class Widget;
+class Size;
 
 #include "Layout.h"
 
@@ -12,7 +13,7 @@ class Widget;
 class VerticalLayout : public Layout
 {
     private: 
-        int layoutRenderOffset;
+        std::shared_ptr<Size> layoutRenderOffset;
 
     public:
         VerticalLayout(std::shared_ptr<Widget> _parent = nullptr);
@@ -21,6 +22,7 @@ class VerticalLayout : public Layout
         //This function call execute fucntion of focused widget.
         void executeActiveWidget();
         void addWidget(std::shared_ptr<Widget> _widget);
+        void render();
         // If size of children widget changed, then we need to recount widgets
         // sizes, positions. Recount widgets position with function countLayout.
         void countLayout();

@@ -119,6 +119,9 @@ void Scene::initializeStandartFunctions()
 
 void Scene::onShow()
 {
+    childrens[0]->update();
+    childrens[1]->update();
+    childrens[1]->focus();
     onShowFunctionPointer();
 }
 

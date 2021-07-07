@@ -8,7 +8,7 @@
 VerticalLayout::VerticalLayout(std::shared_ptr<Widget> _parent)
     : 
     Layout(_parent),
-    layoutRenderOffset(0)
+    layoutRenderOffset(std::make_shared<Size>(0, 0))
 {
 
 }
@@ -49,6 +49,14 @@ void VerticalLayout::addWidget(std::shared_ptr<Widget> _widget)
     // update();
 }
 
+void VerticalLayout::render()
+{
+    for (int i = 0; i < childrens.size(); i++)
+    {
+        childrens[i]->render();
+    }
+}
+
 //notificate parent about changing size.
 void VerticalLayout::countLayout()
 {
@@ -71,7 +79,7 @@ void VerticalLayout::countLayout()
         {
             Size countedWidgetSize = childrens[i]->getSize();
             int widgetX = ( layoutWidth - countedWidgetSize.getWidth() ) / 2;
-            int widgetY = savedHeight + freeSpace - layoutRenderOffset;
+            int widgetY = savedHeight + freeSpace - layoutRenderOffset->getHeight();
             childrens[i]->setPosition( Point(widgetX, widgetY) );
             savedHeight = widgetY + countedWidgetSize.getHeight();
         }
@@ -86,7 +94,7 @@ void VerticalLayout::countLayout()
             Size countedWidgetSize = childrens[i]->getSize();
             // Serial.println(countedWidgetSize.getWidth());
             int widgetX = ( layoutWidth - countedWidgetSize.getWidth() ) / 2;
-            int widgetY = heightOfAllWidgets - layoutRenderOffset;
+            int widgetY = heightOfAllWidgets - layoutRenderOffset->getHeight();
             // Serial.print("countLayout()");
             Serial.println(widgetX);
             childrens[i]->setPosition( Point(widgetX, widgetY) );
@@ -139,7 +147,7 @@ void VerticalLayout::moveDown()
     {
         return;
     }
-    if (layoutRenderOffset + getHeight() > childrens[nextFocusableWidgetIndex]->getY() + childrens[nextFocusableWidgetIndex]->getHeight())
+    if (layoutRenderOffset->getHeight() + getHeight() > childrens[nextFocusableWidgetIndex]->getY() + childrens[nextFocusableWidgetIndex]->getHeight())
     // if (layoutRenderOffset + (getHeight() / 2) > childrens[nextFocusableWidgetIndex].getY())
     {
         Serial.println("Yes");
@@ -148,7 +156,7 @@ void VerticalLayout::moveDown()
     else
     {
         Serial.println("No");
-        layoutRenderOffset = childrens[nextFocusableWidgetIndex]->getY() - spacing;
+        layoutRenderOffset->setHeight(childrens[nextFocusableWidgetIndex]->getY() - spacing);
         countLayout();
         focusNext();
         update();

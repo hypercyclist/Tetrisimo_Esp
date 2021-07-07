@@ -204,7 +204,9 @@ void Widget::traverse()
         if (childrens[i]->isNeedUpdate())
         {
             // Serial.println(i);
-            childrens[i]->draw();
+            childrens[i]->render();
+            childrens[i]->checked();
+            childrens[i]->updated();
         }
         else if (childrens[i]->isNeedCheck())
         {

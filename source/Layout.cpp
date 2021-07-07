@@ -18,20 +18,20 @@ Layout::~Layout()
 {
 }
 
-void Layout::draw()
-{
-    for (int i = 0; i < childrens.size(); i++)
-    {
-        childrens[i]->draw();
-    }
-}
+// void Layout::draw()
+// {
+//     for (int i = 0; i < childrens.size(); i++)
+//     {
+//         childrens[i]->draw();
+//     }
+// }
 
 void Layout::render()
 {
     // countLayout();
     for (int i = 0; i < childrens.size(); i++)
     {
-        childrens[i]->draw();
+        childrens[i]->render();
     }
 }
 
