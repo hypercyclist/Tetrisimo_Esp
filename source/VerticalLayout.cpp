@@ -8,7 +8,7 @@
 VerticalLayout::VerticalLayout(std::shared_ptr<Widget> _parent)
     : 
     Layout(_parent),
-    layoutRenderOffset(std::make_shared<Size>(0, 0))
+    viewport(std::make_shared<Size>(0, 0), getWidth(), getHeight())
 {
 
 }

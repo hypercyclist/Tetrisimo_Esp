@@ -1,8 +1,10 @@
 #ifndef VERTICALLAYOUT_H
 #define VERTICALLAYOUT_H
 
-class Widget;
 class Size;
+class Viewport;
+class Widget;
+
 
 #include "Layout.h"
 
@@ -13,7 +15,7 @@ class Size;
 class VerticalLayout : public Layout
 {
     private: 
-        std::shared_ptr<Size> layoutRenderOffset;
+        std::shared_ptr<Viewport> viewport;
 
     public:
         VerticalLayout(std::shared_ptr<Widget> _parent = nullptr);
