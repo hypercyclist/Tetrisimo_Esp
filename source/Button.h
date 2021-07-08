@@ -20,6 +20,7 @@ class Button : public Widget
         ~Button();
 
         void render();
+        void render(std::shared_ptr<Viewport> _viewport);
         void processSizeUpdate();
 
         void update();

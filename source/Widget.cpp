@@ -145,6 +145,14 @@ void Widget::render()
     }
 }
 
+void Widget::render(std::shared_ptr<Viewport> _viewport)
+{
+    for (int i = 0; i < childrens.size(); i++)
+    {
+        childrens[i]->render(_viewport);
+    }
+}
+
 void Widget::update()
 {
     Serial.println("Widget::update()");

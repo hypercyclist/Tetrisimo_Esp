@@ -4,6 +4,7 @@
 class Painter;
 class Point;
 class Size;
+class Viewport;
 
 #include <functional>
 #include <memory>
@@ -76,6 +77,7 @@ class Widget : public std::enable_shared_from_this<Widget>
         // widget really need to be updated and don't render it if possible.
         void draw(); // deprecated
         virtual void render();
+        virtual void render(std::shared_ptr<Viewport> _viewport);
         // If function update executed it set request flag to update whole branch
         // of widgets. Using updateOne function ensure engine that we don't need
         // to update branch, only one widget, because size of widget not changed,

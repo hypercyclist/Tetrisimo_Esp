@@ -2,13 +2,14 @@
 #include "Widget.h"
 #include "Point.h"
 #include "Size.h"
+#include "Viewport.h"
 
 #include <SoftwareSerial.h>
 
 VerticalLayout::VerticalLayout(std::shared_ptr<Widget> _parent)
     : 
     Layout(_parent),
-    viewport(std::make_shared<Size>(0, 0), getWidth(), getHeight())
+    viewport(std::make_shared<Viewport>(Point(0, 0), Size(getWidth(), getHeight())))
 {
 
 }
@@ -53,7 +54,7 @@ void VerticalLayout::render()
 {
     for (int i = 0; i < childrens.size(); i++)
     {
-        childrens[i]->render();
+        childrens[i]->render(viewport);
     }
 }
 
@@ -79,7 +80,7 @@ void VerticalLayout::countLayout()
         {
             Size countedWidgetSize = childrens[i]->getSize();
             int widgetX = ( layoutWidth - countedWidgetSize.getWidth() ) / 2;
-            int widgetY = savedHeight + freeSpace - layoutRenderOffset->getHeight();
+            int widgetY = savedHeight + freeSpace;
             childrens[i]->setPosition( Point(widgetX, widgetY) );
             savedHeight = widgetY + countedWidgetSize.getHeight();
         }
@@ -94,7 +95,7 @@ void VerticalLayout::countLayout()
             Size countedWidgetSize = childrens[i]->getSize();
             // Serial.println(countedWidgetSize.getWidth());
             int widgetX = ( layoutWidth - countedWidgetSize.getWidth() ) / 2;
-            int widgetY = heightOfAllWidgets - layoutRenderOffset->getHeight();
+            int widgetY = heightOfAllWidgets;
             // Serial.print("countLayout()");
             Serial.println(widgetX);
             childrens[i]->setPosition( Point(widgetX, widgetY) );
@@ -147,8 +148,8 @@ void VerticalLayout::moveDown()
     {
         return;
     }
-    if (layoutRenderOffset->getHeight() + getHeight() > childrens[nextFocusableWidgetIndex]->getY() + childrens[nextFocusableWidgetIndex]->getHeight())
-    // if (layoutRenderOffset + (getHeight() / 2) > childrens[nextFocusableWidgetIndex].getY())
+    if (viewport->getPosition().getY() + getHeight() > childrens[nextFocusableWidgetIndex]->getY() + childrens[nextFocusableWidgetIndex]->getHeight())
+    // if (viewport + (getHeight() / 2) > childrens[nextFocusableWidgetIndex].getY())
     {
         Serial.println("Yes");
         focusNext();
@@ -156,14 +157,14 @@ void VerticalLayout::moveDown()
     else
     {
         Serial.println("No");
-        layoutRenderOffset->setHeight(childrens[nextFocusableWidgetIndex]->getY() - spacing);
+        viewport->setPosition( Point( viewport->getPosition().getX(), childrens[nextFocusableWidgetIndex]->getY() - spacing) );
         countLayout();
         focusNext();
         update();
     }
     // else
     // {
-    //     layoutRenderOffset += getHeight() / 2; // Не забыть про то, что он может не влезть!
+    //     viewport += getHeight() / 2; // Не забыть про то, что он может не влезть!
     // }
     // focusNext();
 }
