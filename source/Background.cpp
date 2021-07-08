@@ -22,7 +22,7 @@ Background::~Background()
 
 void Background::render()
 {
-    // Serial.println("Background::render()");
+    Serial.println("Background::render()");
     drawNet();
 }
 

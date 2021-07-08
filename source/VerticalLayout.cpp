@@ -153,6 +153,7 @@ void VerticalLayout::moveDown()
     {
         Serial.println("Yes");
         focusNext();
+        // update();
     }
     else
     {
@@ -160,6 +161,8 @@ void VerticalLayout::moveDown()
         viewport->setPosition( Point( viewport->getPosition().getX(), childrens[nextFocusableWidgetIndex]->getY() - spacing) );
         countLayout();
         focusNext();
+        checked();
+        Serial.println("I SAID UPDATE FUCKA");
         update();
     }
     // else
