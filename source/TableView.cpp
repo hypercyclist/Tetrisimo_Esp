@@ -1,7 +1,8 @@
 #include "TableView.h"
 
 #include "Color.h"
-#include "Painter.h"
+#include "DefineLog.h"
+#include "DefinePainter.h"
 #include "Point.h"
 #include "ResourceTheme.h"
 #include "Size.h"
@@ -147,7 +148,7 @@ void TableView::processSizeUpdate()
 
 void TableView::update()
 {
-    Serial.println("TableView::update()");
+    Log::println("TableView::update()", "LOW");
     needUpdate = true;
     if (parent != nullptr)
     {

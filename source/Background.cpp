@@ -1,7 +1,8 @@
 #include "Background.h"
 
 #include "Color.h"
-#include "Painter.h"
+#include "DefineLog.h"
+#include "DefinePainter.h"
 #include "Point.h"
 #include "ResourceTheme.h"
 #include "Size.h"
@@ -22,7 +23,7 @@ Background::~Background()
 
 void Background::render()
 {
-    Serial.println("Background::render()");
+    Log::println("Background::render()", "LOW");
     drawNet();
 }
 

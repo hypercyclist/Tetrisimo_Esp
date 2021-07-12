@@ -4,11 +4,11 @@
 #include "Button.h"
 #include "CheckBox.h"
 #include "Config.h"
-#include "Display.h"
+#include "DefineDisplay.h"
 #include "KeyboardHook.h"
 #include "Label.h"
 #include "LineEdit.h"
-#include "Painter.h"
+#include "DefinePainter.h"
 #include "PaletteView.h"
 #include "PhysButton.h"
 #include "Point.h"
@@ -18,10 +18,10 @@
 #include "Scene.h"
 #include "TableView.h"
 #include "TextView.h"
-#include "user_interface.h"
+#include "DefineTime.h"
 #include "VerticalLayout.h"
 
-#include <SoftwareSerial.h>
+#include "DefineLog.h"
 
 // #include "IpAddress.h"
 // #include "Port.h"
@@ -37,7 +37,8 @@ Game::~Game()
 
 void Game::start()
 {
-    Serial.begin(115200);
+    Log::init();
+    Log::println("HUI", "LOW");
     initialize();
     run();
 }
@@ -47,7 +48,6 @@ void Game::initialize()
     initializeConfig();
     initializeButtons();
     initializeDisplay();
-
     display->getPainter()->setResourceTheme( config->getCaveLightsTheme() );
 
     initializeBackground();
@@ -71,29 +71,24 @@ void Game::run()
     time_t lastInputTimeMs = 0;
     while (true)
     {
-        roundTimeMs = getTimeMs();
+        roundTimeMs = PlatformTime::getTimeMs();
         display->getActiveScene()->traverse();
         do
         {
             std::shared_ptr<PhysButton> pressedButton = keyboardHook->getPressedButton();
             if (pressedButton != nullptr)
             {
-                if ( (getTimeMs() - lastInputTimeMs) > 200 )
+                if ( (PlatformTime::getTimeMs() - lastInputTimeMs) > 200 )
                 {
-                    lastInputTimeMs = getTimeMs();
+                    lastInputTimeMs = PlatformTime::getTimeMs();
                     processPressedButton(pressedButton);
                     break;
                 }
             }
-            delay(5);
+            PlatformTime::delay(5);
         }
-        while ( (getTimeMs() - roundTimeMs) < display->getActiveScene()->getFrameTime() );
+        while ( (PlatformTime::getTimeMs() - roundTimeMs) < display->getActiveScene()->getFrameTime() );
     }
-}
-
-time_t Game::getTimeMs()
-{
-    return (time_t)(system_get_time() / 1000);
 }
 
 void Game::processPressedButton(std::shared_ptr<PhysButton> _pressedButton)
@@ -149,12 +144,12 @@ void Game::initializeButtons()
 
 void Game::initializeDisplay()
 {
-    display = std::make_shared<Display>( 
-        config->getDisplaySize(), 
+    display = std::make_shared<Display>(
+        config->getDisplaySize(),
         config->getPinDisplayCS(), 
         config->getPinDisplayDC(), 
         config->getPinDisplayRST() 
-    );
+        );
 }
 
 void Game::initializeBackground()

@@ -2,15 +2,14 @@
 
 #include "Background.h"
 #include "Color.h"
-#include "Display.h"
+#include "DefineDisplay.h"
+#include "DefineLog.h"
 #include "Game.h"
 #include "Layout.h"
-#include "Painter.h"
+#include "DefinePainter.h"
 #include "Point.h"
 #include "Size.h"
 #include "VerticalLayout.h"
-
-#include <SoftwareSerial.h>
 
 Scene::Scene(std::shared_ptr<Game> _game)
     : 
@@ -80,7 +79,7 @@ void Scene::setFrameTime(int _framesPerSeconds)
 
 void Scene::update()
 {
-    Serial.println("Scene::update()");
+    Log::println("Scene::update()", "LOW");
     needUpdate = true;
     if (parent != nullptr)
     {

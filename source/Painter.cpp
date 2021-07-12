@@ -69,6 +69,11 @@ std::shared_ptr<ResourceTheme> Painter::getResourceTheme()
     return currentResourceTheme;
 }
 
+void Painter::setTextSize(int _textSize)
+{
+    Adafruit_ST7735::setTextSize(_textSize);
+}
+
 void Painter::paintText(std::string _text, Point _positionPoint)
 {
     setTextColor( drawColor->getUint16() );

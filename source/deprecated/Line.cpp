@@ -1,7 +1,7 @@
 #include "Line.h"
 #include "Point.h"
 #include "Size.h"
-#include "Painter.h"
+#include "DefinePainter.h"
 #include "ResourceTheme.h"
 #include "Color.h"
 #include "VerticalLayout.h"

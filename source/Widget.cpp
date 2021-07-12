@@ -1,11 +1,11 @@
 #include "Widget.h"
 
-#include "Painter.h"
+#include "DefinePainter.h"
 #include "Point.h"
 #include "Size.h"
 #include "WidgetId.h"
 
-#include <SoftwareSerial.h>
+#include "DefineLog.h"
 
 Widget::Widget()
     : 
@@ -155,7 +155,7 @@ void Widget::render(std::shared_ptr<Viewport> _viewport)
 
 void Widget::update()
 {
-    Serial.println("Widget::update()");
+    Log::println("Widget::update()", "LOW");
     needUpdate = true;
     if (parent != nullptr)
     {
@@ -165,7 +165,7 @@ void Widget::update()
 
 void Widget::updateOne()
 {
-    Serial.println("Widget::updateOne()");
+    Log::println("Widget::updateOne()", "LOW");
     needUpdate = true;
     if (parent != nullptr)
     {

@@ -1,8 +1,9 @@
 #include "KeyboardHook.h"
 
+#include "DefineKeyboard.h"
+#include "DefineLog.h"
 #include "PhysButton.h"
 
-#include <wiring_private.h>
 
 KeyboardHook::KeyboardHook(int _pinKeyboardADC)
     : pinKeyboardADC(_pinKeyboardADC)
@@ -30,8 +31,8 @@ void KeyboardHook::addButton(std::shared_ptr<PhysButton> _physButton)
 
 std::shared_ptr<PhysButton> KeyboardHook::getPressedButton()
 {
-    int inputADC = analogRead(pinKeyboardADC);
-    // Serial.println(inputADC);
+    int inputADC = 5;//analogRead(pinKeyboardADC);
+    Log::println(inputADC, "LOW");
     for (int i = 0; i < buttons.size(); i++)
     {
         if ( buttons[i]->isPressed(inputADC) )

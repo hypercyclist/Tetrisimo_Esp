@@ -4,7 +4,7 @@
 #include "Size.h"
 #include "Viewport.h"
 
-#include <SoftwareSerial.h>
+#include "DefineLog.h"
 
 VerticalLayout::VerticalLayout(std::shared_ptr<Widget> _parent)
     : 
@@ -28,7 +28,7 @@ void VerticalLayout::executeActiveWidget()
         if ( childrens[i]->isFocused() )
         {
             widgetIndex = i;
-            // Serial.println(i);
+            // Log::println(i, "LOW");
             break;
         }
     }
@@ -61,7 +61,7 @@ void VerticalLayout::render()
 //notificate parent about changing size.
 void VerticalLayout::countLayout()
 {
-    Serial.println("VerticalLayout::countLayout()");
+    Log::println("VerticalLayout::countLayout()", "LOW");
     int layoutWidth = size->getWidth();
     int layoutHeight = size->getHeight();
     int heightOfAllWidgets = 0;
@@ -93,11 +93,11 @@ void VerticalLayout::countLayout()
         for (int i = 0; i < childrensCount; i++)
         {
             Size countedWidgetSize = childrens[i]->getSize();
-            // Serial.println(countedWidgetSize.getWidth());
+            // Log::println(countedWidgetSize.getWidth(), "LOW");
             int widgetX = ( layoutWidth - countedWidgetSize.getWidth() ) / 2;
             int widgetY = heightOfAllWidgets;
-            // Serial.print("countLayout()");
-            Serial.println(widgetX);
+            // Log::print("countLayout()", "LOW");
+            Log::println(widgetX, "LOW");
             childrens[i]->setPosition( Point(widgetX, widgetY) );
             heightOfAllWidgets = widgetY + countedWidgetSize.getHeight() + spacing;
         }
@@ -106,7 +106,7 @@ void VerticalLayout::countLayout()
 
 void VerticalLayout::update()
 {
-    Serial.println("VerticalLayout::update()");
+    Log::println("VerticalLayout::update()", "LOW");
     countLayout();
     needUpdate = true;
     if (parent != nullptr)
@@ -151,18 +151,18 @@ void VerticalLayout::moveDown()
     if (viewport->getPosition().getY() + getHeight() > childrens[nextFocusableWidgetIndex]->getY() + childrens[nextFocusableWidgetIndex]->getHeight())
     // if (viewport + (getHeight() / 2) > childrens[nextFocusableWidgetIndex].getY())
     {
-        Serial.println("Yes");
+        Log::println("Yes", "LOW");
         focusNext();
         // update();
     }
     else
     {
-        Serial.println("No");
+        Log::println("No", "LOW");
         viewport->setPosition( Point( viewport->getPosition().getX(), childrens[nextFocusableWidgetIndex]->getY() - spacing) );
         countLayout();
         focusNext();
         checked();
-        Serial.println("I SAID UPDATE FUCKA");
+        Log::println("I SAID UPDATE FUCKA", "LOW");
         update();
     }
     // else
@@ -174,7 +174,7 @@ void VerticalLayout::moveDown()
 
 void VerticalLayout::focus()
 {
-    Serial.println("VerticalLayout::focus()");
+    Log::println("VerticalLayout::focus()", "LOW");
     for(int i = 0; i < childrens.size(); i++)
     {
         if ( childrens[i]->isFocusable() )
@@ -188,20 +188,20 @@ void VerticalLayout::focus()
 
 void VerticalLayout::unfocus()
 {
-    Serial.println("unfocus");
+    Log::println("unfocus", "LOW");
     for (int i = 0; i < childrens.size(); i++) // Ищем виджет, который был в фокусе.
     {
         if ( childrens[i]->isFocused() )
         {
             childrens[i]->unfocus();
-            Serial.println(i);
+            Log::println(i, "LOW");
         }
     }
 }
 
 void VerticalLayout::focusNext()
 {
-    Serial.println("VerticalLayout::focusNext()");
+    Log::println("VerticalLayout::focusNext()", "LOW");
     int widgetIndex = -1;
     int childrensCount = childrens.size();
     for (int i = 0; i < childrensCount; i++) // Ищем виджет, который был в фокусе.
@@ -209,7 +209,7 @@ void VerticalLayout::focusNext()
         if ( childrens[i]->isFocused() )
         {
             widgetIndex = i;
-            // Serial.println(i);
+            // Log::println(i, "LOW");
             break;
         }
     }
@@ -254,7 +254,7 @@ void VerticalLayout::focusNext()
 
 void VerticalLayout::focusPrevious()
 {
-    Serial.println("VerticalLayout::focusPrevious()");
+    Log::println("VerticalLayout::focusPrevious()", "LOW");
     int widgetIndex = -1;
     int childrensCount = childrens.size();
     for (int i = 0; i < childrensCount; i++) // Ищем виджет, который был в фокусе.
@@ -262,7 +262,7 @@ void VerticalLayout::focusPrevious()
         if ( childrens[i]->isFocused() )
         {
             widgetIndex = i;
-            // Serial.println(i);
+            // Log::println(i, "LOW");
             break;
         }
     }

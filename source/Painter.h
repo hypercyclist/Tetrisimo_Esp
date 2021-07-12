@@ -39,6 +39,7 @@ class Painter : public Adafruit_ST7735
         std::shared_ptr<ResourceTheme> getResourceTheme();
         void setResourceTheme(ResourceTheme _resourceTheme);
 
+        void setTextSize(int _textSize);
         void paintText(std::string _text, Point _positionPoint);
         // Maybe it need to be moved 
         static std::string fromCyrilic(std::string _cytilicString);

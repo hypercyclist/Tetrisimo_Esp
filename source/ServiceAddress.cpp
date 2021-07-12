@@ -1,6 +1,6 @@
 #include "ServiceAddress.h"
 
-#include "IpAddress.h"
+#include "DefineNetworking.h"
 #include "Port.h"
 
 ServiceAddress::ServiceAddress(IpAddress _ipAddress, Port _port)

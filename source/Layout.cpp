@@ -3,7 +3,7 @@
 #include "Point.h"
 #include "Size.h"
 
-#include <SoftwareSerial.h>
+#include "DefineLog.h"
 
 Layout::Layout(std::shared_ptr<Widget> _parent)
     : 

@@ -1,7 +1,6 @@
 #include "Config.h"
-
 #include "Color.h"
-#include "IpAddress.h"
+#include "DefineNetworking.h"
 #include "Port.h"
 #include "Resistor.h"
 #include "ResourceTheme.h"
@@ -27,7 +26,8 @@ void Config::initializeConstants()
     pinDisplayCS = 4;
     pinDisplayDC = 5;
     pinDisplayRST = 16;
-    pinKeyboardAdc = A0;
+    // pinKeyboardAdc = A0;
+    pinKeyboardAdc = 300;
     caveLightsTheme = std::make_unique<ResourceTheme>();
     caveLightsTheme->setFocusColor( Color(250, 200, 50) );
     caveLightsTheme->setUnfocusColor( Color(200, 75, 50) );
@@ -66,12 +66,12 @@ void Config::readConfig()
     std::string playerName;
     // std::unique_ptr<WifiSettings> wifiSettings;
     globalServerAddress = std::make_unique<ServiceAddress>( IpAddress(193, 9, 61, 92), Port(6452) );
-    upButtonResistor = std::make_unique<Resistor>(0, 46-5, 45+5);
-    downButtonResistor = std::make_unique<Resistor>(0, 57-5, 57+5);
-    leftButtonResistor = std::make_unique<Resistor>(0, 28-5, 28+5);
-    rightButtonResistor = std::make_unique<Resistor>(0, 108-5, 108+5);
-    okButtonResistor = std::make_unique<Resistor>(0, 148-5, 148+5);
-    backButtonResistor = std::make_unique<Resistor>(0, 197-5, 197+5);
+    upButtonResistor = std::make_unique<Resistor>(0, 39-5, 39+5);
+    downButtonResistor = std::make_unique<Resistor>(0, 50-5, 50+5);
+    leftButtonResistor = std::make_unique<Resistor>(0, 20-5, 20+5);
+    rightButtonResistor = std::make_unique<Resistor>(0, 99-5, 99+5);
+    okButtonResistor = std::make_unique<Resistor>(0, 137-5, 137+5);
+    backButtonResistor = std::make_unique<Resistor>(0, 189-5, 189+5);
 }
 
 void Config::writeConfig()

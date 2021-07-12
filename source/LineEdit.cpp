@@ -1,7 +1,8 @@
 #include "LineEdit.h"
 
 #include "Color.h"
-#include "Painter.h"
+#include "DefineLog.h"
+#include "DefinePainter.h"
 #include "Point.h"
 #include "ResourceTheme.h"
 #include "Size.h"
@@ -149,7 +150,7 @@ void LineEdit::processSizeUpdate()
 
 void LineEdit::update()
 {
-    Serial.println("LineEdit::update()");
+    Log::println("LineEdit::update()", "LOW");
     needUpdate = true;
     if (parent != nullptr)
     {

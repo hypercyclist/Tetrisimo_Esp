@@ -1,7 +1,8 @@
 #include "PaletteView.h"
 
 #include "Color.h"
-#include "Painter.h"
+#include "DefineLog.h"
+#include "DefinePainter.h"
 #include "Point.h"
 #include "ResourceTheme.h"
 #include "Size.h"
@@ -132,7 +133,7 @@ void PaletteView::processSizeUpdate()
 
 void PaletteView::update()
 {
-    Serial.println("PaletteView::update()");
+    Log::println("PaletteView::update()", "LOW");
     needUpdate = true;
     if (parent != nullptr)
     {

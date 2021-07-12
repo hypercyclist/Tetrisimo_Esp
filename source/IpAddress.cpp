@@ -1,6 +1,8 @@
 #include "IpAddress.h"
 
-IpAddress::IpAddress(uint8_t _byte0, uint8_t _byte1, uint8_t _byte2, uint8_t _byte3) : IPAddress(_byte0, _byte1, _byte2, _byte3)
+IpAddress::IpAddress(uint8_t _byte0, uint8_t _byte1, uint8_t _byte2, uint8_t _byte3) 
+    : 
+    IPAddress(_byte0, _byte1, _byte2, _byte3)
 {
     // setIpAddress(_byte0, _byte1, _byte2, _byte3);
 }

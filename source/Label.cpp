@@ -1,7 +1,7 @@
 #include "Label.h"
 
 #include "Color.h"
-#include "Painter.h"
+#include "DefinePainter.h"
 #include "Point.h"
 #include "ResourceTheme.h"
 #include "Size.h"

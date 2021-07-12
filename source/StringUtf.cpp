@@ -1,5 +1,5 @@
 #include "StringUtf.h"
-#include <SoftwareSerial.h>
+#include "DefineLog.h"
 
 std::string StringUtf::russianCharacters = 
     "АБВГДЕЁЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзиклмнопрстуфхцчшщъыьэюя";

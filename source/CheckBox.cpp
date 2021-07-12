@@ -1,7 +1,8 @@
 #include "CheckBox.h"
 
 #include "Color.h"
-#include "Painter.h"
+#include "DefineLog.h"
+#include "DefinePainter.h"
 #include "Point.h"
 #include "ResourceTheme.h"
 #include "Size.h"
@@ -81,7 +82,7 @@ void CheckBox::processSizeUpdate()
     {
         Size layoutSize = parent->getSize();
         nextWidth = layoutSize.getWidth() * 0.74f;
-        Serial.println(nextWidth);
+        Log::println(nextWidth, "LOW");
         nextHeight = size->getHeight();
         update();
     }
@@ -120,7 +121,7 @@ void CheckBox::processSizeUpdate()
 
 void CheckBox::update()
 {
-    Serial.println("CheckBox::update()");
+    Log::println("CheckBox::update()", "LOW");
     needUpdate = true;
     if (parent != nullptr)
     {

@@ -1,7 +1,8 @@
 #include "TextView.h"
 
 #include "Color.h"
-#include "Painter.h"
+#include "DefineLog.h"
+#include "DefinePainter.h"
 #include "Point.h"
 #include "ResourceTheme.h"
 #include "Size.h"
@@ -146,7 +147,7 @@ void TextView::processSizeUpdate()
 
 void TextView::update()
 {
-    Serial.println("TextView::update()");
+    Log::println("TextView::update()", "LOW");
     needUpdate = true;
     if (parent != nullptr)
     {

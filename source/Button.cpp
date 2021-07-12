@@ -1,7 +1,8 @@
 #include "Button.h"
 
 #include "Color.h"
-#include "Painter.h"
+#include "DefineLog.h"
+#include "DefinePainter.h"
 #include "Point.h"
 #include "ResourceTheme.h"
 #include "Size.h"
@@ -84,7 +85,7 @@ void Button::processSizeUpdate()
 
 void Button::update()
 {
-    Serial.println("Button::update()");
+    Log::println("Button::update()", "LOW");
     needUpdate = true;
     if (parent != nullptr)
     {
