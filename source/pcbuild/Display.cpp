@@ -27,7 +27,7 @@ Display::Display(
     pinDisplayRST = _pinDisplayRST;
     painter = std::make_shared<Painter>();
     Painter::setDefault(painter);
-    Log::println("HUI1", "LOW");
+    Log::println("Test1", "LOW");
     initContext();
 }
 
@@ -79,15 +79,15 @@ void Display::initContext()
     windowName = "Tetrisimo";
     camera = std::make_shared<Camera>();
     glfwInitConfigure();
-    Log::println("HUI2", "LOW");
+    Log::println("Test2", "LOW");
     window = glfwCreateWindow(displaySize->getWidth(), displaySize->getHeight(), windowName.c_str(), NULL, NULL);
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
     initGlad();
-    Log::println("HUI2", "LOW");
+    Log::println("Test2", "LOW");
     camera->init();
     painter->setWindow(window);
-    Log::println("HUI3", "LOW");
+    Log::println("Test3", "LOW");
 }
 
 void Display::glfwInitConfigure()
@@ -97,7 +97,7 @@ void Display::glfwInitConfigure()
         Log::println("GLFW init failed", "LOW");
         glfwTerminate(); 
     }
-    Log::println("HUI2.1", "LOW");
+    Log::println("Test2.1", "LOW");
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);

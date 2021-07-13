@@ -38,7 +38,7 @@ Game::~Game()
 void Game::start()
 {
     Log::init();
-    Log::println("HUI", "LOW");
+    Log::println("Test", "LOW");
     initialize();
     run();
 }

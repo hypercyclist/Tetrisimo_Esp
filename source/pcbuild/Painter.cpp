@@ -142,8 +142,8 @@ void Painter::paintLine(Point _pointA, Point _pointB)
     //     drawColor->getUint16()
     // );
     float vertices[] = {
-        _pointA.getX(), _pointA.getY, 0.0f,
-        _pointB.getX(), _pointB.getY, 0.0f,
+        _pointA.getX(), _pointA.getY(), 0.0f,
+        _pointB.getX(), _pointB.getY(), 0.0f,
     };
     
     unsigned int indices[] = {
