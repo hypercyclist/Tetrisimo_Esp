@@ -3,8 +3,10 @@
 
 class Color;
 class GLFWwindow;
+class Camera;
 class Point;
 class ResourceTheme;
+class ShadersProcessor;
 class Size;
 
 #include <memory>
@@ -16,6 +18,9 @@ class Painter
 {
     private:
         GLFWwindow* window;
+        std::shared_ptr<Camera> camera;
+        unsigned int VBO, VAO, EBO;
+        std::shared_ptr<ShadersProcessor> shadersProcessor;
         int pinDisplayCS;
         int pinDisplayDC;
         int pinDisplayRST;
@@ -31,6 +36,9 @@ class Painter
         static std::shared_ptr<Painter> getPainter();
         void setWindow(GLFWwindow* _window);
         
+        void swapBuffers();
+        void setCamera(std::shared_ptr<Camera> _camera);
+
         void background(Color& _backgroundColor);
 
         void paintRect(int _x, int _y, int _width, int _height, Color& _color);

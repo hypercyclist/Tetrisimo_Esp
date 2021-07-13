@@ -25,17 +25,16 @@ Display::Display(
     pinDisplayCS = _pinDisplayCS;
     pinDisplayDC = _pinDisplayDC;
     pinDisplayRST = _pinDisplayRST;
-    painter = std::make_shared<Painter>();
-    Painter::setDefault(painter);
     Log::println("Test1", "LOW");
     initContext();
+    painter = std::make_shared<Painter>();
+    Painter::setDefault(painter);
+    painter->setWindow(window);
+    painter->setCamera(camera);
 }
 
 Display::~Display()
 {
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO);
     glfwTerminate();
 }
 
@@ -86,7 +85,6 @@ void Display::initContext()
     initGlad();
     Log::println("Test2", "LOW");
     camera->init();
-    painter->setWindow(window);
     Log::println("Test3", "LOW");
 }
 
@@ -109,6 +107,17 @@ void Display::initGlad()
     {
         Log::println("Failed to initialize GLAD", "HIGH");
     }
+}
+
+void Display::bindBuffers()
+{
+
+}
+
+void Display::swapBuffers()
+{
+    glfwSwapBuffers(window);
+    glfwPollEvents();
 }
 
 // void Display::draw()

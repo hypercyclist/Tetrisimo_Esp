@@ -1,3 +1,4 @@
+cls
 g++ ^
 -std=c++17 ^
 -I . ^
@@ -27,6 +28,7 @@ PlatformTime.cpp ^
 ../ResourceTheme.cpp ^
 ../Scene.cpp ^
 ../ServiceAddress.cpp ^
+ShadersProcessor.cpp ^
 ../Size.cpp ^
 ../StringUtf.cpp ^
 ../TableView.cpp ^
@@ -38,7 +40,7 @@ PlatformTime.cpp ^
 ../WifiSettings.cpp ^
 main.cpp ^
 -o bin\main.exe ^
--lglfw3 ^
+-lglfw3dll ^
 -lgdi32 ^
 -lopengl32 ^
 lib\glad.c

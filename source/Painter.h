@@ -28,6 +28,7 @@ class Painter : public Adafruit_ST7735
         ~Painter();
         static void setDefault(std::shared_ptr<Painter> _painter);
         static std::shared_ptr<Painter> getPainter();
+        void swapBuffers();
         void background(Color& _backgroundColor);
 
         void paintRect(int _x, int _y, int _width, int _height, Color& _color);

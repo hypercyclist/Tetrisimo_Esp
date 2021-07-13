@@ -19,7 +19,6 @@ class Display
         GLFWwindow* window;
         std::string windowName;
         std::shared_ptr<Camera> camera;
-        unsigned int VBO, VAO, EBO;
         // Pool* pool;
         // Camera camera;
         std::shared_ptr<Size> displaySize;
@@ -45,6 +44,7 @@ class Display
         void glfwInitConfigure();
         void initGlad();
         void bindBuffers();
+        void swapBuffers();
 
         std::shared_ptr<Painter> getPainter();
         void setSize(Size _displaySize);

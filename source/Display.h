@@ -28,6 +28,7 @@ class Display
             int _pinDisplayRST
         );
         ~Display();
+        void swapBuffers();
         std::shared_ptr<Painter> getPainter();
         void setSize(Size _displaySize);
         Size getSize();

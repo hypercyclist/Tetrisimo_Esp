@@ -1,9 +1,12 @@
 #include "Painter.h"
 #include "../Color.h"
+#include "Camera.h"
+#include "../DefineLog.h"
 #include "../Point.h"
 #include "../Size.h"
 #include "../ResourceTheme.h"
 #include "../StringUtf.h"
+#include "ShadersProcessor.h"
 
 #include <glad\glad.h>
 #include <GLFW\glfw3.h>
@@ -16,10 +19,15 @@ Painter::Painter()
     drawColor(std::make_unique<Color>(0, 0, 0)),
     textSize(1)
 {
+    shadersProcessor = std::make_shared<ShadersProcessor>();
+    shadersProcessor->defaultShaders();
 }
 
 Painter::~Painter()
 {
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
 }
 
 std::shared_ptr<Painter> Painter::painter;
@@ -37,6 +45,17 @@ std::shared_ptr<Painter> Painter::getPainter()
 void Painter::setWindow(GLFWwindow* _window)
 {
     window = _window;
+}
+
+void Painter::swapBuffers()
+{
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+}
+
+void Painter::setCamera(std::shared_ptr<Camera> _camera)
+{
+    camera = _camera;
 }
 
 void Painter::paintRect(int _x, int _y, int _width, int _height, Color& _color)
@@ -59,8 +78,7 @@ void Painter::background(Color& _backgroundColor)
         (float)_backgroundColor.getR() / (float)255,
         1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glfwSwapBuffers(window);
-    glfwPollEvents();
+
 }
 
 void Painter::setPaintColor(Color _drawColor)
@@ -142,13 +160,54 @@ void Painter::paintLine(Point _pointA, Point _pointB)
     //     drawColor->getUint16()
     // );
     float vertices[] = {
-        _pointA.getX(), _pointA.getY(), 0.0f,
-        _pointB.getX(), _pointB.getY(), 0.0f,
+        (float)_pointA.getX() / (float)128, (float)_pointA.getY() / (float)160, 0.0f,
+        (float)_pointB.getX() / (float)128, (float)_pointB.getY() / (float)160, 0.0f,
     };
     
     unsigned int indices[] = {
         0, 1
     };
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+
+    glBindVertexArray(VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+    glUseProgram(shadersProcessor->getProgram(0));
+    glm::mat4 model = glm::mat4(1.0f);
+    //model = glm::rotate(model, -55.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+    // glm::mat4 view = glm::mat4(1.0f);
+    // view = glm::translate(view, glm::vec3(0.0f, 0.0f, -1.0f));
+    glm::mat4 projection = glm::mat4(1.0f);
+    projection = glm::perspective(45.0f, (float)128 / (float)160, 0.1f, 100.0f);
+    // glm::mat4 transform = glm::mat4(1.0f);
+    // transform = glm::translate(transform, glm::vec3(0.5f, 0.0f, 0.0f));
+
+    // GLint transformLoc = glGetUniformLocation(pool->shadersProcessor->getProgram(0), "transform");
+    // glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+    GLint modelLoc = glGetUniformLocation(shadersProcessor->getProgram(0), "model");
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    GLint viewLoc = glGetUniformLocation(shadersProcessor->getProgram(0), "view");
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera->getView()));
+    GLint projectionLoc = glGetUniformLocation(shadersProcessor->getProgram(0), "projection");
+    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+    glBindVertexArray(VAO);
+    glEnable(GL_DEPTH_TEST);
+    glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, 0);
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+    Log::println("paintLine", "LOW");
 }
 
 void Painter::paintLine(int _x1, int _y1, int _x2, int _y2)

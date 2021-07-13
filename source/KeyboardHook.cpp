@@ -32,7 +32,7 @@ void KeyboardHook::addButton(std::shared_ptr<PhysButton> _physButton)
 std::shared_ptr<PhysButton> KeyboardHook::getPressedButton()
 {
     int inputADC = 5;//analogRead(pinKeyboardADC);
-    Log::println(inputADC, "LOW");
+    // Log::println(inputADC, "LOW");
     for (int i = 0; i < buttons.size(); i++)
     {
         if ( buttons[i]->isPressed(inputADC) )
