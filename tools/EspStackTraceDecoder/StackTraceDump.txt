@@ -1,27 +1,42 @@
---------------- CUT HERE FOR EXCEPTION DECODER ---------------
-
-Exception (28):
-epc1=0x401000cf epc2=0x00000000 epc3=0x00000000 excvaddr=0x00000078 depc=0x00000000
+Exception (29):
+epc1=0x40202f95 epc2=0x00000000 epc3=0x00000000 excvaddr=0x00000008 depc=0x00000000
 
 >>>stack>>>
 
 ctx: cont
-sp: 3ffffd50 end: 3fffffc0 offset: 0190
-3ffffee0:  3fff3384 3fff333c 3fff325c 3fff32dc  
-3ffffef0:  3fff3204 3fff319c 3fff30cc 3fff315c  
-3fffff00:  3fff3074 3fff3024 3fff2ef4 40201f6a  
-3fffff10:  3fff1de4 3fff1c44 3fff1c64 3ffeeefc  
-3fffff20:  3fffdad0 3fff04a4 3ffefd34 40204545  
-3fffff30:  3fff25fc 3fff2584 3fff061c 3fff0634  
-3fffff40:  3fff064c 3fff0664 3fff067c 3fff0694  
-3fffff50:  3fff06ac 3fff06c4 3fff06dc 3fff06f4  
-3fffff60:  3fff070c 3fff053c 3fff05bc 4020120a  
-3fffff70:  3fffdad0 00000000 3ffefd34 4020457c  
-3fffff80:  3fffdad0 00000000 3ffeeebc 4020122c  
-3fffff90:  3ffefd34 3ffefe24 feefeffe feefeffe  
-3fffffa0:  feefeffe feefeffe feefeffe 4020a410  
-3fffffb0:  feefeffe feefeffe 3ffe84e0 40100c49  
+sp: 3ffffc60 end: 3fffffc0 offset: 0190
+3ffffdf0:  00000000 00000020 00000014 401009fc  
+3ffffe00:  3ffeec38 40205624 00000014 00000004  
+3ffffe10:  00000005 00000010 00000000 402043a8  
+3ffffe20:  00000004 00000020 00000000 402041a0  
+3ffffe30:  00000000 40205624 00000000 402025a2  
+3ffffe40:  00000000 00000000 3fff00d4 00000005  
+3ffffe50:  00000004 00000000 3fff00d4 40201972  
+3ffffe60:  00000000 00000000 00000000 00000000  
+3ffffe70:  00000080 000000a0 00000000 40205600  
+3ffffe80:  3ffef994 00000000 3ffef964 00000004  
+3ffffe90:  3fff00d4 00000000 3ffef964 40201ca2  
+3ffffea0:  00000080 000000a0 00000000 00000000  
+3ffffeb0:  00000080 000000a0 00000000 00000000  
+3ffffec0:  00000010 00000005 3ffef97c 40201c38  
+3ffffed0:  00000000 00000000 00000000 3ffeeb0c  
+3ffffee0:  3fffdad0 00000000 3ffef964 40202091  
+3ffffef0:  0000001c 00000003 00000100 0001c200  
+3fffff00:  00000000 00000000 ffffffff 00000001  
+3fffff10:  3ffeec38 00000001 3ffee9e0 3ffeeb0c  
+3fffff20:  00000000 00000001 3ffee9e0 40204d60  
+3fffff30:  00000000 00000020 00000014 401009fc  
+3fffff40:  0001c200 0000001c 00000000 40205600  
+3fffff50:  3fffdad0 00000000 3ffeeacc 3ffeeb0c  
+3fffff60:  3fffdad0 00000000 3ffeeacc 402021a9  
+3fffff70:  3ffef964 feefeffe feefeffe feefeffe  
+3fffff80:  3fffdad0 00000000 3ffeeacc 402010dc  
+3fffff90:  3ffef964 3ffefa54 feefeffe feefeffe  
+3fffffa0:  feefeffe feefeffe feefeffe 40205864  
+3fffffb0:  feefeffe feefeffe 3ffe84f0 40100c79  
 <<<stack<<<
+
+last failed alloc call: 40205624(122976)
 
 --------------- CUT HERE FOR EXCEPTION DECODER ---------------
 

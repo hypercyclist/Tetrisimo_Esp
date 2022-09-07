@@ -121,7 +121,9 @@ void Scene::onShow()
     childrens[0]->update();
     childrens[1]->update();
     childrens[1]->focus();
+    // Log::println("Scene::onShow - before onShowFunctionPointer", "LOW");
     onShowFunctionPointer();
+    // Log::println("Scene::onShow - after onShowFunctionPointer", "LOW");
 }
 
 void Scene::setOnShowFunction(std::function<void()> _function)

@@ -23,6 +23,8 @@
 
 #include "DefineLog.h"
 
+#include "Color.h"
+
 // #include "IpAddress.h"
 // #include "Port.h"
 // #include "ServiceAddress.h"
@@ -38,9 +40,9 @@ Game::~Game()
 void Game::start()
 {
     Log::init();
-    Log::println("Test", "LOW");
+    // Log::println("Test", "LOW");
     initialize();
-    run();
+    // run();
 }
 
 void Game::initialize()
@@ -48,28 +50,69 @@ void Game::initialize()
     initializeConfig();
     initializeButtons();
     initializeDisplay();
-    display->getPainter()->setResourceTheme( config->getCaveLightsTheme() );
 
-    initializeBackground();
-    initializeWidgetViewer();
-    initializeGameSettings();
-    initializeColorsSettings();
-    initializeResistorSettings();
-    initializeAdvancedSettings();
-    initializeAboutSettings();
-    initializeMultiplayer();
-    initializeSettings();
-    initializeHighScore();
-    initializeMainMenu();
+    Color colorBlack(15, 15, 15);
+    Color colorWhite(255, 255, 255);
+    Color colorGreen(0, 255, 0);
+    Color colorRed(255, 0, 0);
 
-    display->setActiveScene(mainMenu);
+    Painter* pPainter = display->getPainter().get();
+
+    pPainter->fillRect(10, 10, 50, 50, colorGreen.toUint16());
+    pPainter->drawFastHLine(10, 10, 90, colorRed.toUint16());
+    pPainter->drawFastVLine(10, 10, 90, colorRed.toUint16());
+    for (int i = 70; i < 90; i++)
+    {
+        for (int j = 70; j < 90; j++)
+        {
+            pPainter->drawPixel(j, i, colorBlack.toUint16());
+        }
+    }
+
+
+    pPainter->drawBuffer();
+
+    pPainter->fillRect(10, 10, 50, 50, colorGreen.toUint16());
+
+    pPainter->drawBuffer();
+
+
+    // display->getPainter()->paintRect(0, 0, 5, 5, colorWhite);
+    // display->getPainter()->paintRect(5, 5, 10, 10, colorBlack);
+
+    // display->getPainter()->startWrite();
+    // display->getPainter()->setAddrWindow(25, 25, 1, 1);
+    // display->getPainter()->SPI_WRITE16(colorBlack.toUint16());
+    // display->getPainter()->endWrite();
+
+    // display->getPainter()->startWrite();
+    // display->getPainter()->setAddrWindow(25, 25, 25, 25);
+    // display->getPainter()->writeColor(colorBlack.toUint16(), (uint32_t)25 * 25);
+    // display->getPainter()->endWrite();
+
+    // display->getPainter()->setResourceTheme( config->getCaveLightsTheme() );
+
+    // initializeBackground();
+    // initializeWidgetViewer();
+    // initializeGameSettings();
+    // initializeColorsSettings();
+    // initializeResistorSettings();
+    // initializeAdvancedSettings();
+    // initializeAboutSettings();
+    // initializeMultiplayer();
+    // initializeSettings();
+    // initializeHighScore();
+    // initializeMainMenu();
+
+    // display->setActiveScene(mainMenu);
 }
 
 void Game::run()
 {
     time_t roundTimeMs = 0;
     time_t lastInputTimeMs = 0;
-    while (true)
+    bool run = true;
+    while (run)
     {
         roundTimeMs = PlatformTime::getTimeMs();
         display->getActiveScene()->traverse();
@@ -85,7 +128,7 @@ void Game::run()
                     break;
                 }
             }
-            PlatformTime::delay(5);
+            delay(20);
         }
         while ( (PlatformTime::getTimeMs() - roundTimeMs) < display->getActiveScene()->getFrameTime() );
     }

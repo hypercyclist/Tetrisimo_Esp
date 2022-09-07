@@ -15,10 +15,196 @@ Painter::Painter(int _pinDisplayCS, int _pinDisplayDC, int _pinDisplayRST)
 {
     initR(INITR_BLACKTAB);
     setTextWrap(false);
+    int bufferSize = ST7735_TFTWIDTH_128 * ST7735_TFTHEIGHT_160;
+    for (int i = 0; i < bufferSize; i++)
+    {
+        oldBuffer[i] = 0x000000;
+        buffer[i] = 0x000000;
+        diffBuffer[i] = 0x000000;
+    }
 }
 
 Painter::~Painter()
 {
+    // delete[] oldBuffer;
+    // delete[] buffer;
+    // delete[] diffBuffer;
+}
+
+void Painter::writePixel(int16_t _x, int16_t _y, uint16_t _color) 
+{
+    if ((_x >= 0) && (_x < _width) && (_y >= 0) && (_y < _height)) 
+    {
+        buffer[_x + _y * ST7735_TFTWIDTH_128] = _color;
+    }
+}
+
+void Painter::writeFillRect(int16_t x, int16_t y, int16_t w, int16_t h,
+                                    uint16_t color) {
+  if (w && h) {   // Nonzero width and height?
+    if (w < 0) {  // If negative width...
+      x += w + 1; //   Move X to left edge
+      w = -w;     //   Use positive width
+    }
+    if (x < _width) { // Not off right
+      if (h < 0) {    // If negative height...
+        y += h + 1;   //   Move Y to top edge
+        h = -h;       //   Use positive height
+      }
+      if (y < _height) { // Not off bottom
+        int16_t x2 = x + w - 1;
+        if (x2 >= 0) { // Not off left
+          int16_t y2 = y + h - 1;
+          if (y2 >= 0) { // Not off top
+            // Rectangle partly or fully overlaps screen
+            if (x < 0) {
+              x = 0;
+              w = x2 + 1;
+            } // Clip left
+            if (y < 0) {
+              y = 0;
+              h = y2 + 1;
+            } // Clip top
+            if (x2 >= _width) {
+              w = _width - x;
+            } // Clip right
+            if (y2 >= _height) {
+              h = _height - y;
+            } // Clip bottom
+            for (int i = y; i < y + h; i++)
+            {
+                for (int j = x; j < x + w; j++)
+                {
+                    buffer[j + i * ST7735_TFTWIDTH_128] = color;
+                }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+void Painter::writeFastHLine(int16_t x, int16_t y, int16_t w,
+                                            uint16_t color) {
+  if ((y >= 0) && (y < _height) && w) { // Y on screen, nonzero width
+    if (w < 0) {                        // If negative width...
+      x += w + 1;                       //   Move X to left edge
+      w = -w;                           //   Use positive width
+    }
+    if (x < _width) { // Not off right
+      int16_t x2 = x + w - 1;
+      if (x2 >= 0) { // Not off left
+        // Line partly or fully overlaps screen
+        if (x < 0) {
+          x = 0;
+          w = x2 + 1;
+        } // Clip left
+        if (x2 >= _width) {
+          w = _width - x;
+        } // Clip right
+        for (int i = y; i < y + 1; i++)
+        {
+            for (int j = x; j < x + w; j++)
+            {
+                buffer[j + i * ST7735_TFTWIDTH_128] = color;
+            }
+        }
+      }
+    }
+  }
+}
+
+void Painter::writeFastVLine(int16_t x, int16_t y, int16_t h,
+                                            uint16_t color) {
+  if ((x >= 0) && (x < _width) && h) { // X on screen, nonzero height
+    if (h < 0) {                       // If negative height...
+      y += h + 1;                      //   Move Y to top edge
+      h = -h;                          //   Use positive height
+    }
+    if (y < _height) { // Not off bottom
+      int16_t y2 = y + h - 1;
+      if (y2 >= 0) { // Not off top
+        // Line partly or fully overlaps screen
+        if (y < 0) {
+          y = 0;
+          h = y2 + 1;
+        } // Clip top
+        if (y2 >= _height) {
+          h = _height - y;
+        } // Clip bottom
+        for (int i = y; i < y + h; i++)
+        {
+            for (int j = x; j < x + 1; j++)
+            {
+                buffer[j + i * ST7735_TFTWIDTH_128] = color;
+            }
+        }
+      }
+    }
+  }
+}
+
+void Painter::drawPixel(int16_t _x, int16_t _y, uint16_t _color) 
+{
+    writePixel(_x, _y, _color);
+}
+
+void Painter::fillRect(int16_t x, int16_t y, int16_t w, int16_t h,
+                               uint16_t color) {
+    writeFillRect(x, y, w, h, color);
+}
+
+void Painter::drawFastHLine(int16_t x, int16_t y, int16_t w,
+                                    uint16_t color) {
+    writeFastHLine(x, y, w, color);
+}
+
+void Painter::drawFastVLine(int16_t x, int16_t y, int16_t h,
+                                    uint16_t color) {
+    writeFastVLine(x, y, h, color);
+}
+
+void Painter::drawBuffer()
+{
+    int pixelChanged = 0;
+
+    for (int i = 0; i < ST7735_TFTHEIGHT_160; i++)
+    {
+        for (int j = 0; j < ST7735_TFTWIDTH_128; j++)
+        {
+            int index = j + i * ST7735_TFTWIDTH_128;
+            if (oldBuffer[index] != buffer[index])
+            {
+                diffBuffer[index] = buffer[index];
+            }
+        }
+    }
+
+    startWrite();
+    for (int i = 0; i < ST7735_TFTHEIGHT_160; i++)
+    {
+        for (int j = 0; j < ST7735_TFTWIDTH_128; j++)
+        {
+            if (diffBuffer[j + i * ST7735_TFTWIDTH_128] != 0x000000)
+            {
+                pixelChanged++;
+                setAddrWindow(j, i, 1, 1);
+                SPI_WRITE16(diffBuffer[j + i * ST7735_TFTWIDTH_128]);
+            }
+        }
+    }
+    endWrite();
+
+    int bufferSize = ST7735_TFTWIDTH_128 * ST7735_TFTHEIGHT_160;
+    for (int i = 0; i < bufferSize; i++)
+    {
+        oldBuffer[i] = buffer[i];
+        buffer[i] = 0x000000;
+        diffBuffer[i] = 0x000000;
+    }
+    Serial.println(ESP.getFreeHeap());
+    Serial.println(ESP.getMaxFreeBlockSize());
 }
 
 std::shared_ptr<Painter> Painter::painter;

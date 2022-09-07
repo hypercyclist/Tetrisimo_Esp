@@ -97,7 +97,7 @@ void VerticalLayout::countLayout()
             int widgetX = ( layoutWidth - countedWidgetSize.getWidth() ) / 2;
             int widgetY = heightOfAllWidgets;
             // Log::print("countLayout()", "LOW");
-            Log::println(widgetX, "LOW");
+            // Log::println(widgetX, "LOW");
             childrens[i]->setPosition( Point(widgetX, widgetY) );
             heightOfAllWidgets = widgetY + countedWidgetSize.getHeight() + spacing;
         }
@@ -194,7 +194,7 @@ void VerticalLayout::unfocus()
         if ( childrens[i]->isFocused() )
         {
             childrens[i]->unfocus();
-            Log::println(i, "LOW");
+            // Log::println(i, "LOW");
         }
     }
 }
