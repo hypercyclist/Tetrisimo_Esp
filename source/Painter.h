@@ -2,6 +2,7 @@
 #define PAINTER_H
 
 class Color;
+class DisplayBuffer;
 class Point;
 class ResourceTheme;
 class Size;
@@ -10,6 +11,8 @@ class Size;
 #include <Adafruit_ST7735.h>
 #include <memory>
 #include <string>
+
+const int bufferSize = ST7735_TFTWIDTH_128 * ST7735_TFTHEIGHT_160 / 2;
 
 // This class is wrapper over the standart painter class. It was created for
 // easy using our classes into drawing process.
@@ -23,23 +26,18 @@ class Painter : public Adafruit_ST7735
         std::shared_ptr<ResourceTheme> currentResourceTheme;
         std::unique_ptr<Color> drawColor;
 
-        uint16_t oldBuffer[ST7735_TFTWIDTH_128 * ST7735_TFTHEIGHT_160];
-        uint16_t buffer[ST7735_TFTWIDTH_128 * ST7735_TFTHEIGHT_160];
-        uint16_t diffBuffer[ST7735_TFTWIDTH_128 * ST7735_TFTHEIGHT_160];
-        // uint16_t* oldBuffer;
-        // uint16_t* buffer;
-        // uint16_t* diffBuffer;
+        std::shared_ptr<DisplayBuffer> oldBuffer;
+        std::shared_ptr<DisplayBuffer> buffer;
+        std::shared_ptr<DisplayBuffer> diffBuffer;
         
     public:
         Painter(int _pinDisplayCS, int _pinDisplayDC, int _pinDisplayRST);
         ~Painter();
 
-
-        void writePixel(int16_t x, int16_t y, uint16_t color);
-        void writeFillRect(int16_t x, int16_t y, int16_t w, int16_t h,
-                        uint16_t color);
-        void writeFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color);
-        void writeFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color);
+        void writePixel(int16_t x, int16_t y, uint16_t _color);
+        void writeFillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t _color);
+        void writeFastHLine(int16_t x, int16_t y, int16_t w, uint16_t _color);
+        void writeFastVLine(int16_t x, int16_t y, int16_t h, uint16_t _color);
         void drawPixel(int16_t x, int16_t y, uint16_t color);
         void fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
         void drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color);

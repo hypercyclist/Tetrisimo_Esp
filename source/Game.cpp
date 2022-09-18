@@ -51,46 +51,33 @@ void Game::initialize()
     initializeButtons();
     initializeDisplay();
 
-    Color colorBlack(15, 15, 15);
-    Color colorWhite(255, 255, 255);
-    Color colorGreen(0, 255, 0);
-    Color colorRed(255, 0, 0);
+    display->getPainter()->setResourceTheme( config->getCaveLightsTheme() );
 
     Painter* pPainter = display->getPainter().get();
-
-    pPainter->fillRect(10, 10, 50, 50, colorGreen.toUint16());
-    pPainter->drawFastHLine(10, 10, 90, colorRed.toUint16());
-    pPainter->drawFastVLine(10, 10, 90, colorRed.toUint16());
+    pPainter->fillRect(0, 0, 128, 160, pPainter->getResourceTheme()->getUnfocusColor().toUint16());
+    pPainter->fillRect(10, 10, 50, 50, pPainter->getResourceTheme()->getFocusColor().toUint16());
+    pPainter->drawFastHLine(10, 10, 90, pPainter->getResourceTheme()->getFocusColor().toUint16());
+    pPainter->drawFastVLine(10, 10, 90, pPainter->getResourceTheme()->getFocusColor().toUint16());
     for (int i = 70; i < 90; i++)
     {
         for (int j = 70; j < 90; j++)
         {
-            pPainter->drawPixel(j, i, colorBlack.toUint16());
+            pPainter->drawPixel(j, i, pPainter->getResourceTheme()->getFocusColor().toUint16());
         }
     }
 
+    pPainter->drawBuffer();
+
+    pPainter->fillRect(10, 10, 50, 50, pPainter->getResourceTheme()->getUnfocusColor().toUint16());
+    // pPainter->fillRect(10, 10, 50, 50, pPainter->getResourceTheme()->getUnfocusColor().toUint16());
 
     pPainter->drawBuffer();
 
-    pPainter->fillRect(10, 10, 50, 50, colorGreen.toUint16());
-
-    pPainter->drawBuffer();
 
 
     // display->getPainter()->paintRect(0, 0, 5, 5, colorWhite);
     // display->getPainter()->paintRect(5, 5, 10, 10, colorBlack);
 
-    // display->getPainter()->startWrite();
-    // display->getPainter()->setAddrWindow(25, 25, 1, 1);
-    // display->getPainter()->SPI_WRITE16(colorBlack.toUint16());
-    // display->getPainter()->endWrite();
-
-    // display->getPainter()->startWrite();
-    // display->getPainter()->setAddrWindow(25, 25, 25, 25);
-    // display->getPainter()->writeColor(colorBlack.toUint16(), (uint32_t)25 * 25);
-    // display->getPainter()->endWrite();
-
-    // display->getPainter()->setResourceTheme( config->getCaveLightsTheme() );
 
     // initializeBackground();
     // initializeWidgetViewer();

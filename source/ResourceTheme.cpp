@@ -1,6 +1,7 @@
 #include "ResourceTheme.h"
 
 #include "Color.h"
+#include "DisplayBuffer.h"
 
 ResourceTheme::ResourceTheme()
 {
@@ -41,40 +42,92 @@ ResourceTheme::~ResourceTheme()
 }
 
 Color ResourceTheme::getFocusColor() const { return *focusColor; }
-void ResourceTheme::setFocusColor(Color _focusColor) { focusColor = std::make_unique<Color>(_focusColor); }
+void ResourceTheme::setFocusColor(Color _focusColor) 
+{ 
+    focusColor = std::make_unique<Color>(_focusColor);
+    DisplayBuffer::bindColor(_focusColor.toUint16(), DisplayBuffer::colorCodes[1]);
+}
 
 Color ResourceTheme::getUnfocusColor() const { return *unfocusColor; }
-void ResourceTheme::setUnfocusColor(Color _unfocusColor) { unfocusColor = std::make_unique<Color>(_unfocusColor); };
+void ResourceTheme::setUnfocusColor(Color _unfocusColor) 
+{ 
+    unfocusColor = std::make_unique<Color>(_unfocusColor);
+    DisplayBuffer::bindColor(_unfocusColor.toUint16(), DisplayBuffer::colorCodes[2]);
+};
 
 Color ResourceTheme::getBorderColor() const { return *borderColor; }
-void ResourceTheme::setBorderColor(Color _borderColor) { borderColor = std::make_unique<Color>(_borderColor); }
+void ResourceTheme::setBorderColor(Color _borderColor) 
+{ 
+    borderColor = std::make_unique<Color>(_borderColor);
+    DisplayBuffer::bindColor(_borderColor.toUint16(), DisplayBuffer::colorCodes[3]);
+}
 
 Color ResourceTheme::getBackgroundMenuColor() const { return *backgroundMenuColor; }
-void ResourceTheme::setBackgroundMenuColor(Color _backgroundMenuColor) { backgroundMenuColor = std::make_unique<Color>(_backgroundMenuColor); }
+void ResourceTheme::setBackgroundMenuColor(Color _backgroundMenuColor) 
+{ 
+    backgroundMenuColor = std::make_unique<Color>(_backgroundMenuColor);
+    DisplayBuffer::bindColor(_backgroundMenuColor.toUint16(), DisplayBuffer::colorCodes[4]); 
+}
 
 Color ResourceTheme::getBackgroundGameColor() const { return *backgroundGameColor; }
-void ResourceTheme::setBackgroundGameColor(Color _backgroundGameColor) { backgroundGameColor = std::make_unique<Color>(_backgroundGameColor); }
+void ResourceTheme::setBackgroundGameColor(Color _backgroundGameColor) 
+{ 
+    backgroundGameColor = std::make_unique<Color>(_backgroundGameColor);
+    DisplayBuffer::bindColor(_backgroundGameColor.toUint16(), DisplayBuffer::colorCodes[5]); 
+}
 
 Color ResourceTheme::getNetColor() const { return *netColor; }
-void ResourceTheme::setNetColor(Color _netColor) { netColor = std::make_unique<Color>(_netColor); }
+void ResourceTheme::setNetColor(Color _netColor) 
+{ 
+    netColor = std::make_unique<Color>(_netColor);
+    DisplayBuffer::bindColor(_netColor.toUint16(), DisplayBuffer::colorCodes[6]); 
+}
 
 Color ResourceTheme::getFigureIColor() const { return *figureIColor; }
-void ResourceTheme::setFigureIColor(Color _figureIColor) { figureIColor = std::make_unique<Color>(_figureIColor); }
+void ResourceTheme::setFigureIColor(Color _figureIColor) 
+{ 
+    figureIColor = std::make_unique<Color>(_figureIColor); 
+    DisplayBuffer::bindColor(_figureIColor.toUint16(), DisplayBuffer::colorCodes[7]); 
+}
 
 Color ResourceTheme::getFigureLColor() const { return *figureLColor; }
-void ResourceTheme::setFigureLColor(Color _figureLColor) { figureLColor = std::make_unique<Color>(_figureLColor); }
+void ResourceTheme::setFigureLColor(Color _figureLColor) 
+{ 
+    figureLColor = std::make_unique<Color>(_figureLColor); 
+    DisplayBuffer::bindColor(_figureLColor.toUint16(), DisplayBuffer::colorCodes[8]); 
+}
 
 Color ResourceTheme::getFigureJColor() const { return *figureJColor; }
-void ResourceTheme::setFigureJColor(Color _figureJColor) { figureJColor = std::make_unique<Color>(_figureJColor); }
+void ResourceTheme::setFigureJColor(Color _figureJColor) 
+{ 
+    figureJColor = std::make_unique<Color>(_figureJColor); 
+    DisplayBuffer::bindColor(_figureJColor.toUint16(), DisplayBuffer::colorCodes[9]); 
+}
 
 Color ResourceTheme::getFigureZColor() const { return *figureZColor; }
-void ResourceTheme::setFigureZColor(Color _figureZColor) { figureZColor = std::make_unique<Color>(_figureZColor); }
+void ResourceTheme::setFigureZColor(Color _figureZColor) 
+{ 
+    figureZColor = std::make_unique<Color>(_figureZColor); 
+    DisplayBuffer::bindColor(_figureZColor.toUint16(), DisplayBuffer::colorCodes[10]); 
+}
 
 Color ResourceTheme::getFigureSColor() const { return *figureSColor; }
-void ResourceTheme::setFigureSColor(Color _figureSColor) { figureSColor = std::make_unique<Color>(_figureSColor); }
+void ResourceTheme::setFigureSColor(Color _figureSColor) 
+{ 
+    figureSColor = std::make_unique<Color>(_figureSColor); 
+    DisplayBuffer::bindColor(_figureSColor.toUint16(), DisplayBuffer::colorCodes[11]); 
+}
 
 Color ResourceTheme::getFigureTColor() const { return *figureTColor; }
-void ResourceTheme::setFigureTColor(Color _figureTColor) { figureTColor = std::make_unique<Color>(_figureTColor); }
+void ResourceTheme::setFigureTColor(Color _figureTColor) 
+{ 
+    figureTColor = std::make_unique<Color>(_figureTColor); 
+    DisplayBuffer::bindColor(_figureTColor.toUint16(), DisplayBuffer::colorCodes[12]); 
+}
 
 Color ResourceTheme::getFigureOColor() const { return *figureOColor; }
-void ResourceTheme::setFigureOColor(Color _figureOColor) { figureOColor = std::make_unique<Color>(_figureOColor); }
+void ResourceTheme::setFigureOColor(Color _figureOColor) 
+{ 
+    figureOColor = std::make_unique<Color>(_figureOColor); 
+    DisplayBuffer::bindColor(_figureOColor.toUint16(), DisplayBuffer::colorCodes[13]); 
+}

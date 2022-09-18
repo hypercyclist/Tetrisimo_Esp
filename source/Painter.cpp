@@ -1,46 +1,40 @@
 #include "Painter.h"
 #include "Color.h"
+#include "DisplayBuffer.h"
 #include "Point.h"
 #include "Size.h"
 #include "ResourceTheme.h"
 #include <SoftwareSerial.h>
 #include "StringUtf.h"
 
-Painter::Painter(int _pinDisplayCS, int _pinDisplayDC, int _pinDisplayRST) 
+Painter::Painter(int _pinDisplayCS, int _pinDisplayDC, int _pinDisplayRST)
     : Adafruit_ST7735(_pinDisplayCS, _pinDisplayDC, _pinDisplayRST), 
     pinDisplayCS(_pinDisplayCS),
     pinDisplayDC(_pinDisplayDC),
     pinDisplayRST(_pinDisplayRST),
-    drawColor(std::make_unique<Color>(0, 0, 0))
+    drawColor(std::make_unique<Color>(0, 0, 0)),
+    oldBuffer(std::make_shared<DisplayBuffer>(bufferSize)),
+    buffer(std::make_shared<DisplayBuffer>(bufferSize)),
+    diffBuffer(std::make_shared<DisplayBuffer>(bufferSize))
 {
     initR(INITR_BLACKTAB);
     setTextWrap(false);
-    int bufferSize = ST7735_TFTWIDTH_128 * ST7735_TFTHEIGHT_160;
-    for (int i = 0; i < bufferSize; i++)
-    {
-        oldBuffer[i] = 0x000000;
-        buffer[i] = 0x000000;
-        diffBuffer[i] = 0x000000;
-    }
 }
 
 Painter::~Painter()
 {
-    // delete[] oldBuffer;
-    // delete[] buffer;
-    // delete[] diffBuffer;
 }
 
 void Painter::writePixel(int16_t _x, int16_t _y, uint16_t _color) 
 {
     if ((_x >= 0) && (_x < _width) && (_y >= 0) && (_y < _height)) 
     {
-        buffer[_x + _y * ST7735_TFTWIDTH_128] = _color;
+        buffer->setColor(_x + _y * ST7735_TFTWIDTH_128, _color);
     }
 }
 
 void Painter::writeFillRect(int16_t x, int16_t y, int16_t w, int16_t h,
-                                    uint16_t color) {
+                                    uint16_t _color) {
   if (w && h) {   // Nonzero width and height?
     if (w < 0) {  // If negative width...
       x += w + 1; //   Move X to left edge
@@ -75,7 +69,7 @@ void Painter::writeFillRect(int16_t x, int16_t y, int16_t w, int16_t h,
             {
                 for (int j = x; j < x + w; j++)
                 {
-                    buffer[j + i * ST7735_TFTWIDTH_128] = color;
+                    buffer->setColor(j + i * ST7735_TFTWIDTH_128, _color);
                 }
             }
           }
@@ -86,7 +80,7 @@ void Painter::writeFillRect(int16_t x, int16_t y, int16_t w, int16_t h,
 }
 
 void Painter::writeFastHLine(int16_t x, int16_t y, int16_t w,
-                                            uint16_t color) {
+                                            uint16_t _color) {
   if ((y >= 0) && (y < _height) && w) { // Y on screen, nonzero width
     if (w < 0) {                        // If negative width...
       x += w + 1;                       //   Move X to left edge
@@ -107,7 +101,7 @@ void Painter::writeFastHLine(int16_t x, int16_t y, int16_t w,
         {
             for (int j = x; j < x + w; j++)
             {
-                buffer[j + i * ST7735_TFTWIDTH_128] = color;
+                buffer->setColor(j + i * ST7735_TFTWIDTH_128, _color);
             }
         }
       }
@@ -116,7 +110,7 @@ void Painter::writeFastHLine(int16_t x, int16_t y, int16_t w,
 }
 
 void Painter::writeFastVLine(int16_t x, int16_t y, int16_t h,
-                                            uint16_t color) {
+                                            uint16_t _color) {
   if ((x >= 0) && (x < _width) && h) { // X on screen, nonzero height
     if (h < 0) {                       // If negative height...
       y += h + 1;                      //   Move Y to top edge
@@ -137,7 +131,7 @@ void Painter::writeFastVLine(int16_t x, int16_t y, int16_t h,
         {
             for (int j = x; j < x + 1; j++)
             {
-                buffer[j + i * ST7735_TFTWIDTH_128] = color;
+                buffer->setColor(j + i * ST7735_TFTWIDTH_128, _color);
             }
         }
       }
@@ -174,9 +168,10 @@ void Painter::drawBuffer()
         for (int j = 0; j < ST7735_TFTWIDTH_128; j++)
         {
             int index = j + i * ST7735_TFTWIDTH_128;
-            if (oldBuffer[index] != buffer[index])
+            if (oldBuffer->getColor(index) != buffer->getColor(index))
             {
-                diffBuffer[index] = buffer[index];
+                pixelChanged++;
+                diffBuffer->setColor(index, buffer->getColor(index));
             }
         }
     }
@@ -186,25 +181,21 @@ void Painter::drawBuffer()
     {
         for (int j = 0; j < ST7735_TFTWIDTH_128; j++)
         {
-            if (diffBuffer[j + i * ST7735_TFTWIDTH_128] != 0x000000)
+            uint16_t color(diffBuffer->getColor(j + i * ST7735_TFTWIDTH_128));
+            if (i == 1 && j == 1) { Serial.println(diffBuffer->getColor(j + i * ST7735_TFTWIDTH_128)); }
+            if (color != Color(0, 0, 0).toUint16())
             {
-                pixelChanged++;
                 setAddrWindow(j, i, 1, 1);
-                SPI_WRITE16(diffBuffer[j + i * ST7735_TFTWIDTH_128]);
+                SPI_WRITE16(color);
             }
         }
     }
     endWrite();
 
-    int bufferSize = ST7735_TFTWIDTH_128 * ST7735_TFTHEIGHT_160;
-    for (int i = 0; i < bufferSize; i++)
-    {
-        oldBuffer[i] = buffer[i];
-        buffer[i] = 0x000000;
-        diffBuffer[i] = 0x000000;
-    }
-    Serial.println(ESP.getFreeHeap());
-    Serial.println(ESP.getMaxFreeBlockSize());
+    swap(oldBuffer, buffer);
+    buffer->clearBuffer();
+    diffBuffer->clearBuffer();
+    // Serial.println(pixelChanged);
 }
 
 std::shared_ptr<Painter> Painter::painter;
