@@ -5,7 +5,9 @@
 
 #if PLATFORM == ESP
     #include "IpAddress.h"
-#elif PLATFORM == WIN64
+#endif
+
+#if PLATFORM == WIN64
     #include "pcbuild\IpAddress.h"
 #endif
 

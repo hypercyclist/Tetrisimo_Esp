@@ -25,6 +25,21 @@ Painter::~Painter()
 {
 }
 
+void Painter::startWrite(void) { }
+void Painter::endWrite(void) { }
+
+void Painter::startWriteReal(void) {
+  SPI_BEGIN_TRANSACTION();
+  if (_cs >= 0)
+    SPI_CS_LOW();
+}
+
+void Painter::endWriteReal(void) {
+  if (_cs >= 0)
+    SPI_CS_HIGH();
+  SPI_END_TRANSACTION();
+}
+
 void Painter::writePixel(int16_t _x, int16_t _y, uint16_t _color) 
 {
     if ((_x >= 0) && (_x < _width) && (_y >= 0) && (_y < _height)) 
@@ -168,7 +183,7 @@ void Painter::drawBuffer()
         for (int j = 0; j < ST7735_TFTWIDTH_128; j++)
         {
             int index = j + i * ST7735_TFTWIDTH_128;
-            if (oldBuffer->getColor(index) != buffer->getColor(index))
+            if (oldBuffer->getColor(index) != buffer->getColor(index) && buffer->getColor(index) != 0x000000)
             {
                 pixelChanged++;
                 diffBuffer->setColor(index, buffer->getColor(index));
@@ -176,13 +191,13 @@ void Painter::drawBuffer()
         }
     }
 
-    startWrite();
+    startWriteReal();
     for (int i = 0; i < ST7735_TFTHEIGHT_160; i++)
     {
         for (int j = 0; j < ST7735_TFTWIDTH_128; j++)
         {
             uint16_t color(diffBuffer->getColor(j + i * ST7735_TFTWIDTH_128));
-            if (i == 1 && j == 1) { Serial.println(diffBuffer->getColor(j + i * ST7735_TFTWIDTH_128)); }
+            // if (i == 1 && j == 1) { Serial.println(diffBuffer->getColor(j + i * ST7735_TFTWIDTH_128)); }
             if (color != Color(0, 0, 0).toUint16())
             {
                 setAddrWindow(j, i, 1, 1);
@@ -190,7 +205,7 @@ void Painter::drawBuffer()
             }
         }
     }
-    endWrite();
+    endWriteReal();
 
     swap(oldBuffer, buffer);
     buffer->clearBuffer();
@@ -255,6 +270,7 @@ void Painter::paintText(std::string _text, Point _positionPoint)
 {
     setTextColor( drawColor->getUint16() );
     setCursor( _positionPoint.getX(), _positionPoint.getY() );
+    // print(_text.c_str());
     print( fromCyrilic(_text).c_str() );
     // Maybe we can do only print( _text.c_str() ); if text only English. 
 }

@@ -5,7 +5,9 @@
 
 #if PLATFORM == ESP
     #include <wiring_private.h>
-#elif PLATFORM == WIN64
+#endif
+
+#if PLATFORM == WIN64
     
 #endif
 

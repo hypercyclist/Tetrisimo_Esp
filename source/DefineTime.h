@@ -5,7 +5,9 @@
 
 #if PLATFORM == ESP
     #include "PlatformTime.h"
-#elif PLATFORM == WIN64
+#endif
+
+#if PLATFORM == WIN64
     #include "pcbuild/PlatformTime.h"
 #endif
 

@@ -43,20 +43,20 @@ void Config::initializeConstants()
     caveLightsTheme->setFigureTColor( Color(200, 200, 50) );
     caveLightsTheme->setFigureOColor( Color(175, 100, 225) );
     
-    redQuakeTheme = std::make_unique<ResourceTheme>();
-    redQuakeTheme->setFocusColor( Color(150, 25, 50) );
-    redQuakeTheme->setUnfocusColor( Color(250, 200, 50) );
-    redQuakeTheme->setBorderColor( Color(150, 25, 50) );
-    redQuakeTheme->setBackgroundMenuColor( Color(0, 0, 0) );
-    redQuakeTheme->setBackgroundGameColor( Color(0, 0, 0) );
-    redQuakeTheme->setNetColor( Color(0, 0, 0) );
-    redQuakeTheme->setFigureIColor( Color(250, 25, 75) );
-    redQuakeTheme->setFigureLColor( Color(25, 250, 125) );
-    redQuakeTheme->setFigureJColor( Color(0, 75, 175) );
-    redQuakeTheme->setFigureZColor( Color(25, 50, 50) );
-    redQuakeTheme->setFigureSColor( Color(250, 250, 75) );
-    redQuakeTheme->setFigureTColor( Color(50, 250, 50) );
-    redQuakeTheme->setFigureOColor( Color(225, 75, 225) );
+    // redQuakeTheme = std::make_unique<ResourceTheme>();
+    // redQuakeTheme->setFocusColor( Color(150, 25, 50) );
+    // redQuakeTheme->setUnfocusColor( Color(250, 200, 50) );
+    // redQuakeTheme->setBorderColor( Color(150, 25, 50) );
+    // redQuakeTheme->setBackgroundMenuColor( Color(0, 0, 0) );
+    // redQuakeTheme->setBackgroundGameColor( Color(0, 0, 0) );
+    // redQuakeTheme->setNetColor( Color(0, 0, 0) );
+    // redQuakeTheme->setFigureIColor( Color(250, 25, 75) );
+    // redQuakeTheme->setFigureLColor( Color(25, 250, 125) );
+    // redQuakeTheme->setFigureJColor( Color(0, 75, 175) );
+    // redQuakeTheme->setFigureZColor( Color(25, 50, 50) );
+    // redQuakeTheme->setFigureSColor( Color(250, 250, 75) );
+    // redQuakeTheme->setFigureTColor( Color(50, 250, 50) );
+    // redQuakeTheme->setFigureOColor( Color(225, 75, 225) );
 }
 
 void Config::readConfig()

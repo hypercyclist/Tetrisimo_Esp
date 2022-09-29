@@ -42,5 +42,4 @@ void Background::drawNet()
     {
         painter->paintLine( Point(size->getWidth(), i), Point(0, i) );
     }
-    // painter->swapBuffers();
 }

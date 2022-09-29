@@ -12,6 +12,8 @@ class Size;
 #include <memory>
 #include <string>
 
+#define ST7735_TFTWIDTH_128 128  // for 1.44 and mini
+#define ST7735_TFTHEIGHT_160 160 // for 1.8" and mini display
 const int bufferSize = ST7735_TFTWIDTH_128 * ST7735_TFTHEIGHT_160 / 2;
 
 // This class is wrapper over the standart painter class. It was created for
@@ -34,6 +36,10 @@ class Painter : public Adafruit_ST7735
         Painter(int _pinDisplayCS, int _pinDisplayDC, int _pinDisplayRST);
         ~Painter();
 
+        void startWrite(void);
+        void endWrite(void);
+        void startWriteReal(void);
+        void endWriteReal(void);
         void writePixel(int16_t x, int16_t y, uint16_t _color);
         void writeFillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t _color);
         void writeFastHLine(int16_t x, int16_t y, int16_t w, uint16_t _color);

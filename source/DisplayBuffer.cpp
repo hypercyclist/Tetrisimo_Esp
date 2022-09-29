@@ -3,7 +3,7 @@
 #include <iostream>
 #include <SoftwareSerial.h>
 
-const char DisplayBuffer::colorCodes[16] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+const char DisplayBuffer::colorCodes[16] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 std::map<uint16_t, char> DisplayBuffer::bindedCodes;
 std::map<char, uint16_t> DisplayBuffer::bindedColors;
 
@@ -59,19 +59,19 @@ uint16_t DisplayBuffer::getColor(int _index)
         result = bindedColors.find(getUpperBits(&buffer[_index / 2]));
     }
     if (result == bindedColors.end()) {
-        if (_index == 1 * 1 * 128)
-        {
-            Serial.print("f");
-            if (!part) {
-                char res = getLowerBits(&buffer[_index / 2]);
-                printBits(res);
-            }
-            else {
-                char res = getUpperBits(&buffer[_index / 2]);
-                printBits(res);
-            }
-            Serial.println(Color(0, 0, 0).toUint16());
-        }
+        // if (_index == 1 * 1 * 128)
+        // {
+        //     Serial.print("f");
+        //     if (!part) {
+        //         char res = getLowerBits(&buffer[_index / 2]);
+        //         printBits(res);
+        //     }
+        //     else {
+        //         char res = getUpperBits(&buffer[_index / 2]);
+        //         printBits(res);
+        //     }
+        //     Serial.println(Color(0, 0, 0).toUint16());
+        // }
         return Color(0, 0, 0).toUint16();
     }
     return result->second;
@@ -109,9 +109,9 @@ void DisplayBuffer::printBits(char& _byte)
 {
     for (int i = 7; i >= 0; i--) {
         bool bit = _byte & (1 << i);
-        Serial.print(bit);
+        // Serial.print(bit);
         // std::cout << bit;
     }
-    Serial.println();
+    // Serial.println();
     // std::cout << std::endl;
 }

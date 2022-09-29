@@ -47,20 +47,13 @@ class Game : public std::enable_shared_from_this<Game>
         std::shared_ptr<Display> display;
 
         time_t inputTimeStartMs;
-        time_t getTimeMs();
 
-    public:
-        Game();
-        ~Game();
-        void start();
         void initialize();
-        void run();
-        void processPressedButton(std::shared_ptr<PhysButton> _pressedButton);
         void initializeConfig();
         void initializeButtons();
         void initializeDisplay();
         void initializeBackground();
-        void initializeBasicScene(std::shared_ptr<Scene> _scene, 
+        void configureBasicMenuScene(std::shared_ptr<Scene> _scene, 
             std::string _headerText, int _headerTextSize);
         void initializeMainMenu();
         void initializeSingleGame();
@@ -80,6 +73,15 @@ class Game : public std::enable_shared_from_this<Game>
         void initializeAboutSettings();
         void initializeWidgetViewer();
         void initializeHighScore();
+        void run();
+        void processPressedButton(std::shared_ptr<PhysButton> _pressedButton);
+        time_t getTimeMs();
+
+    public:
+        Game();
+        ~Game();
+        void start();
+        void stop();
         std::shared_ptr<Display> getDisplay();
 };
 
