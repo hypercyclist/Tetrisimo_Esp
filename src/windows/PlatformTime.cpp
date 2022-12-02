@@ -1,13 +1,16 @@
 #include "PlatformTime.h"
 
-#include <windows.h>
+// #include <windows.h>
+#include <unistd.h>
+#include <time.h>
 
 PlatformTime::PlatformTime() { }
 PlatformTime::~PlatformTime() { }
 
 void PlatformTime::delayTimeMs(int _timeMs)
 {
-    Sleep(_timeMs);
+    sleep(_timeMs);
+    // Sleep(_timeMs);
 }
 
 time_t PlatformTime::getTimeMs()
@@ -21,13 +24,16 @@ time_t PlatformTime::getTimeMs()
     // } else {
     //     return GetTickCount();
     // }
-    static LARGE_INTEGER s_frequency;
-    static BOOL s_use_qpc = QueryPerformanceFrequency(&s_frequency);
-    if (s_use_qpc) {
-        LARGE_INTEGER now;
-        QueryPerformanceCounter(&now);
-        return (1000LL * now.QuadPart) / s_frequency.QuadPart;
-    } else {
-        return GetTickCount();
-    }
+    // static LARGE_INTEGER s_frequency;
+    // static BOOL s_use_qpc = QueryPerformanceFrequency(&s_frequency);
+    // if (s_use_qpc) {
+    //     LARGE_INTEGER now;
+    //     QueryPerformanceCounter(&now);
+    //     return (1000LL * now.QuadPart) / s_frequency.QuadPart;
+    // } else {
+    //     return GetTickCount();
+    // }
+    struct timespec now;
+    clock_gettime(CLOCK_MONOTONIC, &now);
+    return now.tv_sec + now.tv_nsec / 1000000000.0;
 }
