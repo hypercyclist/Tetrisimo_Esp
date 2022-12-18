@@ -48,9 +48,5 @@ void Background::drawNet()
         // painter->paintLine( Point(size->getWidth(), i), Point(0, i) );
         painter->drawFastHLine(0, i, size->getWidth(), netColor.toUint16());
     }
-    painter->drawChar(10, 10, 'H', painter->getResourceTheme()->getFocusColor().toUint16(), painter->getResourceTheme()->getFocusColor().toUint16(), 3, 3);
-    painter->drawChar(30, 10, 'E', painter->getResourceTheme()->getFocusColor().toUint16(), painter->getResourceTheme()->getFocusColor().toUint16(), 3, 3);
-    painter->drawChar(50, 10, 'L', painter->getResourceTheme()->getFocusColor().toUint16(), painter->getResourceTheme()->getFocusColor().toUint16(), 3, 3);
-    painter->drawChar(70, 10, 'L', painter->getResourceTheme()->getFocusColor().toUint16(), painter->getResourceTheme()->getFocusColor().toUint16(), 3, 3);
-    painter->drawChar(90, 10, 'O', painter->getResourceTheme()->getFocusColor().toUint16(), painter->getResourceTheme()->getFocusColor().toUint16(), 3, 3);
+    painter->drawText(10, 10, "ДА", painter->getResourceTheme()->getFocusColor().toUint16(), 3);
 }

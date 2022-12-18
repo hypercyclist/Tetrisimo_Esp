@@ -52,9 +52,11 @@ class Painter
         void drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color);
         void drawFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color);
         void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color,
-            uint16_t bg, uint8_t size);
+            uint8_t size);
         void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color,
             uint16_t bg, uint8_t size_x, uint8_t size_y);
+        void drawText(int16_t x, int16_t y, std::string text, uint16_t color, 
+            uint8_t size);
 
         void drawBuffer();
         void drawOpenGLPixel(int _x, int _y, uint16_t _color);

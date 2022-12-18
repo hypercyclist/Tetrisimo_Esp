@@ -9,10 +9,10 @@ class DisplayBuffer
         int bufferSize;
         char* buffer;
 
-        char getLowerBits(char* _byte);
-        char getUpperBits(char* _byte);
-        void setLowerBits(char* _byte, char* _colorCode);
-        void setUpperBits(char* _byte, char* _colorCode);
+        char getLowerBits(char& _byte);
+        char getUpperBits(char& _byte);
+        void setLowerBits(char& _byte, char& _colorCode);
+        void setUpperBits(char& _byte, char& _colorCode);
         void printBits(char& _byte);
 
     public:

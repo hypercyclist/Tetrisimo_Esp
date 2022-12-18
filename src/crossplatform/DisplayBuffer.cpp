@@ -44,10 +44,10 @@ void DisplayBuffer::setColor(int _index, uint16_t _color)
     }
     bool part = _index % 2;
     if (!part) {
-        setLowerBits(&buffer[_index / 2], &bindedCodes[_color]);
+        setLowerBits(buffer[_index / 2], bindedCodes[_color]);
     }
     else {
-        setUpperBits(&buffer[_index / 2], &bindedCodes[_color]);
+        setUpperBits(buffer[_index / 2], bindedCodes[_color]);
     }
 }
 
@@ -57,16 +57,24 @@ uint16_t DisplayBuffer::getColor(int _index)
     bool part = _index % 2;
     if (!part) {
         // Serial.print("l");
-        result = bindedColors.find(getLowerBits(&buffer[_index / 2]));
+        result = bindedColors.find(getLowerBits(buffer[_index / 2]));
     }
     else {
         // Serial.print("u");
-        result = bindedColors.find(getUpperBits(&buffer[_index / 2]));
+        result = bindedColors.find(getUpperBits(buffer[_index / 2]));
     }
-    char a = buffer[_index / 2];
+    // char a = buffer[_index / 2];
     // printBits(a);
     // std::cout << int(result->first);
     if (result == bindedColors.end()) {
+        // if (!part) {
+        //     std::cout << int(getLowerBits(buffer[_index / 2])) << std::endl;
+        // }
+        // else {
+        //     std::cout << int(getUpperBits(buffer[_index / 2])) << std::endl;
+        // }
+
+
         // if (_index == 1 * 1 * 128)
         // {
         //     Serial.print("f");
@@ -85,31 +93,35 @@ uint16_t DisplayBuffer::getColor(int _index)
     return result->second;
 }
 
-char DisplayBuffer::getLowerBits(char* _byte) {
-    char result = 0x000000;
+char DisplayBuffer::getLowerBits(char& _byte) {
+    char result = 0;
     for (int i = 0; i < 4; i++) {
-        if ( *_byte & (1 << i) ) { result |= 1 << i; }
+        if ( _byte & (1 << i) ) { result |= 1 << i; }
+        else { result &= ~(1 << i); } // Можно не устанавливать.
     }
     return result;
 }
 
-char DisplayBuffer::getUpperBits(char* _byte) {
-    char result = 0x000000;
+char DisplayBuffer::getUpperBits(char& _byte) {
+    char result = 0;
     for (int i = 4; i < 8; i++) {
-        if ( *_byte & (1 << (i)) ) { result |= 1 << i - 4; }
+        if ( _byte & (1 << i) ) { result |= 1 << (i - 4); }
+        else { result &= ~(1 << (i - 4)); } // Можно не устанавливать.
     }
     return result;
 }
 
-void DisplayBuffer::setLowerBits(char* _byte, char* _colorCode) {
+void DisplayBuffer::setLowerBits(char& _byte, char& _colorCode) {
     for (int i = 0; i < 4; i++) {
-        if ( *_colorCode & (1 << i) ) { *_byte |= 1 << i; }
+        if ( _colorCode & (1 << i) ) { _byte |= 1 << i; }
+        else { _byte &= ~(1 << i); }
     }
 }
 
-void DisplayBuffer::setUpperBits(char* _byte, char* _colorCode) {
+void DisplayBuffer::setUpperBits(char& _byte, char& _colorCode) {
     for (int i = 4; i < 8; i++) {
-        if ( *_colorCode & (1 << (i - 4)) ) { *_byte |= 1 << i; }
+        if ( _colorCode & (1 << (i - 4)) ) { _byte |= 1 << i;}
+        else { _byte &= ~(1 << i);}
     }
 }
 
