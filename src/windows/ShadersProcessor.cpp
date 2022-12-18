@@ -3,8 +3,8 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include <glad\glad.h>
-#include <GLFW\glfw3.h>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 
 ShadersProcessor::ShadersProcessor()
@@ -118,7 +118,7 @@ int ShadersProcessor::loadShader(ShaderType _shaderType, std::string _shaderPath
 
 void ShadersProcessor::defaultShaders()
 {
-    int a = loadShader(ShaderType::VERTEX, "shaders\\shader2.vert");
-    int b = loadShader(ShaderType::FRAGMENT, "shaders\\shader.frag");
+    int a = loadShader(ShaderType::VERTEX, "shaders/shader2.vert");
+    int b = loadShader(ShaderType::FRAGMENT, "shaders/shader.frag");
     int c = compileProgram(a, b);
 }
