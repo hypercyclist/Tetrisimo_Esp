@@ -1,4 +1,5 @@
 #include "Display.h"
+#include "Config.h"
 #include "Log.h"
 #include "Size.h"
 #include "Painter.h"
@@ -15,19 +16,15 @@
 
 #include <iostream>
 
-Display::Display(
-            Size _displaySize, 
-            int _pinDisplayCS, 
-            int _pinDisplayDC, 
-            int _pinDisplayRST
-            )
+Display::Display(std::shared_ptr<Config> _config)
 {
-    displaySize = std::make_shared<Size>(_displaySize);
-    pinDisplayCS = _pinDisplayCS;
-    pinDisplayDC = _pinDisplayDC;
-    pinDisplayRST = _pinDisplayRST;
+    displaySize = std::make_shared<Size>(_config->getDisplaySize());
+    pinDisplayCS = _config->getPinDisplayCS();
+    pinDisplayDC = _config->getPinDisplayDC();
+    pinDisplayRST = _config->getPinDisplayRST();
+    displayScale = _config->getDisplayScale();
     initContext();
-    painter = std::make_shared<Painter>();
+    painter = std::make_shared<Painter>(_config);
     Painter::setDefault(painter);
     painter->setWindow(window);
     painter->setCamera(camera);
@@ -78,7 +75,9 @@ void Display::initContext()
     windowName = "Tetrisimo";
     camera = std::make_shared<Camera>();
     glfwInitConfigure();
-    window = glfwCreateWindow(displaySize->getWidth(), displaySize->getHeight(), windowName.c_str(), NULL, NULL);
+    window = glfwCreateWindow(displaySize->getWidth() * displayScale, 
+        displaySize->getHeight() * displayScale, 
+        windowName.c_str(), NULL, NULL);
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
     initGlad();

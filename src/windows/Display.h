@@ -1,6 +1,7 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
+class Config;
 class Painter;
 class Scene;
 class Size;
@@ -31,12 +32,7 @@ class Display
         int pinDisplayDC;
         int pinDisplayRST;
     public:
-        Display(
-            Size _displaySize, 
-            int _pinDisplayCS, 
-            int _pinDisplayDC, 
-            int _pinDisplayRST
-        );
+        Display(std::shared_ptr<Config> _config);
         ~Display();
 
         // void draw();
@@ -49,6 +45,7 @@ class Display
         std::shared_ptr<Painter> getPainter();
         void setSize(Size _displaySize);
         Size getSize();
+        int displayScale;
         std::shared_ptr<Scene> getActiveScene();
         void setActiveScene(std::shared_ptr<Scene> _activeScene);
 };

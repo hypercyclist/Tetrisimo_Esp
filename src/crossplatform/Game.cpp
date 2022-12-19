@@ -167,12 +167,7 @@ void Game::initializeButtons()
 
 void Game::initializeDisplay()
 {
-    display = std::make_shared<Display>(
-        config->getDisplaySize(),
-        config->getPinDisplayCS(), 
-        config->getPinDisplayDC(), 
-        config->getPinDisplayRST() 
-        );
+    display = std::make_shared<Display>(config);
 }
 
 void Game::initializeBackground()

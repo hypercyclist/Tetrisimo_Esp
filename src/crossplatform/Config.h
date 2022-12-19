@@ -50,6 +50,7 @@ class Config
         void writeConfig();
 
         Size getDisplaySize();
+        int getDisplayScale();
         int getPinDisplayCS();
         int getPinDisplayDC();
         int getPinDisplayRST();

@@ -48,5 +48,6 @@ void Background::drawNet()
         // painter->paintLine( Point(size->getWidth(), i), Point(0, i) );
         painter->drawFastHLine(0, i, size->getWidth(), netColor.toUint16());
     }
-    painter->drawText(10, 10, "ДА", painter->getResourceTheme()->getFocusColor().toUint16(), 3);
+    // painter->drawText(10, 10, "ДА", painter->getResourceTheme()->getFocusColor().toUint16(), 3);
+    painter->testFont(8);
 }

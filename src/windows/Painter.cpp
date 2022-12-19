@@ -1,5 +1,6 @@
 #include "Painter.h"
 #include "Color.h"
+#include "Config.h"
 #include "Camera.h"
 #include "Log.h"
 #include "DisplayBuffer.h"
@@ -17,13 +18,16 @@
 
 #include <iostream>
 
-Painter::Painter()
+Painter::Painter(std::shared_ptr<Config> _config)
     :
+    DISPLAY_WIDTH(_config->getDisplaySize().getWidth()),
+    DISPLAY_HEIGHT(_config->getDisplaySize().getHeight()),
+    DISPLAY_SCALE(_config->getDisplayScale()),
     drawColor(std::make_unique<Color>(0, 0, 0)),
     textSize(1),
-    oldBuffer(std::make_shared<DisplayBuffer>(bufferSize)),
-    buffer(std::make_shared<DisplayBuffer>(bufferSize)),
-    diffBuffer(std::make_shared<DisplayBuffer>(bufferSize))
+    oldBuffer(std::make_shared<DisplayBuffer>(BUFFER_SIZE)),
+    buffer(std::make_shared<DisplayBuffer>(BUFFER_SIZE)),
+    diffBuffer(std::make_shared<DisplayBuffer>(BUFFER_SIZE))
 {
     shadersProcessor = std::make_shared<ShadersProcessor>();
     shadersProcessor->defaultShaders();
@@ -39,9 +43,9 @@ std::shared_ptr<Painter> Painter::painter;
 
 void Painter::writePixel(int16_t _x, int16_t _y, uint16_t _color) 
 {
-    if ((_x >= 0) && (_x < ST7735_TFTWIDTH_128) && (_y >= 0) && (_y < ST7735_TFTHEIGHT_160)) 
+    if ((_x >= 0) && (_x < DISPLAY_WIDTH) && (_y >= 0) && (_y < DISPLAY_HEIGHT)) 
     {
-        buffer->setColor(_x + _y * ST7735_TFTWIDTH_128, _color);
+        buffer->setColor(_x + _y * DISPLAY_WIDTH, _color);
     }
 }
 
@@ -52,12 +56,12 @@ void Painter::writeFillRect(int16_t x, int16_t y, int16_t w, int16_t h,
       x += w + 1; //   Move X to left edge
       w = -w;     //   Use positive width
     }
-    if (x < ST7735_TFTWIDTH_128) { // Not off right
+    if (x < DISPLAY_WIDTH) { // Not off right
       if (h < 0) {    // If negative height...
         y += h + 1;   //   Move Y to top edge
         h = -h;       //   Use positive height
       }
-      if (y < ST7735_TFTHEIGHT_160) { // Not off bottom
+      if (y < DISPLAY_HEIGHT) { // Not off bottom
         int16_t x2 = x + w - 1;
         if (x2 >= 0) { // Not off left
           int16_t y2 = y + h - 1;
@@ -71,17 +75,17 @@ void Painter::writeFillRect(int16_t x, int16_t y, int16_t w, int16_t h,
               y = 0;
               h = y2 + 1;
             } // Clip top
-            if (x2 >= ST7735_TFTWIDTH_128) {
-              w = ST7735_TFTWIDTH_128 - x;
+            if (x2 >= DISPLAY_WIDTH) {
+              w = DISPLAY_WIDTH - x;
             } // Clip right
-            if (y2 >= ST7735_TFTHEIGHT_160) {
-              h = ST7735_TFTHEIGHT_160 - y;
+            if (y2 >= DISPLAY_HEIGHT) {
+              h = DISPLAY_HEIGHT - y;
             } // Clip bottom
             for (int i = y; i < y + h; i++)
             {
                 for (int j = x; j < x + w; j++)
                 {
-                    buffer->setColor(j + i * ST7735_TFTWIDTH_128, _color);
+                    buffer->setColor(j + i * DISPLAY_WIDTH, _color);
                 }
             }
           }
@@ -93,12 +97,12 @@ void Painter::writeFillRect(int16_t x, int16_t y, int16_t w, int16_t h,
 
 void Painter::writeFastHLine(int16_t x, int16_t y, int16_t w,
                                             uint16_t _color) {
-  if ((y >= 0) && (y < ST7735_TFTHEIGHT_160) && w) { // Y on screen, nonzero width
+  if ((y >= 0) && (y < DISPLAY_HEIGHT) && w) { // Y on screen, nonzero width
     if (w < 0) {                        // If negative width...
       x += w + 1;                       //   Move X to left edge
       w = -w;                           //   Use positive width
     }
-    if (x < ST7735_TFTWIDTH_128) { // Not off right
+    if (x < DISPLAY_WIDTH) { // Not off right
       int16_t x2 = x + w - 1;
       if (x2 >= 0) { // Not off left
         // Line partly or fully overlaps screen
@@ -106,14 +110,14 @@ void Painter::writeFastHLine(int16_t x, int16_t y, int16_t w,
           x = 0;
           w = x2 + 1;
         } // Clip left
-        if (x2 >= ST7735_TFTWIDTH_128) {
-          w = ST7735_TFTWIDTH_128 - x;
+        if (x2 >= DISPLAY_WIDTH) {
+          w = DISPLAY_WIDTH - x;
         } // Clip right
         for (int i = y; i < y + 1; i++)
         {
             for (int j = x; j < x + w; j++)
             {
-                buffer->setColor(j + i * ST7735_TFTWIDTH_128, _color);
+                buffer->setColor(j + i * DISPLAY_WIDTH, _color);
             }
         }
       }
@@ -123,12 +127,12 @@ void Painter::writeFastHLine(int16_t x, int16_t y, int16_t w,
 
 void Painter::writeFastVLine(int16_t x, int16_t y, int16_t h,
                                             uint16_t _color) {
-  if ((x >= 0) && (x < ST7735_TFTWIDTH_128) && h) { // X on screen, nonzero height
+  if ((x >= 0) && (x < DISPLAY_WIDTH) && h) { // X on screen, nonzero height
     if (h < 0) {                       // If negative height...
       y += h + 1;                      //   Move Y to top edge
       h = -h;                          //   Use positive height
     }
-    if (y < ST7735_TFTHEIGHT_160) { // Not off bottom
+    if (y < DISPLAY_HEIGHT) { // Not off bottom
       int16_t y2 = y + h - 1;
       if (y2 >= 0) { // Not off top
         // Line partly or fully overlaps screen
@@ -136,14 +140,14 @@ void Painter::writeFastVLine(int16_t x, int16_t y, int16_t h,
           y = 0;
           h = y2 + 1;
         } // Clip top
-        if (y2 >= ST7735_TFTHEIGHT_160) {
-          h = ST7735_TFTHEIGHT_160 - y;
+        if (y2 >= DISPLAY_HEIGHT) {
+          h = DISPLAY_HEIGHT - y;
         } // Clip bottom
         for (int i = y; i < y + h; i++)
         {
             for (int j = x; j < x + 1; j++)
             {
-                buffer->setColor(j + i * ST7735_TFTWIDTH_128, _color);
+                buffer->setColor(j + i * DISPLAY_WIDTH, _color);
             }
         }
       }
@@ -179,8 +183,8 @@ void Painter::drawChar(int16_t x, int16_t y, unsigned char c,
 void Painter::drawChar(int16_t x, int16_t y, unsigned char c,
                             uint16_t color, uint16_t bg, uint8_t size_x,
                             uint8_t size_y) {
-    if ((x >= ST7735_TFTWIDTH_128) ||              // Clip right
-        (y >= ST7735_TFTHEIGHT_160) ||             // Clip bottom
+    if ((x >= DISPLAY_WIDTH) ||              // Clip right
+        (y >= DISPLAY_HEIGHT) ||             // Clip bottom
         ((x + 6 * size_x - 1) < 0) || // Clip left
         ((y + 8 * size_y - 1) < 0))   // Clip top
       return;
@@ -219,15 +223,25 @@ void Painter::drawText(int16_t x, int16_t y, std::string text, uint16_t color,
     }
 }
 
+void Painter::testFont(int _fontPage)
+{
+    int charOffset = 225 * _fontPage;
+    for(int i = 0; i < 15; i++) {
+        for(int j = 0; j < 15; j++) {
+            drawChar(i*6*1, j*8*1, char(charOffset +(10*i+j)), painter->getResourceTheme()->getFocusColor().toUint16(), 1);
+        }
+    }
+}
+
 void Painter::drawBuffer()
 {
     int pixelChanged = 0;
 
-    // for (int i = 0; i < ST7735_TFTHEIGHT_160; i++)
+    // for (int i = 0; i < DISPLAY_HEIGHT; i++)
     // {
-    //     for (int j = 0; j < ST7735_TFTWIDTH_128; j++)
+    //     for (int j = 0; j < DISPLAY_WIDTH; j++)
     //     {
-    //         int index = j + i * ST7735_TFTWIDTH_128;
+    //         int index = j + i * DISPLAY_WIDTH;
     //         if (oldBuffer->getColor(index) != buffer->getColor(index) && buffer->getColor(index) != 0x000000)
     //         {
     //             pixelChanged++;
@@ -237,12 +251,12 @@ void Painter::drawBuffer()
     // }
 
     // startWriteReal();
-    // for (int i = 0; i < ST7735_TFTHEIGHT_160; i++)
+    // for (int i = 0; i < DISPLAY_HEIGHT; i++)
     // {
-    //     for (int j = 0; j < ST7735_TFTWIDTH_128; j++)
+    //     for (int j = 0; j < DISPLAY_WIDTH; j++)
     //     {
-    //         uint16_t color(buffer->getColor(j + i * ST7735_TFTWIDTH_128));
-    //         // if (i == 1 && j == 1) { Serial.println(diffBuffer->getColor(j + i * ST7735_TFTWIDTH_128)); }
+    //         uint16_t color(buffer->getColor(j + i * DISPLAY_WIDTH));
+    //         // if (i == 1 && j == 1) { Serial.println(diffBuffer->getColor(j + i * DISPLAY_WIDTH)); }
     //         if (color != Color(0, 0, 0).toUint16())
     //         {
     //             drawOpenGLPixel(j, i, color);
@@ -316,20 +330,20 @@ void Painter::drawOpenGLPixel(int _x, int _y, uint16_t _color)
 
 void Painter::drawOpenGLBuffer()
 {
-    // Color c(buffer->getColor(0 + 0 * ST7735_TFTWIDTH_128));
+    // Color c(buffer->getColor(0 + 0 * DISPLAY_WIDTH));
     // std::cout << c.getR() << " " << c.getG() << " " << c.getB() << std::endl;
-    float vertices[ST7735_TFTWIDTH_128 * ST7735_TFTHEIGHT_160 * 5];
+    float vertices[DISPLAY_WIDTH * DISPLAY_HEIGHT * 5];
 
     int verticesIndex = 0;
-    for (int i = 0; i < ST7735_TFTHEIGHT_160; i++)
+    for (int i = 0; i < DISPLAY_HEIGHT; i++)
     {
-        for (int j = 0; j < ST7735_TFTWIDTH_128; j++)
+        for (int j = 0; j < DISPLAY_WIDTH; j++)
         {
-            // std::cout << buffer->getColor(j + i * ST7735_TFTWIDTH_128) << " ";
-            uint16_t color(buffer->getColor(j + i * ST7735_TFTWIDTH_128));
+            // std::cout << buffer->getColor(j + i * DISPLAY_WIDTH) << " ";
+            uint16_t color(buffer->getColor(j + i * DISPLAY_WIDTH));
             Color rgbColor(color);
-            vertices[verticesIndex * 5 + 0] = (float)j / (float)ST7735_TFTWIDTH_128;
-            vertices[verticesIndex * 5 + 1] = (float)i / (float)ST7735_TFTHEIGHT_160;
+            vertices[verticesIndex * 5 + 0] = (float)j / (float)DISPLAY_WIDTH;
+            vertices[verticesIndex * 5 + 1] = (float)i / (float)DISPLAY_HEIGHT;
             vertices[verticesIndex * 5 + 2] = (float)rgbColor.getR() / 255;
             vertices[verticesIndex * 5 + 3] = (float)rgbColor.getG() / 255;
             vertices[verticesIndex * 5 + 4] = (float)rgbColor.getB() / 255;
@@ -366,7 +380,8 @@ void Painter::drawOpenGLBuffer()
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera->getView()));
 
     glBindVertexArray(VAO);
-    glDrawArrays(GL_POINTS, 0, ST7735_TFTWIDTH_128 * ST7735_TFTHEIGHT_160);
+    glPointSize(DISPLAY_SCALE);
+    glDrawArrays(GL_POINTS, 0, DISPLAY_WIDTH * DISPLAY_HEIGHT);
     glBindVertexArray(0);
 }
 
@@ -412,7 +427,7 @@ void Painter::background(Color& _backgroundColor)
     // test->test(_backgroundColor.toUint16());
     // // std::cout << "background res: " << buffer->getColor(0) << std::endl;
     // std::cout << "background: " << _backgroundColor.toUint16() << std::endl;
-    writeFillRect(0, 0, ST7735_TFTWIDTH_128, ST7735_TFTHEIGHT_160, _backgroundColor.toUint16());
+    writeFillRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT, _backgroundColor.toUint16());
     // std::cout << "background res: " << buffer->getColor(0) << std::endl;
 }
 

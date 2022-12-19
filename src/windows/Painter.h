@@ -2,6 +2,7 @@
 #define PAINTER_H
 
 class Camera;
+class Config;
 class Color;
 class DisplayBuffer;
 class GLFWwindow;
@@ -13,15 +14,16 @@ class Size;
 #include <memory>
 #include <string>
 
-#define ST7735_TFTWIDTH_128 128  // for 1.44 and mini
-#define ST7735_TFTHEIGHT_160 160 // for 1.8" and mini display
-const int bufferSize = ST7735_TFTWIDTH_128 * ST7735_TFTHEIGHT_160 / 2;
-
 // This class is wrapper over the standart painter class. It was created for
 // easy using our classes into drawing process.
 class Painter
 {
     private:
+        const int DISPLAY_WIDTH; // for 1.44 and mini
+        const int DISPLAY_HEIGHT; // for 1.8" and mini display
+        const int BUFFER_SIZE = DISPLAY_WIDTH * DISPLAY_HEIGHT / 2;
+        const int DISPLAY_SCALE;
+
         GLFWwindow* window;
         std::shared_ptr<Camera> camera;
         unsigned int VBO, VAO, EBO;
@@ -40,7 +42,7 @@ class Painter
         const static unsigned char font[];
         
     public:
-        Painter();
+        Painter(std::shared_ptr<Config> _config);
         ~Painter();
 
         void writePixel(int16_t x, int16_t y, uint16_t _color);
@@ -57,6 +59,7 @@ class Painter
             uint16_t bg, uint8_t size_x, uint8_t size_y);
         void drawText(int16_t x, int16_t y, std::string text, uint16_t color, 
             uint8_t size);
+        void testFont(int _fontPage);
 
         void drawBuffer();
         void drawOpenGLPixel(int _x, int _y, uint16_t _color);
