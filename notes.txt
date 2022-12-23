@@ -1,0 +1,85 @@
+# Set compiler flags as wall, C++ standart, include, libraries folders paths.
+# DEPENDENCIES_LIST_ORIGINAL = $(wildcard $(addsuffix /*.h,$(INCLUDES_DIRS)))
+# DEPENDENCIES_LIST_ABSOLUTE = $(patsubst %, $(INCLUDES_DIRS)/%, $(DEPENDENCIES_LIST_ORIGINAL))
+# SOURCES_LIST_ABSOLUTE = $(patsubst %, $(SOURCES_DIRS)/%, $(SOURCES_LIST_ORIGINAL))
+# OBJECTS_LIST_ABSOLUTE = $(patsubst %,$(OBJECTS_DIR)/%,$(OBJECTS_LIST_ORIGINAL))
+
+# $(OBJECTS_LIST_ORIGINAL): $(SOURCES_LIST_ORIGINAL)
+# 	$(CXX) -c -o $@ $< $(CXXFLAGS) $(INCLUDES)
+
+# TetrisimoEsp: $(OBJECTS_LIST_ORIGINAL)
+# 	$(CXX) -o $@ $^ $(CXXFLAGS)
+
+
+# .PHONY: clean
+
+# clean:
+# 	del $(OBJECTS_DIR)
+# rm -f $(OBJECTS_DIR)/*.o *~ core $(INCLUDES_DIRS)/*~ 
+
+# src = $(wildcard *.cpp)
+# obj = $(src:.cpp=.o)
+# all: myprog
+
+
+	# $(LIBS) ; $(LDFLAGS)
+# DEPENDENCIES_SUBDIRS = ./src/crossplatform ./src/windows
+# Super commands list.
+# subdirs := $(wildcard */)
+# sources := $(wildcard $(addsuffix *.cpp,$(subdirs)))
+# objects := $(patsubst %.cpp,%.o,$(sources))
+# $(objects) : %.o : %.cpp.
+# -I$(INCLUDES_DIRS) -L$(LIBRARIES_DIRS)
+
+	# $(info $(CXX))
+	# $(info $(INCLUDES_DIRS))
+	# $(info $(SOURCES_DIRS))
+	# $(info $(LIBRARIES_DIRS))
+	# $(info $(CXXFLAGS))
+	# $(info $(OBJECTS_DIR))
+	# $(info $(DEPENDENCIES_LIST_ORIGINAL))
+	# $(info $(DEPENDENCIES_LIST_ABSOLUTE))
+	# $(info $(SOURCES_LIST_ORIGINAL))
+	# $(info $(SOURCES_LIST_ABSOLUTE))
+	# $(info $(OBJECTS_LIST_ORIGINAL))
+	# $(info $(OBJECTS_LIST_ABSOLUTE))
+    #LIBS = -lm ; LDFLAGS = -lgdi32
+	# https://stackoverflow.com/questions/27942565/makefile-to-compile-lists-of-source-files
+
+
+
+
+
+
+
+
+
+// good file
+# Set compiler = g++.
+CXX = g++
+CXXFLAGS = -std=c++17
+LIB_DIRS = ./src/lib
+LIBS = -lglfw3 -ldl
+INCLUDES_DIRS := ./src/crossplatform ./src/windows ./src/lib/include
+INCLUDES_DIRS_WITH_KEY := $(foreach dir, $(INCLUDES_DIRS), $(addprefix -I, $(dir)))
+SOURCES_DIRS := ./src/crossplatform ./src/windows ./src/lib
+SOURCES_FILES := $(wildcard $(addsuffix /*.cpp,$(SOURCES_DIRS)))
+OBJECTS_DIR := ./build/windows/objects
+OBJECTS_FILES := $(foreach file, $(notdir $(SOURCES_FILES)), $(addprefix $(OBJECTS_DIR)/, $(file)))
+OBJECTS_FILES := $(patsubst %.cpp, %.o, $(OBJECTS_FILES))
+
+all: TetrisimoEsp
+
+TetrisimoEsp: $(SOURCES_FILES:%.cpp=%.o)
+	$(CXX) $(CXXFLAGS) $(INCLUDES_DIRS_WITH_KEY) -L$(LIB_DIRS) $(LIBS) $(foreach file, $(notdir $^), $(addprefix $(OBJECTS_DIR)/, $(file))) -o ./build/windows/$@
+
+$(SOURCES_FILES:%.cpp=%.o): $(SOURCES_FILES)
+	$(CXX) $(CXXFLAGS) $(INCLUDES_DIRS_WITH_KEY) -L$(LIB_DIRS) $(LIBS) -c $(patsubst %.o, %.cpp, $@) -o $(OBJECTS_DIR)/$(notdir $@)
+
+# $(SOURCES_FILES:%.cpp=%.o): %.o : %.cpp
+# 	$(CXX) -c -o $(OBJECTS_DIR)/$(notdir $@) $^
+# $(patsubst %.cpp, %, $(SOURCES_FILES)):
+# 	$(CXX) -c -o $(patsubst %, %.o, $(OBJECTS_DIR)/$(notdir $($@))) $(patsubst %, %.cpp, $@)
+# objects: $(SOURCES_FILES)
+# 	$(CXX) -c -o $(patsubst %.cpp, %.o, $(OBJECTS_DIR)/$(notdir $^)) $^
+# $(LIB_PATH) $(LIBS) -o $@

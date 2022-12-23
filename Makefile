@@ -1,63 +1,76 @@
+# https://riptutorial.com/makefile/example/21376/building-from-different-source-folders-to-different-target-folders
 # Set compiler = g++.
 CXX = g++
-CXXFLAGS = -Wall -std=c++17
+FILE_NAME_WINDOWS = TetrisimoEsp.exe
+FILE_NAME_LINUX = TetrisimoEsp
+CXXFLAGS = -std=c++17
 
-INCLUDES_DIRS = ./src/crossplatform ./src/windows ./src/lib/include
-INCLUDES_DIRS_WITH_KEY = $(foreach dir, $(INCLUDES_DIRS), $(addprefix -I, $(dir)))
-INCLUDES_FILES = $(wildcard $(addsuffix /*.h,$(INCLUDES_DIRS)))
+BUILD_WINDOWS_DIRECTORY = build/windows
+BUILD_LINUX_DIRECTORY = build/linux
+OBJECTS_WINDOWS_DIRECTORY = $(BUILD_WINDOWS_DIRECTORY)/objects
+OBJECTS_LINUX_DIRECTORY = $(BUILD_LINUX_DIRECTORY)/objects
+SOURCES_DIRECTORY = src
 
-SOURCES_DIRS = ./src/crossplatform ./src/windows
-SOURCES_FILES = $(wildcard $(addsuffix /*.cpp,$(SOURCES_DIRS)))
+SOURCES_CROSSPLATFORM_DIRECTORY = $(SOURCES_DIRECTORY)/crossplatform
+SOURCES_WINDOWS_DIRECTORY = $(SOURCES_DIRECTORY)/windows
+SOURCES_LINUX_DIRECTORY = $(SOURCES_DIRECTORY)/linux
+SOURCES_LIBRARIES_DIRECTORY = $(SOURCES_DIRECTORY)/lib
 
-OBJECTS_DIR = ./build/windows/objects
-TMP_LIST = $(patsubst %.cpp,%.o,$(SOURCES_FILES))
-OBJECTS_LIST_ORIGINAL = $(patsubst %/, %, $(TMP_LIST))
-$(info $(OBJECTS_LIST_ORIGINAL))
+DEPENDENCIES_LIBRARIES_FLAG := $(SOURCES_LIBRARIES_DIRECTORY)
+DEPENDENCIES_LIBRARIES_FLAG := $(foreach dir, $(DEPENDENCIES_LIBRARIES_FLAG), $(addprefix -L, $(dir)))
+# DEPENDENCIES_WINDOWS_LIBRARIES = -lglfw3dll -lgdi32 -lopengl32
+DEPENDENCIES_WINDOWS_LIBRARIES = -ldl -lglfw
+DEPENDENCIES_LINUX_LIBRARIES = -ldl -lglfw
 
-LIBRARIES_DIRS = ./src/lib
-# Set compiler flags as wall, C++ standart, include, libraries folders paths.
-# DEPENDENCIES_LIST_ORIGINAL = $(wildcard $(addsuffix /*.h,$(INCLUDES_DIRS)))
-# DEPENDENCIES_LIST_ABSOLUTE = $(patsubst %, $(INCLUDES_DIRS)/%, $(DEPENDENCIES_LIST_ORIGINAL))
-# SOURCES_LIST_ABSOLUTE = $(patsubst %, $(SOURCES_DIRS)/%, $(SOURCES_LIST_ORIGINAL))
-# OBJECTS_LIST_ABSOLUTE = $(patsubst %,$(OBJECTS_DIR)/%,$(OBJECTS_LIST_ORIGINAL))
+INCLUDES_CROSSPLATFORM_DIRECTORY = $(SOURCES_DIRECTORY)/crossplatform
+INCLUDES_WINDOWS_DIRECTORY = $(SOURCES_DIRECTORY)/windows
+INCLUDES_LINUX_DIRECTORY = $(SOURCES_DIRECTORY)/linux
+INCLUDES_LIBRARIES_DIRECTORY = $(SOURCES_DIRECTORY)/lib/include
 
-# $(OBJECTS_LIST_ORIGINAL): $(SOURCES_LIST_ORIGINAL)
-# 	$(CXX) -c -o $@ $< $(CXXFLAGS) $(INCLUDES)
+INCLUDES_WINDOWS_FLAG := $(INCLUDES_CROSSPLATFORM_DIRECTORY) $(INCLUDES_WINDOWS_DIRECTORY) $(INCLUDES_LIBRARIES_DIRECTORY)
+INCLUDES_WINDOWS_FLAG := $(foreach dir, $(INCLUDES_WINDOWS_FLAG), $(addprefix -I, $(dir)))
 
-# TetrisimoEsp: $(OBJECTS_LIST_ORIGINAL)
-# 	$(CXX) -o $@ $^ $(CXXFLAGS)
+INCLUDES_LINUX_FLAG := $(INCLUDES_CROSSPLATFORM_DIRECTORY) $(INCLUDES_LINUX_DIRECTORY) $(INCLUDES_LIBRARIES_DIRECTORY)
+INCLUDES_LINUX_FLAG := $(foreach dir, $(INCLUDES_LINUX_FLAG), $(addprefix -I, $(dir)))
 
+OBJECTS_CROSSPLATFORM = $(patsubst %.cpp, %.o, $(wildcard $(addsuffix /*.cpp, $(SOURCES_CROSSPLATFORM_DIRECTORY))))
+OBJECTS_WINDOWS = $(patsubst %.cpp, %.o, $(wildcard $(addsuffix /*.cpp, $(SOURCES_WINDOWS_DIRECTORY))))
+OBJECTS_LINUX = $(patsubst %.cpp, %.o, $(wildcard $(addsuffix /*.cpp, $(SOURCES_LINUX_DIRECTORY))))
+OBJECTS_LIBRARIES = $(patsubst %.cpp, %.o, $(wildcard $(addsuffix /*.cpp, $(SOURCES_LIBRARIES_DIRECTORY))))
 
-# .PHONY: clean
+OBJECTS_WINDOWS_FLAG := $(OBJECTS_CROSSPLATFORM) $(OBJECTS_WINDOWS) $(OBJECTS_LIBRARIES)
+OBJECTS_WINDOWS_FLAG := $(foreach file, $(OBJECTS_WINDOWS_FLAG), $(addprefix $(OBJECTS_WINDOWS_DIRECTORY)/, $(file)))
+OBJECTS_WINDOWS_FLAG := $(subst $(SOURCES_DIRECTORY)/,, $(OBJECTS_WINDOWS_FLAG))
 
-# clean:
-# 	del $(OBJECTS_DIR)
-# rm -f $(OBJECTS_DIR)/*.o *~ core $(INCLUDES_DIRS)/*~ 
+OBJECTS_LINUX_FLAG := $(OBJECTS_CROSSPLATFORM) $(OBJECTS_LINUX) $(OBJECTS_LIBRARIES)
+OBJECTS_LINUX_FLAG := $(foreach file, $(OBJECTS_LINUX_FLAG), $(addprefix $(OBJECTS_LINUX_DIRECTORY)/, $(file)))
+OBJECTS_LINUX_FLAG := $(subst $(SOURCES_DIRECTORY)/,, $(OBJECTS_LINUX_FLAG))
 
-# src = $(wildcard *.cpp)
-# obj = $(src:.cpp=.o)
-# all: myprog
+windows: $(FILE_NAME_WINDOWS)
+linux: $(FILE_NAME_LINUX)
 
+$(FILE_NAME_WINDOWS): $(OBJECTS_WINDOWS_FLAG)
+	$(CXX) $(CXXFLAGS) $(INCLUDES_WINDOWS_FLAG) $(DEPENDENCIES_LIBRARIES_FLAG) -o $(BUILD_WINDOWS_DIRECTORY)/$@ $^ $(DEPENDENCIES_WINDOWS_LIBRARIES)
 
-	# $(LIBS) ; $(LDFLAGS)
-# DEPENDENCIES_SUBDIRS = ./src/crossplatform ./src/windows
-# Super commands list.
-# subdirs := $(wildcard */)
-# sources := $(wildcard $(addsuffix *.cpp,$(subdirs)))
-# objects := $(patsubst %.cpp,%.o,$(sources))
-# $(objects) : %.o : %.cpp.
-# -I$(INCLUDES_DIRS) -L$(LIBRARIES_DIRS)
+$(OBJECTS_WINDOWS_FLAG): $(OBJECTS_WINDOWS_DIRECTORY)/%.o : $(SOURCES_DIRECTORY)/%.cpp
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) $(INCLUDES_WINDOWS_FLAG) $(DEPENDENCIES_LIBRARIES_FLAG) -c -o $@  $< $(DEPENDENCIES_WINDOWS_LIBRARIES)
 
-	# $(info $(CXX))
-	# $(info $(INCLUDES_DIRS))
-	# $(info $(SOURCES_DIRS))
-	# $(info $(LIBRARIES_DIRS))
-	# $(info $(CXXFLAGS))
-	# $(info $(OBJECTS_DIR))
-	# $(info $(DEPENDENCIES_LIST_ORIGINAL))
-	# $(info $(DEPENDENCIES_LIST_ABSOLUTE))
-	# $(info $(SOURCES_LIST_ORIGINAL))
-	# $(info $(SOURCES_LIST_ABSOLUTE))
-	# $(info $(OBJECTS_LIST_ORIGINAL))
-	# $(info $(OBJECTS_LIST_ABSOLUTE))
-    #LIBS = -lm ; LDFLAGS = -lgdi32
+$(FILE_NAME_LINUX): $(OBJECTS_LINUX_FLAG)
+	$(CXX) $(CXXFLAGS) $(INCLUDES_LINUX_FLAG) $(DEPENDENCIES_LIBRARIES_FLAG) -o $(BUILD_LINUX_DIRECTORY)/$@ $^ $(DEPENDENCIES_LINUX_LIBRARIES)
+
+$(OBJECTS_LINUX_FLAG): $(OBJECTS_LINUX_DIRECTORY)/%.o : $(SOURCES_DIRECTORY)/%.cpp
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) $(INCLUDES_LINUX_FLAG) $(DEPENDENCIES_LIBRARIES_FLAG) -c -o $@  $< $(DEPENDENCIES_LINUX_LIBRARIES)
+
+.PHONY: windows linux clean
+
+clean:
+	rm -rf $(SOURCES_CROSSPLATFORM_DIRECTORY)/*.o
+	rm -rf $(SOURCES_WINDOWS_DIRECTORY)/*.o
+	rm -rf $(SOURCES_LINUX_DIRECTORY)/*.o
+	rm -rf $(SOURCES_LIBRARIES_DIRECTORY)/*.o
+	rm -rf $(OBJECTS_WINDOWS_DIRECTORY)/*
+	rm -rf $(OBJECTS_LINUX_DIRECTORY)/*
+	rm -f $(BUILD_WINDOWS_DIRECTORY)/$(FILE_NAME_WINDOWS)
+	rm -f $(BUILD_LINUX_DIRECTORY)/$(FILE_NAME_LINUX)
