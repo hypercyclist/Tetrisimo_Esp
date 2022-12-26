@@ -21,8 +21,6 @@ class PaletteView : public Widget
         void render();
         void processSizeUpdate();
 
-        void update();
-
         void paintBlock(int _x, int _y, Color _color); // Need shared_ptr.
 };
 

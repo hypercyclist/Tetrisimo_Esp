@@ -104,17 +104,6 @@ void VerticalLayout::countLayout()
     }
 }
 
-void VerticalLayout::update()
-{
-    Log::println("VerticalLayout::update()", "LOW");
-    countLayout();
-    needUpdate = true;
-    if (parent != nullptr)
-    {
-        parent->update();
-    }
-}
-
 void VerticalLayout::moveUp()
 {
     focusPrevious();
@@ -161,9 +150,6 @@ void VerticalLayout::moveDown()
         viewport->setPosition( Point( viewport->getPosition().getX(), childrens[nextFocusableWidgetIndex]->getY() - spacing) );
         countLayout();
         focusNext();
-        checked();
-        Log::println("I SAID UPDATE FUCKA", "LOW");
-        update();
     }
     // else
     // {
@@ -180,7 +166,6 @@ void VerticalLayout::focus()
         if ( childrens[i]->isFocusable() )
         {
             childrens[i]->focus();
-            update();
             return;
         }
     }

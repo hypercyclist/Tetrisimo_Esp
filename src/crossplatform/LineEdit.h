@@ -27,8 +27,6 @@ class LineEdit : public Widget
 
         void render();
         void processSizeUpdate();
-
-        void update();
         
         void setName(std::string _name);
         std::string getName();

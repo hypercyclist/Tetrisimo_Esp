@@ -22,8 +22,6 @@ class Button : public Widget
         void render();
         void render(std::shared_ptr<Viewport> _viewport);
         void processSizeUpdate();
-
-        void update();
         
         std::string getText();
         void setText(std::string _text);

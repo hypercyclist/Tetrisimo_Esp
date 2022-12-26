@@ -86,7 +86,7 @@ class Painter
         void setTextSize(int _textSize);
         void paintText(std::string _text, Point _positionPoint);
         // Maybe it need to be moved 
-        static std::string fromCyrilic(std::string _cytilicString);
+        static std::string fromCyrilic(std::string _cyrilicString);
 
         // void paintLine(Point _pointA, Point _pointB);
         // void paintLine(Point _pointA, Point _pointB, int _lineWidth);

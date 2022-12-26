@@ -84,7 +84,6 @@ void CheckBox::processSizeUpdate()
         nextWidth = layoutSize.getWidth() * 0.74f;
         Log::println(nextWidth, "LOW");
         nextHeight = size->getHeight();
-        update();
     }
     else
     {
@@ -117,16 +116,6 @@ void CheckBox::processSizeUpdate()
     }
     // Serial.println(nextWidth);
     setSize( Size(nextWidth, nextHeight) );
-}
-
-void CheckBox::update()
-{
-    Log::println("CheckBox::update()", "LOW");
-    needUpdate = true;
-    if (parent != nullptr)
-    {
-        parent->update();
-    }
 }
 
 std::string CheckBox::getText()

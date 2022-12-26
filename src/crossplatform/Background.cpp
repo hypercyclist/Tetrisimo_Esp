@@ -24,16 +24,16 @@ Background::~Background()
 
 void Background::render()
 {
-    Log::println("Background::render()", "LOW");
+    // Log::println("Background::render()", "LOW");
     drawNet();
 }
 
 void Background::drawNet()
 {
     Color backgroundColor = painter->getResourceTheme()->getBackgroundMenuColor();
-    std::cout << backgroundColor.getR() << " " 
-            << backgroundColor.getG()  << " "
-            << backgroundColor.getB() << std::endl;
+    // std::cout << backgroundColor.getR() << " " 
+    //         << backgroundColor.getG()  << " "
+    //         << backgroundColor.getB() << std::endl;
     Color netColor = painter->getResourceTheme()->getNetColor();
     painter->background( backgroundColor );
     painter->setPaintColor( netColor );
@@ -48,6 +48,4 @@ void Background::drawNet()
         // painter->paintLine( Point(size->getWidth(), i), Point(0, i) );
         painter->drawFastHLine(0, i, size->getWidth(), netColor.toUint16());
     }
-    painter->drawText(10, 10, "Авоська. Привет я!", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
-    // painter->testFont(0);
 }

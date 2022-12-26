@@ -38,7 +38,6 @@ void Game::initializeGameSettings()
         [this, useNetButton] ()
         {
             useNetButton->setState( !useNetButton->getState() );
-            useNetButton->updateOne();
         }
     );
 
@@ -48,7 +47,6 @@ void Game::initializeGameSettings()
         [this, useGhostButton] ()
         {
             useGhostButton->setState( !useGhostButton->getState() );
-            useGhostButton->updateOne();
         }
     );
 
@@ -58,7 +56,6 @@ void Game::initializeGameSettings()
         [this, useVibrationButton] ()
         {
             useVibrationButton->setState( !useVibrationButton->getState() );
-            useVibrationButton->updateOne();
         }
     );
 }

@@ -275,7 +275,7 @@ void Painter::drawBuffer()
     // buffer->clearBuffer();
     // diffBuffer->clearBuffer();
 
-    painter->swapBuffers();
+    swapBuffers();
     // glfwSwapBuffers(window);
     // Serial.println(pixelChanged);
 }
@@ -407,6 +407,7 @@ void Painter::swapBuffers()
 {
     glfwSwapBuffers(window);
     glfwPollEvents();
+    // std::cout << "glfwPollEvents()" << std::endl;
 }
 
 void Painter::setCamera(std::shared_ptr<Camera> _camera)
@@ -490,39 +491,46 @@ void Painter::paintText(std::string _text, Point _positionPoint)
     // Maybe we can do only print( _text.c_str() ); if text only English. 
 }
 
-std::string Painter::fromCyrilic(std::string _cytilicString)
+std::string Painter::fromCyrilic(std::string _cyrilicString)
 {
+    // for (int i = 0; i < _cyrilicString.size(); i++) {
+    //     std::cout << int(_cyrilicString[i]) << " ";
+    // }
     int i;
     int k;
     std::string target;
     unsigned char n;
     char m[2] = { '0', '\0' };
 
-    k = _cytilicString.length();
+    k = _cyrilicString.length();
     i = 0;
 
     while (i < k) {
-    n = _cytilicString[i]; i++;
+        n = _cyrilicString[i]; 
+        i++;
 
-    if (n >= 0xC0) {
-        switch (n) {
-        case 0xD0: {
-            n = _cytilicString[i]; i++;
-            if (n == 0x81) { n = 0xA8; break; }
-            if (n >= 0x90 && n <= 0xBF) n = n + 0x2F;
-            break;
+        if (n >= 0xC0) {
+            switch (n) {
+                case 0xD0: {
+                    // std::cout << "0xD0" << std::endl;
+                    n = _cyrilicString[i]; 
+                    i++;
+                    if (n == 0x81) { n = 0xA9; break; }
+                    if (n >= 0x90 && n <= 0xBF) n = n + 0x30;
+                    break;
+                }
+                case 0xD1: {
+                    // std::cout << "0xD1" << std::endl;
+                    n = _cyrilicString[i]; 
+                    i++;
+                    if (n == 0x91) { n = 0xB9; break; }
+                    if (n >= 0x80 && n <= 0x8F) { n = n + 0x70; }
+                    break;
+                }
+            }
         }
-        case 0xD1: {
-            n = _cytilicString[i]; i++;
-            if (n == 0x91) { n = 0xB8; break; }
-            if (n >= 0x80 && n <= 0x8F) n = n + 0x6F;
-            break;
-        }
-        }
-        (char)n++;
-    }
-    m[0] = n; 
-    target = target + std::string(m);
+        m[0] = n; 
+        target = target + std::string(m);
     }
     return target;
 }

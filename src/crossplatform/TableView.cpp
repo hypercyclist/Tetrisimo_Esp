@@ -139,21 +139,7 @@ void TableView::processSizeUpdate()
         ((textHeight + separator) * lines) + 
         separator + border
     );
-    if (*size != countedSize)
-    {
-        update();
-    }
     setSize(countedSize);
-}
-
-void TableView::update()
-{
-    Log::println("TableView::update()", "LOW");
-    needUpdate = true;
-    if (parent != nullptr)
-    {
-        parent->update();
-    }
 }
 
 void TableView::setName(std::string _name)

@@ -124,21 +124,7 @@ void PaletteView::processSizeUpdate()
     Size countedSize;
     countedSize.setWidth( (netWidth * netSize) + (netWidth + 1) + (border * 2) );
     countedSize.setHeight( (netHeight * netSize) + (netHeight + 1) + (border * 2) );
-    if (*size != countedSize)
-    {
-        update();
-    }
     setSize(countedSize);
-}
-
-void PaletteView::update()
-{
-    Log::println("PaletteView::update()", "LOW");
-    needUpdate = true;
-    if (parent != nullptr)
-    {
-        parent->update();
-    }
 }
 
 void PaletteView::paintBlock(int _x, int _y, Color _color)

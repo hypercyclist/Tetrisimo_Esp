@@ -39,7 +39,6 @@ void Layout::addWidget(std::shared_ptr<Widget> _widget)
 {
     childrens.push_back(_widget);
     countLayout();
-    update();
 }
 
 std::shared_ptr<Widget> Layout::getWidget(int _index)

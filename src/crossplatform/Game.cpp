@@ -64,7 +64,7 @@ void Game::start()
 
 void Game::initialize()
 {
-    // Log::init();
+    Log::init();
     initializeConfig();
     // initializeButtons();
     initializeDisplay();
@@ -94,7 +94,7 @@ void Game::run()
     while (run)
     {
         roundTimeMs = PlatformTime::getTimeMs();
-        display->getActiveScene()->traverse();
+        display->getActiveScene()->render();
         display->getPainter()->drawBuffer();
         do
         {
@@ -108,7 +108,8 @@ void Game::run()
             //         break;
             //     }
             // }
-            PlatformTime::delayTimeMs(20);
+            PlatformTime::delayTimeMs(5);
+            // std::cout << PlatformTime::getTimeMs() - roundTimeMs << std::endl;
         }
         while ( (PlatformTime::getTimeMs() - roundTimeMs) < display->getActiveScene()->getFrameTime() );
     }
@@ -208,3 +209,14 @@ std::shared_ptr<Display> Game::getDisplay()
 
     // display->getPainter()->paintRect(0, 0, 5, 5, colorWhite);
     // display->getPainter()->paintRect(5, 5, 10, 10, colorBlack);
+
+    // painter->drawText(10, 10, "abcdefghijklmn", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
+    // painter->drawText(10, 20, "opqrstuvwxyz", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
+    // painter->drawText(10, 30, "абвгдежзиклмн", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
+    // painter->drawText(10, 40, "опрстуххчщыьъюя", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
+    // painter->drawText(10, 50, "ABCDEFGHIJKLMN", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
+    // painter->drawText(10, 60, "OPQRSTUVWXYZ", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
+    // painter->drawText(10, 70, "АБВГДЕЖЗИКЛМН", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
+    // painter->drawText(10, 80, "ОПРСТУХХЧЩЬЪЭЮЯ", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
+    // painter->drawText(10, 90, "123456789-!.,/)", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
+    // painter->testFont(0);

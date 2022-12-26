@@ -52,9 +52,6 @@ class Scene : public Widget
         
         int getFrameTime();
         void setFrameTime(int _framesPerSeconds);
-        
-        void update();
-        // void updateAll();
 
         void initializeStandartFunctions();
         void onShow();

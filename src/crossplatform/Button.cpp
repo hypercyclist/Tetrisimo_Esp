@@ -33,7 +33,7 @@ void Button::render()
         painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );
     }
     painter->setTextSize(textSize);
-    painter->paintText(text, *position);
+    painter->drawText(position->getX(), position->getY(), text, painter->getResourceTheme()->getFocusColor().toUint16(), textSize);
 }
 
 void Button::render(std::shared_ptr<Viewport> _viewport)
@@ -51,7 +51,7 @@ void Button::render(std::shared_ptr<Viewport> _viewport)
         position->getX() - _viewport->getPosition().getX(), 
         position->getY() - _viewport->getPosition().getY()
     );
-    painter->paintText(text, offsetPosition);
+    painter->drawText(offsetPosition.getX(), offsetPosition.getY(), text, painter->getResourceTheme()->getFocusColor().toUint16(), textSize);
 }
 
 void Button::processSizeUpdate()
@@ -81,16 +81,6 @@ void Button::processSizeUpdate()
     nextWidth = textWidth > nextWidth ? textWidth : nextWidth;
     nextHeight = textHeight > nextHeight ? textHeight : nextHeight;
     setSize( Size(nextWidth, nextHeight) );
-}
-
-void Button::update()
-{
-    Log::println("Button::update()", "LOW");
-    needUpdate = true;
-    if (parent != nullptr)
-    {
-        parent->update();
-    }
 }
 
 std::string Button::getText()

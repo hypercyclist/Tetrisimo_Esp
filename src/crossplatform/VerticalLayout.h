@@ -28,8 +28,6 @@ class VerticalLayout : public Layout
         // If size of children widget changed, then we need to recount widgets
         // sizes, positions. Recount widgets position with function countLayout.
         void countLayout();
-
-        void update();
         
         void moveUp();
         void moveDown();

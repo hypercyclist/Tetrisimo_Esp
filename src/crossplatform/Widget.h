@@ -73,29 +73,8 @@ class Widget : public std::enable_shared_from_this<Widget>
         // Maybe there are no place for draw function. Now we use travers and 
         // render functions. As run platform limited in memory and clock speed
         // we haven't time for update full scene as on powerfull PC.
-        // Render function really redraw widget. Travers function check is this
-        // widget really need to be updated and don't render it if possible.
-        void draw(); // deprecated
         virtual void render();
         virtual void render(std::shared_ptr<Viewport> _viewport);
-        // If function update executed it set request flag to update whole branch
-        // of widgets. Using updateOne function ensure engine that we don't need
-        // to update branch, only one widget, because size of widget not changed,
-        // so it can be redrawed over old widget render. This technology saves a
-        // lot of processor time and our eyes don't see redrawing on the display.
-        // Also display don't have double buffering. Understand situation.
-        virtual void update();
-        void updateOne();
-        // Updated function set flag that mean we not need update widget.
-        void updated();
-        bool isNeedUpdate();
-        // Check function use to route our engine on widgets branch to widget
-        // that only need redraw, without update whole widget branch.
-        virtual void check();
-        void checked();
-        bool isNeedCheck();
-        // Travers function navigate engine further on branch line.
-        void traverse();
         // Functions show or hide widget on display.
         void show();
         void hide();

@@ -6,6 +6,8 @@
 #include "ResourceTheme.h"
 #include "Size.h"
 
+#include <iostream>
+
 Label::Label(std::string _text)
     : 
     Widget(),
@@ -22,9 +24,10 @@ Label::~Label()
 
 void Label::render()
 {
+    std::cout << "Label::render()" << std::endl;
     painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );
     painter->setTextSize(textSize);
-    painter->paintText(text, *position);
+    painter->drawText(position->getX(), position->getY(), text, painter->getResourceTheme()->getFocusColor().toUint16(), textSize);
     if (underlined)
     {
         // int lineThickness = textSize == 3 ? 2 : 1;

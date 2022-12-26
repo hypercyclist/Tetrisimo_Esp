@@ -138,21 +138,7 @@ void TextView::processSizeUpdate()
         ((textHeight + separator) * lines) + 
         separator + border
     );
-    if (*size != countedSize)
-    {
-        update();
-    }
     setSize(countedSize);
-}
-
-void TextView::update()
-{
-    Log::println("TextView::update()", "LOW");
-    needUpdate = true;
-    if (parent != nullptr)
-    {
-        parent->update();
-    }
 }
 
 void TextView::setName(std::string _name)

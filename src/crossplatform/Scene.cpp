@@ -34,7 +34,6 @@ std::shared_ptr<Scene> Scene::getPreviousScene()
 void Scene::setPreviousScene(std::shared_ptr<Scene> _previousScene)
 {
     previousScene = _previousScene;
-    _previousScene->update();
 }
 
 void Scene::setBackgroundWidget(std::shared_ptr<Background> _background)
@@ -42,7 +41,6 @@ void Scene::setBackgroundWidget(std::shared_ptr<Background> _background)
     // background = _background;
     // update();
     childrens[0] = _background;
-    childrens[0]->update();
 }
 
 std::shared_ptr<Widget> Scene::getBackground()
@@ -77,16 +75,6 @@ void Scene::setFrameTime(int _framesPerSeconds)
     framesPerSeconds = _framesPerSeconds;
 }
 
-void Scene::update()
-{
-    Log::println("Scene::update()", "LOW");
-    needUpdate = true;
-    if (parent != nullptr)
-    {
-        parent->update();
-    }
-}
-
 void Scene::initializeStandartFunctions()
 {
     onShowFunctionPointer = [this] () {};
@@ -118,8 +106,6 @@ void Scene::initializeStandartFunctions()
 
 void Scene::onShow()
 {
-    childrens[0]->update();
-    childrens[1]->update();
     childrens[1]->focus();
     // Log::println("Scene::onShow - before onShowFunctionPointer", "LOW");
     onShowFunctionPointer();

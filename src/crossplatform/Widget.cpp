@@ -56,7 +56,6 @@ std::shared_ptr<Widget> Widget::getParent()
 void Widget::setParent(std::shared_ptr<Widget> _parent)
 {
     parent = _parent;
-    update();
 }
 
 int Widget::indexOf( std::vector< std::shared_ptr<Widget> >& _vector, 
@@ -83,7 +82,6 @@ void Widget::removeChildren(std::shared_ptr<Widget> _children)
             childrens.erase( childrens.begin() + i );
         }
     }
-    update();
 }
 
 Point Widget::getPosition()
@@ -114,7 +112,6 @@ Size Widget::getSize()
 void Widget::setSize(Size _size)
 {
     size = std::make_unique<Size>(_size);
-    update();
 }
 
 int Widget::getWidth()
@@ -131,14 +128,9 @@ void Widget::processSizeUpdate()
 {
 }
 
-void Widget::draw()
-{
-    render();
-    updated();
-}
-
 void Widget::render()
 {
+    // Log::println("Widget::render", "LOW");
     for (int i = 0; i < childrens.size(); i++)
     {
         childrens[i]->render();
@@ -153,86 +145,14 @@ void Widget::render(std::shared_ptr<Viewport> _viewport)
     }
 }
 
-void Widget::update()
-{
-    Log::println("Widget::update()", "LOW");
-    needUpdate = true;
-    if (parent != nullptr)
-    {
-        parent->update();
-    }
-}
-
-void Widget::updateOne()
-{
-    Log::println("Widget::updateOne()", "LOW");
-    needUpdate = true;
-    if (parent != nullptr)
-    {
-        parent->check();
-    }
-}
-
-void Widget::updated()
-{
-    needUpdate = false;
-}
-
-bool Widget::isNeedUpdate()
-{
-    return needUpdate ? true : false;
-}
-
-void Widget::check()
-{
-    if (parent != nullptr)
-    {
-        parent->check();
-    }
-    needCheck = true;
-}
-
-void Widget::checked()
-{
-    needCheck = false;
-}
-
-bool Widget::isNeedCheck()
-{
-    return needCheck ? true : false;
-}
-
-void Widget::traverse()
-{
-    needCheck = false;
-    checked();
-    updated();
-    for (int i = 0; i < childrens.size(); i++)
-    {
-        if (childrens[i]->isNeedUpdate())
-        {
-            // Serial.println(i);
-            childrens[i]->render();
-            childrens[i]->checked();
-            childrens[i]->updated();
-        }
-        else if (childrens[i]->isNeedCheck())
-        {
-            childrens[i]->traverse();
-        }
-    }
-}
-
 void Widget::show()
 {
     visible = true;
-    update();
 }
 
 void Widget::hide()
 {
     visible = false;
-    update();
 }
 
 bool Widget::isVisible()
@@ -243,13 +163,11 @@ bool Widget::isVisible()
 void Widget::focus()
 {
     focused = true;
-    updateOne();
 }
 
 void Widget::unfocus()
 {
     focused = false;
-    updateOne();
 }
 
 bool Widget::isFocusable()
@@ -266,14 +184,12 @@ void Widget::maximize()
 {
     maximized = true;
     processSizeUpdate();
-    update();
 }
 
 void Widget::minimize()
 {
     maximized = false;
     processSizeUpdate();
-    update();
 }
 
 bool Widget::isMaximized()

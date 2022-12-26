@@ -141,21 +141,7 @@ void LineEdit::processSizeUpdate()
         ((textHeight + separator) * lines) + 
         separator + border
     );
-    if (*size != countedSize)
-    {
-        update();
-    }
     setSize(countedSize);
-}
-
-void LineEdit::update()
-{
-    Log::println("LineEdit::update()", "LOW");
-    needUpdate = true;
-    if (parent != nullptr)
-    {
-        parent->update();
-    }
 }
 
 void LineEdit::setName(std::string _name)
