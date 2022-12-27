@@ -5,6 +5,7 @@
 #include "Point.h"
 #include "ResourceTheme.h"
 #include "Size.h"
+#include "Viewport.h"
 
 #include <iostream>
 
@@ -24,10 +25,11 @@ Label::~Label()
 
 void Label::render()
 {
-    std::cout << "Label::render()" << std::endl;
+    // std::cout << "Label::render()" << std::endl;
     painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );
     painter->setTextSize(textSize);
-    painter->drawText(position->getX(), position->getY(), text, painter->getResourceTheme()->getFocusColor().toUint16(), textSize);
+    // painter->drawText(position->getX(), position->getY(), text, painter->getResourceTheme()->getFocusColor().toUint16(), textSize);
+    painter->drawText(*position, text);
     if (underlined)
     {
         // int lineThickness = textSize == 3 ? 2 : 1;
@@ -39,7 +41,33 @@ void Label::render()
         Point pointB(position->getX() + size->getWidth(),
              position->getY() + size->getHeight() - 1);
         
-        // painter->paintLine(pointA, pointB, lineThickness);
+        painter->drawLine(pointA, pointB, lineThickness);
+    }
+}
+
+void Label::render(std::shared_ptr<Viewport> _viewport)
+{
+    Point offsetPosition(
+        position->getX() - _viewport->getPosition().getX(), 
+        position->getY() - _viewport->getPosition().getY()
+    );
+    std::cout << "Label::render()" << std::endl;
+    painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );
+    painter->setTextSize(textSize);
+    // painter->drawText(offsetPosition.getX(), offsetPosition.getY(), text, painter->getResourceTheme()->getFocusColor().toUint16(), textSize);
+    painter->drawText(*position, text);
+    if (underlined)
+    {
+        // int lineThickness = textSize == 3 ? 2 : 1;
+        int lineThickness = 2;
+        
+        Point pointA(offsetPosition.getX(), 
+            offsetPosition.getY() + size->getHeight() - 1);
+
+        Point pointB(offsetPosition.getX() + size->getWidth(),
+             offsetPosition.getY() + size->getHeight() - 1);
+        
+        painter->drawLine(pointA, pointB, lineThickness);
     }
 }
 

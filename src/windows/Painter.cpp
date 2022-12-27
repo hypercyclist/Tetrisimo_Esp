@@ -155,6 +155,72 @@ void Painter::writeFastVLine(int16_t x, int16_t y, int16_t h,
   }
 }
 
+void _swap_int16_t(int16_t& _first, int16_t& _second) 
+{
+  int16_t temp = _first;
+  _first = _second;
+  _second = temp;
+}
+
+void Painter::drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1,
+                            uint16_t color) {
+  // Update in subclasses if desired!
+  if (x0 == x1) {
+    if (y0 > y1)
+      _swap_int16_t(y0, y1);
+    drawFastVLine(x0, y0, y1 - y0 + 1, color);
+  } else if (y0 == y1) {
+    if (x0 > x1)
+      _swap_int16_t(x0, x1);
+    drawFastHLine(x0, y0, x1 - x0 + 1, color);
+  } else {
+    writeLine(x0, y0, x1, y1, color);
+  }
+}
+
+void Painter::writeLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color) 
+{
+#if defined(ESP8266)
+  yield();
+#endif
+  int16_t steep = abs(y1 - y0) > abs(x1 - x0);
+  if (steep) {
+    _swap_int16_t(x0, y0);
+    _swap_int16_t(x1, y1);
+  }
+
+  if (x0 > x1) {
+    _swap_int16_t(x0, x1);
+    _swap_int16_t(y0, y1);
+  }
+
+  int16_t dx, dy;
+  dx = x1 - x0;
+  dy = abs(y1 - y0);
+
+  int16_t err = dx / 2;
+  int16_t ystep;
+
+  if (y0 < y1) {
+    ystep = 1;
+  } else {
+    ystep = -1;
+  }
+
+  for (; x0 <= x1; x0++) {
+    if (steep) {
+      writePixel(y0, x0, color);
+    } else {
+      writePixel(x0, y0, color);
+    }
+    err -= dy;
+    if (err < 0) {
+      y0 += ystep;
+      err += dx;
+    }
+  }
+}
+
 void Painter::drawPixel(int16_t _x, int16_t _y, uint16_t _color) 
 {
     writePixel(_x, _y, _color);
@@ -218,7 +284,7 @@ void Painter::drawText(int16_t x, int16_t y, std::string text, uint16_t color,
     uint8_t size)
 {
     std::string cyrilicText = fromCyrilic(text);
-    std::cout << cyrilicText << std::endl;
+    // std::cout << cyrilicText << std::endl;
     for (int i = 0; i < cyrilicText.size(); i++) {
         painter->drawChar(x + (i * ((5 * size) + size)), y, cyrilicText[i], color, size);
     }
@@ -460,7 +526,7 @@ void Painter::background(Color& _backgroundColor)
 
 void Painter::setPaintColor(Color _drawColor)
 {
-    // drawColor = std::make_unique<Color>(_drawColor);
+    drawColor = std::make_unique<Color>(_drawColor);
 }
 
 Color Painter::getPaintColor()
@@ -483,9 +549,10 @@ void Painter::setTextSize(int _textSize)
     textSize = _textSize;
 }
 
-void Painter::paintText(std::string _text, Point _positionPoint)
+void Painter::drawText(Point _positionPoint, std::string _text)
 {
     // setTextColor( drawColor->getUint16() );
+    drawText(_positionPoint.getX(), _positionPoint.getY(), _text, drawColor->toUint16(), textSize);
     // setCursor( _positionPoint.getX(), _positionPoint.getY() );
     // print( fromCyrilic(_text).c_str() );
     // Maybe we can do only print( _text.c_str() ); if text only English. 
@@ -595,16 +662,16 @@ std::string Painter::fromCyrilic(std::string _cyrilicString)
 //     Log::println("paintLine", "LOW");
 // }
 
-// void Painter::paintLine(Point _pointA, Point _pointB)
-// {
-//     // Adafruit_ST7735::drawLine( 
-//     //     _pointA.getX(), 
-//     //     _pointA.getY(), 
-//     //     _pointB.getX(), 
-//     //     _pointB.getY(), 
-//     //     drawColor->getUint16()
-//     // );
-// }
+void Painter::drawLine(Point _pointA, Point _pointB)
+{
+    drawLine( 
+        _pointA.getX(), 
+        _pointA.getY(), 
+        _pointB.getX(), 
+        _pointB.getY(), 
+        drawColor->getUint16()
+    );
+}
 
 // void Painter::paintLine(int _x1, int _y1, int _x2, int _y2)
 // {
@@ -617,72 +684,33 @@ std::string Painter::fromCyrilic(std::string _cyrilicString)
 //     // );
 // }
 
-// void Painter::paintLine(Point _pointA, Point _pointB, int _lineWidth)
-// {
-//     int offsetX;
-//     int offsetY;
-//     if( _pointA.getY() == _pointB.getY() )
-//     {
-//         offsetX = 0;
-//         offsetY = 1;
-//     }
-//     // else if( _pointA.getY() == _pointB.getY() )
-//     else
-//     {
-//         offsetX = 1;
-//         offsetY = 0;
-//     }
-//     for(int i = 0; i < _lineWidth; i++)
-//     {
-//         paintLine( 
-//             Point( 
-//                 _pointA.getX() + (i * offsetX), 
-//                 _pointA.getY() + (i * offsetY) ), 
-//             Point( 
-//                 _pointB.getX() + (i * offsetX), 
-//                 _pointB.getY() + (i * offsetY) ) 
-//         );
-//     }
-// }
-
-// void Painter::paintLine(int _x1, int _y1, int _x2, int _y2)
-// {
-//     // Adafruit_ST7735::drawLine( 
-//     //     _x1, 
-//     //     _y1, 
-//     //     _x2, 
-//     //     _y2, 
-//     //     drawColor->getUint16()
-//     // );
-// }
-
-// void Painter::paintLine(Point _pointA, Point _pointB, int _lineWidth)
-// {
-//     // int offsetX;
-//     // int offsetY;
-//     // if( _pointA.getY() == _pointB.getY() )
-//     // {
-//     //     offsetX = 0;
-//     //     offsetY = 1;
-//     // }
-//     // // else if( _pointA.getY() == _pointB.getY() )
-//     // else
-//     // {
-//     //     offsetX = 1;
-//     //     offsetY = 0;
-//     // }
-//     // for(int i = 0; i < _lineWidth; i++)
-//     // {
-//     //     paintLine( 
-//     //         Point( 
-//     //             _pointA.getX() + (i * offsetX), 
-//     //             _pointA.getY() + (i * offsetY) ), 
-//     //         Point( 
-//     //             _pointB.getX() + (i * offsetX), 
-//     //             _pointB.getY() + (i * offsetY) ) 
-//     //     );
-//     // }
-// }
+void Painter::drawLine(Point _pointA, Point _pointB, int _lineWidth)
+{
+    int offsetX;
+    int offsetY;
+    if( _pointA.getY() == _pointB.getY() )
+    {
+        offsetX = 0;
+        offsetY = 1;
+    }
+    // else if( _pointA.getY() == _pointB.getY() )
+    else
+    {
+        offsetX = 1;
+        offsetY = 0;
+    }
+    for(int i = 0; i < _lineWidth; i++)
+    {
+        drawLine( 
+            Point( 
+                _pointA.getX() + (i * offsetX), 
+                _pointA.getY() + (i * offsetY) ), 
+            Point( 
+                _pointB.getX() + (i * offsetX), 
+                _pointB.getY() + (i * offsetY) ) 
+        );
+    }
+}
 
 // Non-painter functions, but i don't know how to attach it to std::string.
 int Painter::countWrapSize(int _textSize, int _widgetWidth)

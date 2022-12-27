@@ -2,6 +2,7 @@
 #define LABEL_H
 
 class Point;
+class Viewport;
 
 #include "Widget.h"
 
@@ -21,6 +22,7 @@ class Label : public Widget
         ~Label();
 
         void render();
+        void render(std::shared_ptr<Viewport> _viewport);
         void processSizeUpdate();
         
         std::string getText();

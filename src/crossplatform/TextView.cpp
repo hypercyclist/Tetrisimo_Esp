@@ -89,11 +89,11 @@ void TextView::render()
     // Draw name and text.
     painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );
     painter->setTextSize(textSize);
-    painter->paintText(name, Point(nameX, nameY));
+    painter->drawText(Point(nameX, nameY), name);
 
     for(int i = 0; i < text.size(); i++)
     {
-        painter->paintText(text[i], Point(textX, textY));
+        painter->drawText(Point(textX, textY), text[i]);
         textY += textSpace.getHeight() + separator;
     }
 }

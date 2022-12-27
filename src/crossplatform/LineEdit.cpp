@@ -91,7 +91,7 @@ void LineEdit::render()
     // Draw name and text.
     painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );
     painter->setTextSize(textSize);
-    painter->paintText(name, Point(nameX, nameY));
+    painter->drawText(name, Point(nameX, nameY));
 
     for(int i = 0; i < text.size(); i++)
     {

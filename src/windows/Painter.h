@@ -49,6 +49,8 @@ class Painter
         void writeFillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t _color);
         void writeFastHLine(int16_t x, int16_t y, int16_t w, uint16_t _color);
         void writeFastVLine(int16_t x, int16_t y, int16_t h, uint16_t _color);
+        void drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
+        void writeLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
         void drawPixel(int16_t x, int16_t y, uint16_t color);
         void fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
         void drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color);
@@ -84,12 +86,12 @@ class Painter
         void setResourceTheme(ResourceTheme _resourceTheme);
 
         void setTextSize(int _textSize);
-        void paintText(std::string _text, Point _positionPoint);
+        void drawText(Point _positionPoint, std::string _text);
         // Maybe it need to be moved 
         static std::string fromCyrilic(std::string _cyrilicString);
 
-        // void paintLine(Point _pointA, Point _pointB);
-        // void paintLine(Point _pointA, Point _pointB, int _lineWidth);
+        void drawLine(Point _pointA, Point _pointB);
+        void drawLine(Point _pointA, Point _pointB, int _lineWidth);
         // void paintLine(int _x1, int _y1, int _x2, int _y2);
 
         // This function count how many letters can be contained into widget width.

@@ -63,17 +63,17 @@ void Game::initializeMainMenu()
     );
     // highScore->setPreviousScene(mainMenu);
 
-    std::shared_ptr<Button> desk1 = std::make_shared<Button>("Заглушка1");
-    menuLayout->addWidget(desk1);
+    // std::shared_ptr<Button> desk1 = std::make_shared<Button>("Заглушка1");
+    // menuLayout->addWidget(desk1);
 
-    std::shared_ptr<Button> desk2 = std::make_shared<Button>("Заглушка2");
-    menuLayout->addWidget(desk2);
+    // std::shared_ptr<Button> desk2 = std::make_shared<Button>("Заглушка2");
+    // menuLayout->addWidget(desk2);
 
-    std::shared_ptr<Button> desk3 = std::make_shared<Button>("Заглушка3");
-    menuLayout->addWidget(desk3);
+    // std::shared_ptr<Button> desk3 = std::make_shared<Button>("Заглушка3");
+    // menuLayout->addWidget(desk3);
 
-    std::shared_ptr<Button> desk4 = std::make_shared<Button>("Заглушка4");
-    menuLayout->addWidget(desk4);
+    // std::shared_ptr<Button> desk4 = std::make_shared<Button>("Заглушка4");
+    // menuLayout->addWidget(desk4);
 
     std::shared_ptr<Label> highScoreLabel = std::make_shared<Label>("000000");
     menuLayout->addWidget(highScoreLabel);

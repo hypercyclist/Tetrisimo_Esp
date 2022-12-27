@@ -1,6 +1,6 @@
 #include "PlatformTime.h"
 
-#include <windows.h>
+// #include <windows.h>
 #include <unistd.h>
 #include <time.h>
 
@@ -11,9 +11,10 @@ PlatformTime::~PlatformTime() { }
 
 void PlatformTime::delayTimeMs(int _timeMs)
 {
-    // sleep(_timeMs);
+    // Linux version.
+    sleep(_timeMs);
     // Windows version.
-    Sleep(_timeMs);
+    // Sleep(_timeMs);
 }
 
 time_t PlatformTime::getTimeMs()
