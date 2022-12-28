@@ -3,6 +3,7 @@
 
 Camera::Camera()
 {
+    init();
 }
 
 Camera::~Camera()

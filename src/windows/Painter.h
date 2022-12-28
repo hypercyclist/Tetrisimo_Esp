@@ -4,6 +4,7 @@
 class Camera;
 class Config;
 class Color;
+class Display;
 class DisplayBuffer;
 class GLFWwindow;
 class Point;
@@ -24,79 +25,78 @@ class Painter
         const int BUFFER_SIZE = DISPLAY_WIDTH * DISPLAY_HEIGHT / 2;
         const int DISPLAY_SCALE;
 
+        static std::shared_ptr<Painter> painter;
         GLFWwindow* window;
         std::shared_ptr<Camera> camera;
-        unsigned int VBO, VAO, EBO;
+        unsigned int VBO, VAO;
         std::shared_ptr<ShadersProcessor> shadersProcessor;
-        int pinDisplayCS;
-        int pinDisplayDC;
-        int pinDisplayRST;
-        static std::shared_ptr<Painter> painter;
         std::shared_ptr<ResourceTheme> currentResourceTheme;
         std::unique_ptr<Color> drawColor;
         int textSize;
 
-        std::shared_ptr<DisplayBuffer> oldBuffer;
         std::shared_ptr<DisplayBuffer> buffer;
-        std::shared_ptr<DisplayBuffer> diffBuffer;
         const static unsigned char font[];
         
+        void writePixel(int16_t _x, int16_t _y, uint16_t _color);
+
+        void writeFillRect(int16_t _x, int16_t _y, 
+            int16_t _width, int16_t _height, uint16_t _color);
+
+        void writeFastHLine(int16_t _x, int16_t _y, 
+            int16_t _width, uint16_t _color);
+        void writeFastVLine(int16_t _x, int16_t _y, 
+            int16_t _height, uint16_t _color);
+        void writeLine(int16_t _x0, int16_t _y0, 
+            int16_t _x1, int16_t _y1, uint16_t _color);
+
+        void writeChar(int16_t _x, int16_t _y, 
+	        unsigned char _char, uint16_t _color, uint8_t _textSize);
+
+        void writeChar(int16_t _x, int16_t _y, 
+            unsigned char _char, uint16_t _color, uint16_t _background, 
+            uint8_t _sizeX, uint8_t _sizeY);
+
+        void writeText(int16_t _x, int16_t _y, 
+            std::string _text, uint16_t _color, uint8_t _size);
+
+        // Replace usual std::string to font-supported string.
+        static std::string fromCyrilic(std::string _cyrilicString);
+
+        void writeOpenGLBuffer();
+
     public:
-        Painter(std::shared_ptr<Config> _config);
+        Painter(std::shared_ptr<Config> _config, GLFWwindow* _window, 
+            std::shared_ptr<Camera> _camera);
         ~Painter();
-
-        void writePixel(int16_t x, int16_t y, uint16_t _color);
-        void writeFillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t _color);
-        void writeFastHLine(int16_t x, int16_t y, int16_t w, uint16_t _color);
-        void writeFastVLine(int16_t x, int16_t y, int16_t h, uint16_t _color);
-        void drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
-        void writeLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
-        void drawPixel(int16_t x, int16_t y, uint16_t color);
-        void fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
-        void drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color);
-        void drawFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color);
-        void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color,
-            uint8_t size);
-        void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color,
-            uint16_t bg, uint8_t size_x, uint8_t size_y);
-        void drawText(int16_t x, int16_t y, std::string text, uint16_t color, 
-            uint8_t size);
-        void testFont(int _fontPage);
-
-        void drawBuffer();
-        void drawOpenGLPixel(int _x, int _y, uint16_t _color);
-        void drawOpenGLBuffer();
 
         static void setDefault(std::shared_ptr<Painter> _painter);
         static std::shared_ptr<Painter> getPainter();
-        void setWindow(GLFWwindow* _window);
-        
-        void swapBuffers();
-        void setCamera(std::shared_ptr<Camera> _camera);
 
-        void background(Color& _backgroundColor);
-
-        void paintRect(int _x, int _y, int _width, int _height, Color& _color);
-        void paintBorder(int _x, int _y, int _width, int _height, Color& _color);
+        void setResourceTheme(ResourceTheme _resourceTheme);
+        const std::shared_ptr<ResourceTheme> getResourceTheme();
 
         void setPaintColor(Color _drawColor);
         Color getPaintColor();
-
-        std::shared_ptr<ResourceTheme> getResourceTheme();
-        void setResourceTheme(ResourceTheme _resourceTheme);
-
         void setTextSize(int _textSize);
-        void drawText(Point _positionPoint, std::string _text);
-        // Maybe it need to be moved 
-        static std::string fromCyrilic(std::string _cyrilicString);
 
-        void drawLine(Point _pointA, Point _pointB);
-        void drawLine(Point _pointA, Point _pointB, int _lineWidth);
-        // void paintLine(int _x1, int _y1, int _x2, int _y2);
+        void drawBuffer();
 
-        // This function count how many letters can be contained into widget width.
+        void drawPixel(Point& _position);
+        void drawLine(Point& _position1, Point& _position2);
+        void drawLine(Point& _position1, Point& _position2, int _lineWidth);
+        
+        void drawRect(Point& _position, Size& _size);
+        void drawRect(Point& _position, Size& _size, Color& _color);
+
+        void drawBorder(Point& _position, Size& _size);
+        void drawBorder(Point& _position, Size& _size, Color& _color);
+
+        void drawText(Point& _position, std::string& _text);
+        void clearScreen(Color& _backgroundColor);
+        void testFont(int _fontPage);
+        // Count how many letters can be contained into widget width.
         int countWrapSize(int _textSize, int _widgetWidth);
-        // This function return width of printing text string.
+        // Return width of printing text string.
         Size countTextSize(std::string _text, int _textSize);
 };
 

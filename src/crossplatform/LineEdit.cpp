@@ -48,7 +48,7 @@ void LineEdit::render()
     int textX = x + 4;
     int textY = y + ( border * 2) + textSpace.getHeight() + separator * 3;
     Color focusColor = painter->getPaintColor();
-    Color bacgroundColor = 
+    Color backgroundColor = 
         painter->getResourceTheme()->getBackgroundMenuColor();
     Color outBorderColor = 
         painter->getResourceTheme()->getBackgroundGameColor();
@@ -58,28 +58,22 @@ void LineEdit::render()
 
     // Draw table: background, 2px border, 
     // border around name, border arount text, separator border.
-    painter->paintRect(x, y, getWidth(), getHeight(), bacgroundColor);
-    painter->paintBorder(x, y, getWidth(), getHeight(), outBorderColor);
-    painter->paintBorder(
-        x + 1, 
-        y + 1, 
-        getWidth() - 2, 
-        getHeight() - 2, 
-        middleBorderColor);
-
-    painter->paintBorder(
-        x + 2, 
-        y + 2, 
-        getWidth() - 4, 
-        separator * 2 + textSpace.getHeight() + 2, 
-        outBorderColor);
+    painter->drawRect(*position, *size, backgroundColor);
     
-    painter->paintBorder(
-        x + 2, 
-        y + ( border * 2) + textSpace.getHeight() + 1, 
-        getWidth() - 4, 
-        (textSpace.getHeight() + separator) * lines + separator + 2, 
-        outBorderColor);
+    painter->drawBorder(*position, *size, outBorderColor);
+
+    Point position_1(x + 1, y + 1);
+    Size size_1(getWidth() - 2, getHeight() - 2);
+    painter->drawBorder(position_1, size_1, middleBorderColor);
+
+    Point position_2(x + 2, y + 2);
+    Size size_2(getWidth() - 4, separator * 2 + textSpace.getHeight() + 2);
+    painter->drawBorder(position_2, size_2, outBorderColor);
+    
+    Point position_3(x + 2, y + ( border * 2) + textSpace.getHeight() + 1);
+    Size size_3(getWidth() - 4, (textSpace.getHeight() + separator) * 
+        getLinesCount() + separator + 2);
+    painter->drawBorder(position_3, size_3, outBorderColor);
 
     painter->setPaintColor(middleBorderColor);
     // painter->paintLine(
@@ -90,12 +84,13 @@ void LineEdit::render()
 
     // Draw name and text.
     painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );
-    painter->setTextSize(textSize);
-    painter->drawText(name, Point(nameX, nameY));
+    Point namePosition(nameX, nameY);
+    painter->drawText(namePosition, name);
 
     for(int i = 0; i < text.size(); i++)
     {
-        painter->paintText(text[i], Point(textX, textY));
+        Point textPosition(textX, textY);
+        painter->drawText(textPosition, text[i]);
         textY += textSpace.getHeight() + separator;
     }
 }

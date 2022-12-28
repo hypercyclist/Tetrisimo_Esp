@@ -33,7 +33,7 @@ void PaletteView::render()
     int netWidth = 12;
     int netHeight = 5;
     Color focusColor = painter->getPaintColor();
-    Color bacgroundColor = 
+    Color backgroundColor = 
         painter->getResourceTheme()->getBackgroundMenuColor();
     Color outBorderColor = 
         painter->getResourceTheme()->getBackgroundGameColor();
@@ -44,14 +44,11 @@ void PaletteView::render()
 
     // Draw table: background, 2px border, 
     // border around name, border arount text, separator border.
-    painter->paintRect(x, y, getWidth(), getHeight(), bacgroundColor);
-    painter->paintBorder(x, y, getWidth(), getHeight(), outBorderColor);
-    painter->paintBorder(
-        x + 1, 
-        y + 1, 
-        getWidth() - 2, 
-        getHeight() - 2, 
-        middleBorderColor);
+    painter->drawRect(*position, *size, backgroundColor);
+    painter->drawBorder(*position, *size, outBorderColor);
+    Point position_1(x + 1, y + 1);
+    Size size_1(getWidth() - 2, getHeight() - 2);
+    painter->drawBorder(position_1, size_1, middleBorderColor);
 
     // painter->paintBorder(
     //     x + 2, 
@@ -133,9 +130,10 @@ void PaletteView::paintBlock(int _x, int _y, Color _color)
     int netSize = 7;
     int x = position->getX();
     int y = position->getY();
-    int realX = x + (_x * (netSize + 1)) + border; 
-    int realY = y + (_y * (netSize + 1)) + border;
-    painter->paintRect(realX , realY, netSize, netSize, _color);
+    Point realPosition(x + (_x * (netSize + 1)) + border,
+        y + (_y * (netSize + 1)) + border);
+    Size blockSize(netSize, netSize);
+    painter->drawRect(realPosition, blockSize, _color);
     Color borderColor(_color.getR() - 10, _color.getG() - 10, _color.getB() - 10);
-    painter->paintBorder(realX , realY, netSize, netSize, borderColor);
+    painter->drawBorder(realPosition, blockSize, borderColor);
 }

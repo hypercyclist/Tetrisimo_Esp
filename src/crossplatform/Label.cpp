@@ -51,7 +51,7 @@ void Label::render(std::shared_ptr<Viewport> _viewport)
         position->getX() - _viewport->getPosition().getX(), 
         position->getY() - _viewport->getPosition().getY()
     );
-    std::cout << "Label::render()" << std::endl;
+    // std::cout << "Label::render()" << std::endl;
     painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );
     painter->setTextSize(textSize);
     // painter->drawText(offsetPosition.getX(), offsetPosition.getY(), text, painter->getResourceTheme()->getFocusColor().toUint16(), textSize);

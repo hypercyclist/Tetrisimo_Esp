@@ -5,7 +5,7 @@
 #include "CheckBox.h"
 #include "Config.h"
 #include "Display.h"
-// #include "KeyboardHook.h"
+#include "KeyboardHook.h"
 #include "Label.h"
 #include "LineEdit.h"
 #include "Painter.h"
@@ -66,8 +66,8 @@ void Game::initialize()
 {
     Log::init();
     initializeConfig();
-    // initializeButtons();
     initializeDisplay();
+    initializeButtons();
 
     display->getPainter()->setResourceTheme( config->getCaveLightsTheme() );
 
@@ -95,49 +95,50 @@ void Game::run()
     {
         roundTimeMs = PlatformTime::getTimeMs();
         display->getActiveScene()->render();
-        display->getPainter()->drawBuffer();
+        display->drawBuffer();
         do
         {
-            // std::shared_ptr<PhysButton> pressedButton = keyboardHook->getPressedButton();
-            // if (pressedButton != nullptr)
-            // {
-            //     if ( (PlatformTime::getTimeMs() - lastInputTimeMs) > 200 )
-            //     {
-            //         lastInputTimeMs = PlatformTime::getTimeMs();
-            //         processPressedButton(pressedButton);
-            //         break;
-            //     }
-            // }
+            KeyboardKeys pressedButton = keyboardHook->getPressedButton();
+            if (pressedButton != KeyboardKeys::NO_KEY)
+            {
+                if ( (PlatformTime::getTimeMs() - lastInputTimeMs) > 200 )
+                {
+                    lastInputTimeMs = PlatformTime::getTimeMs();
+                    processPressedButton(pressedButton);
+                    break;
+                }
+            }
             PlatformTime::delayTimeMs(5);
+            display->pollEvents();
             // std::cout << PlatformTime::getTimeMs() - roundTimeMs << std::endl;
         }
         while ( (PlatformTime::getTimeMs() - roundTimeMs) < display->getActiveScene()->getFrameTime() );
     }
 }
 
-void Game::processPressedButton(std::shared_ptr<PhysButton> _pressedButton)
+void Game::processPressedButton(KeyboardKeys _pressedButton)
 {
-    if (_pressedButton == buttonUp)
+    if (_pressedButton == KeyboardKeys::KEY_UP)
     {
         display->getActiveScene()->pressedButtonUp();
     }
-    if (_pressedButton == buttonDown)
+    if (_pressedButton == KeyboardKeys::KEY_DOWN)
     {
         display->getActiveScene()->pressedButtonDown();
     }
-    if (_pressedButton == buttonLeft)
+    if (_pressedButton == KeyboardKeys::KEY_LEFT)
     {
-        // display->getActiveScene()->pressedButtonDown();
+        display->getActiveScene()->pressedButtonLeft();
     }
-    if (_pressedButton == buttonRight)
+    if (_pressedButton == KeyboardKeys::KEY_RIGHT)
     {
-        // display->getActiveScene()->pressedButtonDown();
+        display->getActiveScene()->pressedButtonRight();
     }
-    if (_pressedButton == buttonOk)
+    if (_pressedButton == KeyboardKeys::KEY_OK)
     {
         display->getActiveScene()->pressedButtonOk();
     }
-    if (_pressedButton == buttonBack)
+    if (_pressedButton == KeyboardKeys::KEY_BACK)
     {
         display->getActiveScene()->pressedButtonBack();
     }
@@ -148,27 +149,14 @@ void Game::initializeConfig()
     config = std::make_shared<Config>();
 }
 
-void Game::initializeButtons()
-{
-    buttonUp = std::make_shared<PhysButton>( config->getUpButtonResistor() );
-    buttonDown = std::make_shared<PhysButton>( config->getDownButtonResistor() );
-    buttonLeft = std::make_shared<PhysButton>( config->getLeftButtonResistor() );
-    buttonRight = std::make_shared<PhysButton>( config->getRightButtonResistor() );
-    buttonOk = std::make_shared<PhysButton>( config->getOkButtonResistor() );
-    buttonBack = std::make_shared<PhysButton>( config->getBackButtonResistor() );
-
-    // keyboardHook = std::make_shared<KeyboardHook> ( KeyboardHook( config->getPinKeyboardAdc() ) );
-    // keyboardHook->addButton(buttonUp);
-    // keyboardHook->addButton(buttonDown);
-    // keyboardHook->addButton(buttonLeft);
-    // keyboardHook->addButton(buttonRight);
-    // keyboardHook->addButton(buttonOk);
-    // keyboardHook->addButton(buttonBack);
-}
-
 void Game::initializeDisplay()
 {
     display = std::make_shared<Display>(config);
+}
+
+void Game::initializeButtons()
+{
+    keyboardHook = std::make_shared<KeyboardHook> (config, display);
 }
 
 void Game::initializeBackground()

@@ -12,7 +12,7 @@ PlatformTime::~PlatformTime() { }
 void PlatformTime::delayTimeMs(int _timeMs)
 {
     // Linux version.
-    sleep(_timeMs);
+    usleep(_timeMs * 1000);
     // Windows version.
     // Sleep(_timeMs);
 }

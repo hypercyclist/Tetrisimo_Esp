@@ -8,6 +8,7 @@ class KeyboardHook;
 class PhysButton;
 class Size;
 class Scene;
+enum class KeyboardKeys;
 
 #include <memory>
 #include <time.h>
@@ -17,12 +18,6 @@ class Game : public std::enable_shared_from_this<Game>
 {
     private:
         std::shared_ptr<Config> config;
-        std::shared_ptr<PhysButton> buttonUp;
-        std::shared_ptr<PhysButton> buttonDown;
-        std::shared_ptr<PhysButton> buttonLeft;
-        std::shared_ptr<PhysButton> buttonRight;
-        std::shared_ptr<PhysButton> buttonOk;
-        std::shared_ptr<PhysButton> buttonBack;
         std::shared_ptr<KeyboardHook> keyboardHook;
 
         std::shared_ptr<Background> background;
@@ -50,8 +45,8 @@ class Game : public std::enable_shared_from_this<Game>
 
         void initialize();
         void initializeConfig();
-        void initializeButtons();
         void initializeDisplay();
+        void initializeButtons();
         void initializeBackground();
         void configureBasicMenuScene(std::shared_ptr<Scene> _scene, 
             std::string _headerText, int _headerTextSize);
@@ -74,7 +69,7 @@ class Game : public std::enable_shared_from_this<Game>
         void initializeWidgetViewer();
         void initializeHighScore();
         void run();
-        void processPressedButton(std::shared_ptr<PhysButton> _pressedButton);
+        void processPressedButton(KeyboardKeys _pressedButton);
         time_t getTimeMs();
 
     public:

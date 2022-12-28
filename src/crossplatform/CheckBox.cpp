@@ -52,16 +52,22 @@ void CheckBox::render()
         painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );
     }
     painter->setTextSize(textSize);
-    painter->paintText(text, *position);
+    painter->drawText(*position, text);
 
     int x = position->getX() + size->getWidth() - size->getHeight();
     int y = position->getY();
-    int checkBoxSize = size->getHeight();
     Color focusColor = painter->getPaintColor();
-    Color bacgroundColor = painter->getResourceTheme()->getBackgroundMenuColor();
-    painter->paintBorder(x, y, checkBoxSize, checkBoxSize, focusColor);
-    painter->paintBorder(x + 1, y + 1, checkBoxSize - 2, checkBoxSize - 2, focusColor);
-    painter->paintRect(x + 2, y + 2, checkBoxSize - 4, checkBoxSize - 4, bacgroundColor);
+    Color backgroundColor = painter->getResourceTheme()->getBackgroundMenuColor();
+
+    painter->drawBorder(*position, *size, focusColor);
+    
+    Point position_1(x + 1, y + 1);
+    Size size_1(getWidth() - 2, getHeight() - 2);
+    painter->drawBorder(position_1, size_1, focusColor);
+    
+    Point position_2(x + 2, y + 2);
+    Size size_2(getWidth() - 4, getHeight() - 4);
+    painter->drawBorder(position_1, size_1, backgroundColor);
 
     painter->setPaintColor(painter->getResourceTheme()->getFocusColor());
     if(state)

@@ -33,7 +33,7 @@ void Button::render()
         painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );
     }
     painter->setTextSize(textSize);
-    painter->drawText(position->getX(), position->getY(), text, painter->getResourceTheme()->getFocusColor().toUint16(), textSize);
+    painter->drawText(*position, text);
 }
 
 void Button::render(std::shared_ptr<Viewport> _viewport)
@@ -51,7 +51,7 @@ void Button::render(std::shared_ptr<Viewport> _viewport)
         position->getX() - _viewport->getPosition().getX(), 
         position->getY() - _viewport->getPosition().getY()
     );
-    painter->drawText(offsetPosition.getX(), offsetPosition.getY(), text, painter->getResourceTheme()->getFocusColor().toUint16(), textSize);
+    painter->drawText(offsetPosition, text);
 }
 
 void Button::processSizeUpdate()

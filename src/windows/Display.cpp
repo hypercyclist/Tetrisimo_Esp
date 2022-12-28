@@ -16,18 +16,28 @@
 
 #include <iostream>
 
+void framebufferSizeCallback(GLFWwindow* _window, int _width, int _height);
+
 Display::Display(std::shared_ptr<Config> _config)
+    : displaySize( std::make_shared<Size>(_config->getDisplaySize()) ),
+    pinCS( _config->getPinDisplayCS() ),
+    pinDC( _config->getPinDisplayDC() ),
+    pinRST( _config->getPinDisplayRST() ),
+    scale( _config->getDisplayScale() ),
+    windowName("Tetrisimo")
 {
-    displaySize = std::make_shared<Size>(_config->getDisplaySize());
-    pinDisplayCS = _config->getPinDisplayCS();
-    pinDisplayDC = _config->getPinDisplayDC();
-    pinDisplayRST = _config->getPinDisplayRST();
-    displayScale = _config->getDisplayScale();
-    initContext();
-    painter = std::make_shared<Painter>(_config);
+    glfwInitConfigure();
+    window = glfwCreateWindow(
+        displaySize->getWidth() * scale, 
+        displaySize->getHeight() * scale, 
+        windowName.c_str(), NULL, NULL
+    );
+    glfwMakeContextCurrent(window);
+    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
+    gladInitConfigure();
+    camera = std::make_shared<Camera>();
+    painter = std::make_shared<Painter>(_config, window, camera);
     Painter::setDefault(painter);
-    painter->setWindow(window);
-    painter->setCamera(camera);
 }
 
 Display::~Display()
@@ -35,15 +45,55 @@ Display::~Display()
     glfwTerminate();
 }
 
+void Display::glfwInitConfigure()
+{
+    if (glfwInit() != GLFW_TRUE) 
+    { 
+        Log::println("GLFW init failed", "LOW");
+        glfwTerminate(); 
+    }
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+}
+
+void Display::gladInitConfigure()
+{
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) 
+    {
+        Log::println("Failed to initialize GLAD", "HIGH");
+    }
+}
+
+void framebufferSizeCallback(GLFWwindow* _window, int _width, int _height)
+{
+    glViewport(0, 0, _width, _height);
+}
+
 std::shared_ptr<Painter> Display::getPainter()
 {
     return painter;
 }
 
-void Display::setSize(Size _displaySize)
+void Display::drawBuffer()
 {
-    displaySize = std::make_shared<Size>(_displaySize);
+    painter->drawBuffer();
 }
+
+void Display::pollEvents()
+{
+    glfwPollEvents();
+}
+
+GLFWwindow* Display::getWindow()
+{
+    return window;
+}
+
+// void Display::setSize(Size _displaySize)
+// {
+//     displaySize = std::make_shared<Size>(_displaySize);
+// }
 
 Size Display::getSize()
 {
@@ -64,69 +114,3 @@ void Display::setActiveScene(std::shared_ptr<Scene> _activeScene)
     activeScene = _activeScene;
     activeScene->onShow();
 }
-
-void framebufferSizeCallback(GLFWwindow* window, int width, int height)
-{
-    glViewport(0, 0, width, height);
-}
-
-void Display::initContext()
-{
-    windowName = "Tetrisimo";
-    camera = std::make_shared<Camera>();
-    glfwInitConfigure();
-    window = glfwCreateWindow(displaySize->getWidth() * displayScale, 
-        displaySize->getHeight() * displayScale, 
-        windowName.c_str(), NULL, NULL);
-    glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
-    initGlad();
-    camera->init();
-}
-
-void Display::glfwInitConfigure()
-{
-    if (glfwInit() != GLFW_TRUE) 
-    { 
-        Log::println("GLFW init failed", "LOW");
-        glfwTerminate(); 
-    }
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-}
-
-void Display::initGlad()
-{
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        Log::println("Failed to initialize GLAD", "HIGH");
-    }
-}
-
-void Display::bindBuffers()
-{
-
-}
-
-void Display::swapBuffers()
-{
-    glfwSwapBuffers(window);
-    glfwPollEvents();
-}
-
-// void Display::draw()
-// {
-//     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-//     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//     bindBuffers();
-//     //glDrawArrays(GL_TRIANGLES, 0, 6);
-//     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-//     glfwSwapBuffers(window);
-//     glfwPollEvents();
-// }
-
-// void Display::moveCamera(float _x, float _y, float _z)
-// {
-//     camera.moveCamera(_x, _y, _z);
-// }

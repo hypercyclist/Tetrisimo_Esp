@@ -31,21 +31,20 @@ void Background::render()
 void Background::drawNet()
 {
     Color backgroundColor = painter->getResourceTheme()->getBackgroundMenuColor();
-    // std::cout << backgroundColor.getR() << " " 
-    //         << backgroundColor.getG()  << " "
-    //         << backgroundColor.getB() << std::endl;
     Color netColor = painter->getResourceTheme()->getNetColor();
-    painter->background( backgroundColor );
+    painter->clearScreen( backgroundColor );
     painter->setPaintColor( netColor );
 
     for (int i = size->getWidth(); i >= 0; i -= 8)
     {
-        // painter->drawLine( Point(i, 0), Point(i, size->getHeight()) );
-        painter->drawFastVLine(i, 0, size->getHeight(), netColor.toUint16());
+        Point position1(i, 0);
+        Point position2(i, size->getHeight());
+        painter->drawLine(position1, position2);
     }
     for (int i = -1; i < size->getHeight(); i += 8)
     {
-        // painter->paintLine( Point(size->getWidth(), i), Point(0, i) );
-        painter->drawFastHLine(0, i, size->getWidth(), netColor.toUint16());
+        Point position1(0, i);
+        Point position2(size->getWidth(), i);
+        painter->drawLine(position1, position2);
     }
 }
