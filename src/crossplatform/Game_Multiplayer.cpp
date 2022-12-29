@@ -22,8 +22,7 @@
 
 void Game::initializeMultiplayer()
 {
-    multiplayer = std::make_shared<Scene>( shared_from_this() );
-    configureBasicMenuScene(multiplayer, "Сеть", 2);
+    multiplayer = std::make_shared<Scene>( shared_from_this(), background, "Сеть", 2);
     std::shared_ptr<VerticalLayout> multiplayerLayout = 
         std::static_pointer_cast<VerticalLayout>( multiplayer->getCentralWidget() );
 

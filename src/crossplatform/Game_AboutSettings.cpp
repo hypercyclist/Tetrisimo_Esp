@@ -22,8 +22,7 @@
 
 void Game::initializeAboutSettings()
 {
-    aboutSettings = std::make_shared<Scene>( shared_from_this() );
-    configureBasicMenuScene(aboutSettings, "О проекте", 2);
+    aboutSettings = std::make_shared<Scene>( shared_from_this(), background, "О проекте", 2);
     std::shared_ptr<VerticalLayout> aboutSettingsLayout = 
         std::static_pointer_cast<VerticalLayout>( aboutSettings->getCentralWidget() );
 

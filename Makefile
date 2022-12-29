@@ -2,7 +2,7 @@
 CXX = g++
 FILE_NAME_WINDOWS = TetrisimoEsp.exe
 FILE_NAME_LINUX = TetrisimoEsp
-CXXFLAGS = -std=c++17
+CXXFLAGS = -std=c++17 -ggdb
 
 BUILD_WINDOWS_DIRECTORY = build/windows
 BUILD_LINUX_DIRECTORY = build/linux

@@ -48,8 +48,6 @@ class Game : public std::enable_shared_from_this<Game>
         void initializeDisplay();
         void initializeButtons();
         void initializeBackground();
-        void configureBasicMenuScene(std::shared_ptr<Scene> _scene, 
-            std::string _headerText, int _headerTextSize);
         void initializeMainMenu();
         void initializeSingleGame();
         void initializeMultiplayer();

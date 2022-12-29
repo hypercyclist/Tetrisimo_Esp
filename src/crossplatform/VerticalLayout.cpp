@@ -111,51 +111,51 @@ void VerticalLayout::moveUp()
 
 void VerticalLayout::moveDown()
 {
-    int currentFocusedWidget = -1;
-    int nextFocusableWidgetIndex = -1;
-    for (int i = 0; i < childrens.size(); i++)
-    {
-        if (childrens[i]->isFocused())
-        {
-            currentFocusedWidget = i;
-            break;
-        }
-    }
-    if (currentFocusedWidget == -1)
-    {
-        return;
-    }
-    for (int i = currentFocusedWidget + 1; i < childrens.size(); i++)
-    {
-        if (childrens[i]->isFocusable())
-        {
-            nextFocusableWidgetIndex = i;
-            break;
-        }
-    }
-    if (currentFocusedWidget == -1)
-    {
-        return;
-    }
-    if (viewport->getPosition().getY() + getHeight() > childrens[nextFocusableWidgetIndex]->getY() + childrens[nextFocusableWidgetIndex]->getHeight())
-    // if (viewport + (getHeight() / 2) > childrens[nextFocusableWidgetIndex].getY())
-    {
-        Log::println("Yes", "LOW");
-        focusNext();
-        // update();
-    }
-    else
-    {
-        Log::println("No", "LOW");
-        viewport->setPosition( Point( viewport->getPosition().getX(), childrens[nextFocusableWidgetIndex]->getY() - spacing) );
-        countLayout();
-        focusNext();
-    }
+    // int currentFocusedWidget = -1;
+    // int nextFocusableWidgetIndex = -1;
+    // for (int i = 0; i < childrens.size(); i++)
+    // {
+    //     if (childrens[i]->isFocused())
+    //     {
+    //         currentFocusedWidget = i;
+    //         break;
+    //     }
+    // }
+    // if (currentFocusedWidget == -1)
+    // {
+    //     return;
+    // }
+    // for (int i = currentFocusedWidget + 1; i < childrens.size(); i++)
+    // {
+    //     if (childrens[i]->isFocusable())
+    //     {
+    //         nextFocusableWidgetIndex = i;
+    //         break;
+    //     }
+    // }
+    // if (currentFocusedWidget == -1)
+    // {
+    //     return;
+    // }
+    // if (viewport->getPosition().getY() + getHeight() > childrens[nextFocusableWidgetIndex]->getY() + childrens[nextFocusableWidgetIndex]->getHeight())
+    // // if (viewport + (getHeight() / 2) > childrens[nextFocusableWidgetIndex].getY())
+    // {
+    //     Log::println("Yes", "LOW");
+    //     focusNext();
+    //     // update();
+    // }
     // else
     // {
-    //     viewport += getHeight() / 2; // Не забыть про то, что он может не влезть!
+    //     Log::println("No", "LOW");
+    //     viewport->setPosition( Point( viewport->getPosition().getX(), childrens[nextFocusableWidgetIndex]->getY() - spacing) );
+    //     countLayout();
+    //     focusNext();
     // }
-    // focusNext();
+    // // else
+    // // {
+    // //     viewport += getHeight() / 2; // Не забыть про то, что он может не влезть!
+    // // }
+    focusNext();
 }
 
 void VerticalLayout::focus()

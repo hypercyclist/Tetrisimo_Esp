@@ -27,8 +27,7 @@
 
 void Game::initializeAdvancedSettings()
 {
-    advansedSettings = std::make_shared<Scene>( shared_from_this() );
-    configureBasicMenuScene(advansedSettings, "Другие", 2);
+    advansedSettings = std::make_shared<Scene>( shared_from_this(), background, "Другие", 2);
     std::shared_ptr<VerticalLayout> advansedSettingsLayout = 
         std::static_pointer_cast<VerticalLayout>( advansedSettings->getCentralWidget() );
 

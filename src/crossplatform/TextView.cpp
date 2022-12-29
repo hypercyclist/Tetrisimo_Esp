@@ -31,8 +31,9 @@ void TextView::setParent(std::shared_ptr<Widget> _parent)
     // processParent();
 }
 
-void TextView::render()
+void TextView::render(std::shared_ptr<Viewport> _viewport)
 {
+    Log::println("void TextView::render(std::shared_ptr<Viewport> _viewport)", "LOW");
     // Widget height is table header + separator + body.
     // Header is 3px border + textHeight + 3px border.
     // Body is textHeight + 1px separator * lines count.

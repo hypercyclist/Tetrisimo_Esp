@@ -27,8 +27,7 @@
 
 void Game::initializeHighScore()
 {
-    highScore = std::make_shared<Scene>( shared_from_this() );
-    configureBasicMenuScene(highScore, "Рекорды", 2);
+    highScore = std::make_shared<Scene>( shared_from_this(), background, "Рекорды", 2);
     std::shared_ptr<VerticalLayout> highScoreLayout = 
         std::static_pointer_cast<VerticalLayout>( highScore->getCentralWidget() );
 
@@ -69,5 +68,13 @@ void Game::initializeHighScore()
     networkBest->addText("9...............0");
     networkBest->addText("10..............0");
     networkBest->minimize();
+    networkBest->setExecuteFunction(
+        [this, networkBest] ()
+        {
+            widgetViewer->setPreviousScene(highScore);
+            std::static_pointer_cast<VerticalLayout>(widgetViewer->getCentralWidget())->addWidget(networkBest);
+            display->setActiveScene(widgetViewer);
+        }
+    );
     highScoreLayout->addWidget(networkBest);
 }

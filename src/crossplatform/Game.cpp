@@ -31,22 +31,13 @@
 // #include "Port.h"
 // #include "ServiceAddress.h"
 
-// пацан слово дал, и если надо, он его забрал!!!
-// game.h std::shared_ptr scenes to unique_ptr;
 // game.h buttons to class;
 // game.cpp display->getActiveScene to this->getActiveScene()
 // game.cpp pressedButtonUp in scene wtf. to control class with initbuttons
 
-// init display with config in parameters.
-
-// init background without setSize. do it automaticaly.
-
 // init scene with (config, background headerText, headerTextSize
 
 // initializeStandartFunctions to game.
-
-// onButtonBack
-//   activeScene->executeFunction(
 
 Game::Game()
 {
@@ -73,14 +64,14 @@ void Game::initialize()
 
     initializeBackground();
     initializeWidgetViewer();
-    // initializeGameSettings();
-    // initializeColorsSettings();
-    // initializeResistorSettings();
-    // initializeAdvancedSettings();
-    // initializeAboutSettings();
-    // initializeMultiplayer();
-    // initializeSettings();
-    // initializeHighScore();
+    initializeGameSettings();
+    initializeColorsSettings();
+    initializeResistorSettings();
+    initializeAdvancedSettings();
+    initializeAboutSettings();
+    initializeMultiplayer();
+    initializeSettings();
+    initializeHighScore();
     initializeMainMenu();
 
     display->setActiveScene(mainMenu);
@@ -162,49 +153,9 @@ void Game::initializeButtons()
 void Game::initializeBackground()
 {
     background = std::make_shared<Background>();
-    background->setSize( display->getSize() );
-}
-
-void Game::configureBasicMenuScene(
-    std::shared_ptr<Scene> _scene, 
-    std::string _headerText, 
-    int _headerTextSize
-    )
-{
-    _scene->setSize( display->getSize() );
-    _scene->setBackgroundWidget(background);
-
-    std::shared_ptr<VerticalLayout> menuLayout = std::make_shared<VerticalLayout>();
-    _scene->setCentralWidget(menuLayout);
-
-    std::shared_ptr<Label> header = std::make_shared<Label>(_headerText);
-    header->setTextSize(_headerTextSize);
-    header->setUnderline(true);
-    menuLayout->addWidget(header);
 }
 
 std::shared_ptr<Display> Game::getDisplay()
 {
     return display;
 }
-
-    // Painter* pPainter = display->getPainter().get();
-    // pPainter->fillRect(0, 0, 128, 160, pPainter->getResourceTheme()->getUnfocusColor().toUint16());
-    // pPainter->setTextSize(3);
-    // pPainter->setPaintColor(pPainter->getResourceTheme()->getFocusColor());
-    // pPainter->paintText("Новая игра", Point(10, 10));
-    // pPainter->drawBuffer();
-
-    // display->getPainter()->paintRect(0, 0, 5, 5, colorWhite);
-    // display->getPainter()->paintRect(5, 5, 10, 10, colorBlack);
-
-    // painter->drawText(10, 10, "abcdefghijklmn", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
-    // painter->drawText(10, 20, "opqrstuvwxyz", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
-    // painter->drawText(10, 30, "абвгдежзиклмн", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
-    // painter->drawText(10, 40, "опрстуххчщыьъюя", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
-    // painter->drawText(10, 50, "ABCDEFGHIJKLMN", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
-    // painter->drawText(10, 60, "OPQRSTUVWXYZ", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
-    // painter->drawText(10, 70, "АБВГДЕЖЗИКЛМН", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
-    // painter->drawText(10, 80, "ОПРСТУХХЧЩЬЪЭЮЯ", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
-    // painter->drawText(10, 90, "123456789-!.,/)", painter->getResourceTheme()->getFocusColor().toUint16(), 1);
-    // painter->testFont(0);

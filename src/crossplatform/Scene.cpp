@@ -3,6 +3,7 @@
 #include "Background.h"
 #include "Color.h"
 #include "Display.h"
+#include "Label.h"
 #include "Log.h"
 #include "Game.h"
 #include "Layout.h"
@@ -12,8 +13,7 @@
 #include "VerticalLayout.h"
 
 Scene::Scene(std::shared_ptr<Game> _game)
-    : 
-    Widget(),
+    : Widget(),
     game(_game),
     previousScene(nullptr),
     framesPerSeconds(30)
@@ -22,8 +22,28 @@ Scene::Scene(std::shared_ptr<Game> _game)
     childrens.resize(2);
 }
 
+Scene::Scene(std::shared_ptr<Game> _game, 
+    std::shared_ptr<Background> _background, std::string _headerText, 
+    int _headerTextSize) : Scene(_game) 
+{
+    configureBasicMenuScene(_background, _headerText, _headerTextSize);
+}
+
 Scene::~Scene()
 {
+}
+
+void Scene::configureBasicMenuScene(std::shared_ptr<Background> _background, 
+    std::string _headerText, int _headerTextSize)
+{
+    setSize( game->getDisplay()->getSize() );
+    setBackgroundWidget(_background);
+    setCentralWidget(std::make_shared<VerticalLayout>());
+
+    std::shared_ptr<Label> header = std::make_shared<Label>(_headerText);
+    header->setTextSize(_headerTextSize);
+    header->setUnderline(true);
+    std::static_pointer_cast<VerticalLayout>(childrens[1])->addWidget(header);
 }
 
 std::shared_ptr<Scene> Scene::getPreviousScene()
@@ -41,6 +61,7 @@ void Scene::setBackgroundWidget(std::shared_ptr<Background> _background)
     // background = _background;
     // update();
     childrens[0] = _background;
+    childrens[0]->setSize(*size);
 }
 
 std::shared_ptr<Widget> Scene::getBackground()
@@ -100,12 +121,14 @@ void Scene::initializeStandartFunctions()
     };
     pressedButtonBackFunctionPointer = [this] () 
     {
+        if (!previousScene) return;
         game->getDisplay()->setActiveScene(previousScene);
     };
 }
 
 void Scene::onShow()
 {
+    std::static_pointer_cast<VerticalLayout>(childrens[1])->countLayout();
     childrens[1]->focus();
     // Log::println("Scene::onShow - before onShowFunctionPointer", "LOW");
     onShowFunctionPointer();

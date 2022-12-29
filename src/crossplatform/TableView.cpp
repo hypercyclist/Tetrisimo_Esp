@@ -30,7 +30,7 @@ void TableView::setParent(std::shared_ptr<Widget> _parent)
     // processParent();
 }
 
-void TableView::render()
+void TableView::render(std::shared_ptr<Viewport> _viewport)
 {
     // Widget height is table header + separator + body.
     // Header is 3px border + textHeight + 3px border.
@@ -71,7 +71,7 @@ void TableView::render()
     
     Point position_3(x + 2, y + ( border * 2) + textSpace.getHeight() + 1);
     Size size_3(getWidth() - 4, (textSpace.getHeight() + separator) * 
-        getLinesCount() + separator + 2);
+        lines + separator + 2);
     painter->drawBorder(position_3, size_3, outBorderColor);
 
     painter->setPaintColor(middleBorderColor);
@@ -83,10 +83,11 @@ void TableView::render()
 
     // Draw name and text.
     painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );
+    painter->setTextSize(1);
     Point namePosition(nameX, nameY);
     painter->drawText(namePosition, name);
 
-    for(int i = 0; i < text.size(); i++)
+    for(int i = 0; i < lines; i++)
     {
         Point textPosition(textX, textY);
         painter->drawText(textPosition, text[i]);

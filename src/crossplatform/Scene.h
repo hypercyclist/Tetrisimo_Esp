@@ -24,6 +24,8 @@ class Scene : public Widget
         // If our scene is static, then we can decrease game framerate. Or increase.
         int framesPerSeconds;
 
+        void configureBasicMenuScene(std::shared_ptr<Background> _background, 
+            std::string _headerText, int _headerTextSize);
         // This is a pointers to functions, that was set from lambda.
         std::function<void()> onShowFunctionPointer;
         std::function<void()> onHideFunctionPointer;
@@ -37,6 +39,9 @@ class Scene : public Widget
     
     public:
         Scene(std::shared_ptr<Game> _game);
+        Scene(std::shared_ptr<Game> _game, 
+            std::shared_ptr<Background> _background, std::string _headerText, 
+            int _headerTextSize);
         ~Scene();
 
         // void render();

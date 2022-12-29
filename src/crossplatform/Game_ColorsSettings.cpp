@@ -27,8 +27,7 @@
 
 void Game::initializeColorsSettings()
 {
-    colorsSettings = std::make_shared<Scene>( shared_from_this() );
-    configureBasicMenuScene(colorsSettings, "Палитра", 2);
+    colorsSettings = std::make_shared<Scene>( shared_from_this(), background, "Палитра", 2);
     std::shared_ptr<VerticalLayout> colorsSettingsLayout = 
         std::static_pointer_cast<VerticalLayout>( colorsSettings->getCentralWidget() );
 

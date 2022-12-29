@@ -27,8 +27,7 @@
 
 void Game::initializeResistorSettings()
 {
-    resistorsSettings = std::make_shared<Scene>( shared_from_this() );
-    configureBasicMenuScene(resistorsSettings, "Резисторы", 2);
+    resistorsSettings = std::make_shared<Scene>( shared_from_this(), background, "Резисторы", 2);
     std::shared_ptr<VerticalLayout> resistorsSettingsLayout = 
         std::static_pointer_cast<VerticalLayout>( resistorsSettings->getCentralWidget() );
 
