@@ -83,7 +83,7 @@ void Game::initialize()
     // initializeHighScore();
     // initializeMainMenu();
 
-    // display->setActiveScene(mainMenu);
+    // setActiveScene(mainMenu);
 }
 
 void Game::run()

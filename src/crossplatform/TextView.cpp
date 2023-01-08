@@ -18,6 +18,7 @@ TextView::TextView(std::string _name, std::string _text)
 {
     focusability = true;
     processSizeUpdate();
+    setExecuteFunction([this] () { });
 }
 
 TextView::~TextView()
@@ -31,9 +32,9 @@ void TextView::setParent(std::shared_ptr<Widget> _parent)
     // processParent();
 }
 
-void TextView::render(std::shared_ptr<Viewport> _viewport)
+void TextView::render()
 {
-    Log::println("void TextView::render(std::shared_ptr<Viewport> _viewport)", "LOW");
+    // Log::println("void TextView::render()", "LOW");
     // Widget height is table header + separator + body.
     // Header is 3px border + textHeight + 3px border.
     // Body is textHeight + 1px separator * lines count.
@@ -75,11 +76,8 @@ void TextView::render(std::shared_ptr<Viewport> _viewport)
     painter->drawBorder(position_3, size_3, outBorderColor);
 
     painter->setPaintColor(middleBorderColor);
-    // painter->paintLine(
-    //     x + 1, 
-    //     y + ( border * 2) + textSpace.getHeight(), 
-    //     x + getWidth() - 2, 
-    //     y + ( border * 2) + textSpace.getHeight());
+    painter->drawLine(Point(x + 1, y + ( border * 2) + textSpace.getHeight()), 
+        Point(x + 1 + getWidth() - 2, y + ( border * 2) + textSpace.getHeight()));
 
     // Draw name and text.
     painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );

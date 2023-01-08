@@ -74,7 +74,6 @@ class Widget : public std::enable_shared_from_this<Widget>
         // render functions. As run platform limited in memory and clock speed
         // we haven't time for update full scene as on powerfull PC.
         virtual void render();
-        virtual void render(std::shared_ptr<Viewport> _viewport);
         // Functions show or hide widget on display.
         void show();
         void hide();

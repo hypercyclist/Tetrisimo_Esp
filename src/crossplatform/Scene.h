@@ -2,6 +2,7 @@
 #define SCENE_H
 
 class Background;
+enum class KeyboardKeys;
 class Game;
 
 #include "Widget.h"
@@ -16,8 +17,8 @@ class Scene : public Widget
     private:
         // Every scene know single game object. Game is scene parent.
         std::shared_ptr<Game> game;
-        // std::shared_ptr<Background> background;
-        // std::shared_ptr<Widget> widget;
+        std::shared_ptr<Background> background;
+        std::shared_ptr<Widget> widget;
         // If scene was changed from parent to it, then we should be able to come
         // back to parent scene.
         std::shared_ptr<Scene> previousScene;
@@ -44,10 +45,7 @@ class Scene : public Widget
             int _headerTextSize);
         ~Scene();
 
-        // void render();
-        // void redraw();
-        // void processChild(std::shared_ptr<Widget> _child);
-        
+        void render();
         std::shared_ptr<Scene> getPreviousScene();
         void setPreviousScene(std::shared_ptr<Scene> _previousScene);
         void setBackgroundWidget(std::shared_ptr<Background> _background);
@@ -59,6 +57,7 @@ class Scene : public Widget
         void setFrameTime(int _framesPerSeconds);
 
         void initializeStandartFunctions();
+        void processKeyboard(KeyboardKeys _pressedButton);
         void onShow();
         void setOnShowFunction(std::function<void()> _function);
         void onHide();

@@ -51,7 +51,7 @@ void Game::initializeHighScore()
         {
             widgetViewer->setPreviousScene(highScore);
             std::static_pointer_cast<VerticalLayout>(widgetViewer->getCentralWidget())->addWidget(personalBest);
-            display->setActiveScene(widgetViewer);
+            setActiveScene(widgetViewer);
         }
     );
     highScoreLayout->addWidget(personalBest);

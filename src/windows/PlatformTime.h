@@ -5,11 +5,19 @@
 
 class PlatformTime
 {
+    private:
+        static time_t deltaTimeMs;
     public:
         PlatformTime();
         ~PlatformTime();
-        static void delayTimeMs(int _timeMs);
+        // Sleep for few ms.
+        static void sleepTimeMs(int _timeMs);
+        // Get world time ms.
         static time_t getTimeMs();
+        // Update time from last frame.
+        static void updateTime();
+        // Get time from last frame.
+        static time_t getDeltaTimeMs();
 };
 
 #endif

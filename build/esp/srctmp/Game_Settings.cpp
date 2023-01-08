@@ -37,7 +37,7 @@ void Game::initializeSettings()
     gameSettingsButton->setExecuteFunction(
         [this] ()
         {
-            display->setActiveScene(gameSettings);
+            setActiveScene(gameSettings);
         }
     );
     gameSettings->setPreviousScene(settings);
@@ -50,7 +50,7 @@ void Game::initializeSettings()
     colorsSettingsButton->setExecuteFunction(
         [this] ()
         {
-            display->setActiveScene(colorsSettings);
+            setActiveScene(colorsSettings);
         }
     );
     colorsSettings->setPreviousScene(settings);
@@ -60,7 +60,7 @@ void Game::initializeSettings()
     advancedSettingsButton->setExecuteFunction(
         [this] ()
         {
-            display->setActiveScene(advansedSettings);
+            setActiveScene(advansedSettings);
         }
     );
     advansedSettings->setPreviousScene(settings);
@@ -70,7 +70,7 @@ void Game::initializeSettings()
     aboutButton->setExecuteFunction(
         [this] ()
         {
-            display->setActiveScene(aboutSettings);
+            setActiveScene(aboutSettings);
         }
     );
     aboutSettings->setPreviousScene(settings);

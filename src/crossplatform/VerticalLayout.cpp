@@ -9,7 +9,7 @@
 VerticalLayout::VerticalLayout(std::shared_ptr<Widget> _parent)
     : 
     Layout(_parent),
-    viewport(std::make_shared<Viewport>(Point(0, 0), Size(getWidth(), getHeight())))
+    offset(std::make_shared<Point>(0, 0))
 {
 
 }
@@ -54,14 +54,14 @@ void VerticalLayout::render()
 {
     for (int i = 0; i < childrens.size(); i++)
     {
-        childrens[i]->render(viewport);
+        childrens[i]->render();
     }
 }
 
 //notificate parent about changing size.
 void VerticalLayout::countLayout()
 {
-    Log::println("VerticalLayout::countLayout()", "LOW");
+    // Log::println("VerticalLayout::countLayout()", "LOW");
     int layoutWidth = size->getWidth();
     int layoutHeight = size->getHeight();
     int heightOfAllWidgets = 0;
@@ -81,7 +81,7 @@ void VerticalLayout::countLayout()
             Size countedWidgetSize = childrens[i]->getSize();
             int widgetX = ( layoutWidth - countedWidgetSize.getWidth() ) / 2;
             int widgetY = savedHeight + freeSpace;
-            childrens[i]->setPosition( Point(widgetX, widgetY) );
+            childrens[i]->setPosition( Point(widgetX - offset->getX(), widgetY - offset->getY()) );
             savedHeight = widgetY + countedWidgetSize.getHeight();
         }
             //disable stretch
@@ -98,7 +98,7 @@ void VerticalLayout::countLayout()
             int widgetY = heightOfAllWidgets;
             // Log::print("countLayout()", "LOW");
             // Log::println(widgetX, "LOW");
-            childrens[i]->setPosition( Point(widgetX, widgetY) );
+            childrens[i]->setPosition( Point(widgetX - offset->getX(), widgetY - offset->getY()) );
             heightOfAllWidgets = widgetY + countedWidgetSize.getHeight() + spacing;
         }
     }

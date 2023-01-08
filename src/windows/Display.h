@@ -24,12 +24,10 @@ class Display
         int scale;
         // Single only painter object create here.
         std::shared_ptr<Painter> painter;
-        // Always point to current scene.
-        std::shared_ptr<Scene> activeScene;
         // The pin numbers for physical display, welding things.
-        int pinCS;
-        int pinDC;
-        int pinRST;
+        // int pinCS;
+        // int pinDC;
+        // int pinRST;
     public:
         Display(std::shared_ptr<Config> _config);
         ~Display();
@@ -43,8 +41,6 @@ class Display
         // You can't just change size of display.
         // void setSize(Size _displaySize);
         Size getSize();
-        std::shared_ptr<Scene> getActiveScene();
-        void setActiveScene(std::shared_ptr<Scene> _activeScene);
 };
 
 #endif

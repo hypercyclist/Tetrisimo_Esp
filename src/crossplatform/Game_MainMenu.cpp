@@ -37,7 +37,7 @@ void Game::initializeMainMenu()
     multiplayerButton->setExecuteFunction(
         [this] ()
         {
-            display->setActiveScene(multiplayer);
+            setActiveScene(multiplayer);
         }
     );
     multiplayer->setPreviousScene(mainMenu);
@@ -47,7 +47,7 @@ void Game::initializeMainMenu()
     settingsButton->setExecuteFunction(
         [this] ()
         {
-            display->setActiveScene(settings);
+            setActiveScene(settings);
         }
     );
     settings->setPreviousScene(mainMenu);
@@ -57,7 +57,7 @@ void Game::initializeMainMenu()
     highScoreButton->setExecuteFunction(
         [this] ()
         {
-            display->setActiveScene(highScore);
+            setActiveScene(highScore);
         }
     );
     highScore->setPreviousScene(mainMenu);

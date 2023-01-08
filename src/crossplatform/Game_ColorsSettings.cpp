@@ -39,9 +39,4 @@ void Game::initializeColorsSettings()
     colorThemesTable->addText("2.Кровавая тряска");
     colorThemesTable->addText("3.Своя тема");
 
-    std::shared_ptr<TableView> colorThemesTable2 = std::make_shared<TableView>("Цветовые темы");
-    colorsSettingsLayout->addWidget(colorThemesTable2);
-    colorThemesTable2->addText("1.Пещерные огни");
-    colorThemesTable2->addText("2.Кровавая тряска");
-    colorThemesTable2->addText("3.Своя тема");
 }

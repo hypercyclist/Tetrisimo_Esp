@@ -10,8 +10,7 @@
 #include <memory>
 #include <iostream>
 
-Background::Background() 
-    : 
+Background::Background() : 
     Widget()
 {
 }
@@ -20,11 +19,8 @@ Background::~Background()
 {
 }
 
-
-
 void Background::render()
 {
-    // Log::println("Background::render()", "LOW");
     drawNet();
 }
 

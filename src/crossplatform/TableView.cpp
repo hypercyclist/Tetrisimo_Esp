@@ -17,6 +17,7 @@ TableView::TableView(std::string _name)
 {
     focusability = true;
     processSizeUpdate();
+    setExecuteFunction([this] () { });
 }
 
 TableView::~TableView()
@@ -30,7 +31,7 @@ void TableView::setParent(std::shared_ptr<Widget> _parent)
     // processParent();
 }
 
-void TableView::render(std::shared_ptr<Viewport> _viewport)
+void TableView::render()
 {
     // Widget height is table header + separator + body.
     // Header is 3px border + textHeight + 3px border.
@@ -75,11 +76,8 @@ void TableView::render(std::shared_ptr<Viewport> _viewport)
     painter->drawBorder(position_3, size_3, outBorderColor);
 
     painter->setPaintColor(middleBorderColor);
-    // painter->paintLine(
-    //     x + 1, 
-    //     y + ( border * 2) + textSpace.getHeight(), 
-    //     x + getWidth() - 2, 
-    //     y + ( border * 2) + textSpace.getHeight());
+    painter->drawLine(Point(x + 1, y + ( border * 2) + textSpace.getHeight()), 
+        Point(x + 1 + getWidth() - 2, y + ( border * 2) + textSpace.getHeight()));
 
     // Draw name and text.
     painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );
@@ -87,6 +85,7 @@ void TableView::render(std::shared_ptr<Viewport> _viewport)
     Point namePosition(nameX, nameY);
     painter->drawText(namePosition, name);
 
+    // painter->setPaintColor( painter->getResourceTheme()->getFocusColor() );
     for(int i = 0; i < lines; i++)
     {
         Point textPosition(textX, textY);

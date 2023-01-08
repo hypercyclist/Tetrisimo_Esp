@@ -36,24 +36,6 @@ void Button::render()
     painter->drawText(*position, text);
 }
 
-void Button::render(std::shared_ptr<Viewport> _viewport)
-{
-    if (focused)
-    {
-        painter->setPaintColor( painter->getResourceTheme()->getFocusColor() );
-    }
-    else
-    {
-        painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );
-    }
-    painter->setTextSize(textSize);
-    Point offsetPosition(
-        position->getX() - _viewport->getPosition().getX(), 
-        position->getY() - _viewport->getPosition().getY()
-    );
-    painter->drawText(offsetPosition, text);
-}
-
 void Button::processSizeUpdate()
 {
     std::string russianCharacters = "абвгдеёжзиклмнопрстуфхцчшщъыьэюя";

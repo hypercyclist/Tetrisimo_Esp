@@ -27,8 +27,7 @@ void Game::initializeAboutSettings()
         std::static_pointer_cast<VerticalLayout>( aboutSettings->getCentralWidget() );
 
     std::shared_ptr<TextView> thanksTable = std::make_shared<TextView>
-        ("Спасибо!", "Всем товарищам, чьи имена я скрыл для этого скриншота!"); 
-    //Никите, Льву, Анастасии, Дмитрию, Игорю, Александру, Александре.
+        ("Спасибо!", "Никите, Льву, Анастасии, Дмитрию, Игорю, Александру, Александре");
     aboutSettingsLayout->addWidget(thanksTable);
     std::shared_ptr<TextView> contactsTable = std::make_shared<TextView>
         ("Контакты", "warstar441@gmail.com");

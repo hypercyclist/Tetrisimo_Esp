@@ -7,8 +7,7 @@
 #include "ResourceTheme.h"
 #include "Size.h"
 
-CheckBox::CheckBox(std::string _text, bool _state) 
-    : 
+CheckBox::CheckBox(std::string _text, bool _state) :
     Widget(),
     text(_text),
     textSize(2),
@@ -18,8 +17,7 @@ CheckBox::CheckBox(std::string _text, bool _state)
     processSizeUpdate();
 }
 
-CheckBox::CheckBox()
-    : 
+CheckBox::CheckBox() : 
     Widget(),
     text(""),
     textSize(2),
@@ -29,9 +27,7 @@ CheckBox::CheckBox()
     processSizeUpdate();
 }
 
-CheckBox::~CheckBox()
-{
-}
+CheckBox::~CheckBox() { }
 
 void CheckBox::setParent(std::shared_ptr<Widget> _parent)
 {
@@ -42,41 +38,39 @@ void CheckBox::setParent(std::shared_ptr<Widget> _parent)
 
 void CheckBox::render()
 {
-    // processSizeUpdate();
-    if (focused)
-    {
-        painter->setPaintColor( painter->getResourceTheme()->getFocusColor() );
-    }
-    else
-    {
-        painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );
-    }
+    Color textColor = focused ? painter->getResourceTheme()->getFocusColor() :
+        painter->getResourceTheme()->getUnfocusColor();
     painter->setTextSize(textSize);
-    painter->drawText(*position, text);
+    painter->drawText(*position, text, textColor);
 
     int x = position->getX() + size->getWidth() - size->getHeight();
     int y = position->getY();
-    Color focusColor = painter->getPaintColor();
+
+    Color focusColor = painter->getResourceTheme()->getFocusColor();
     Color backgroundColor = painter->getResourceTheme()->getBackgroundMenuColor();
+    Color borderColor1 = painter->getResourceTheme()->getNetColor();
+    Color borderColor2 = focused ? painter->getResourceTheme()->getFocusColor() :
+        painter->getResourceTheme()->getBorderColor();
 
-    painter->drawBorder(*position, *size, focusColor);
+    painter->drawRect(Point(x, y), 
+        Size(getHeight(), getHeight()), backgroundColor);
+    painter->drawBorder(Point(x, y), 
+        Size(getHeight(), getHeight()), borderColor1);
     
-    Point position_1(x + 1, y + 1);
-    Size size_1(getWidth() - 2, getHeight() - 2);
-    painter->drawBorder(position_1, size_1, focusColor);
-    
-    Point position_2(x + 2, y + 2);
-    Size size_2(getWidth() - 4, getHeight() - 4);
-    painter->drawBorder(position_1, size_1, backgroundColor);
+    painter->drawBorder(Point (x + 1, y + 1), 
+        Size(getHeight() - 2, getHeight() - 2), borderColor2);
 
-    painter->setPaintColor(painter->getResourceTheme()->getFocusColor());
+    painter->drawBorder(Point (x + 2, y + 2), 
+        Size(getHeight() - 4, getHeight() - 4), borderColor1);
+    
+    painter->setPaintColor(focusColor);
     if(state)
     {
-        // painter->paintLine(x + 2, y + 7, x + 5, y + 11);
-        // painter->paintLine(x + 3, y + 7, x + 6, y + 11);
-        // painter->paintLine(x + 4, y + 7, x + 7, y + 11);
-        // painter->paintLine(x + 7, y + 11, x + 10, y + 2);
-        // painter->paintLine(x + 8, y + 11, x + 11, y + 2);
+        painter->drawLine(Point(x + 2, y + 7), Point(x + 5, y + 11));
+        painter->drawLine(Point(x + 3, y + 7), Point(x + 6, y + 11));
+        painter->drawLine(Point(x + 4, y + 7), Point(x + 7, y + 11));
+        painter->drawLine(Point(x + 7, y + 11), Point(x + 10, y + 2));
+        painter->drawLine(Point(x + 8, y + 11), Point(x + 11, y + 2));
     }
 }
 

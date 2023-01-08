@@ -20,9 +20,9 @@ void framebufferSizeCallback(GLFWwindow* _window, int _width, int _height);
 
 Display::Display(std::shared_ptr<Config> _config)
     : displaySize( std::make_shared<Size>(_config->getDisplaySize()) ),
-    pinCS( _config->getPinDisplayCS() ),
-    pinDC( _config->getPinDisplayDC() ),
-    pinRST( _config->getPinDisplayRST() ),
+    // pinCS( _config->getPinDisplayCS() ),
+    // pinDC( _config->getPinDisplayDC() ),
+    // pinRST( _config->getPinDisplayRST() ),
     scale( _config->getDisplayScale() ),
     windowName("Tetrisimo")
 {
@@ -100,17 +100,3 @@ Size Display::getSize()
     return *displaySize;
 }
 
-std::shared_ptr<Scene> Display::getActiveScene()
-{
-    return activeScene;
-}
-
-void Display::setActiveScene(std::shared_ptr<Scene> _activeScene)
-{
-    if (activeScene != nullptr)
-    {
-        activeScene->onHide();
-    }
-    activeScene = _activeScene;
-    activeScene->onShow();
-}

@@ -1,6 +1,7 @@
 #include "DisplayBuffer.h"
 #include "Color.h"
 #include <iostream>
+#include "ResourceTheme.h"
 #include <SoftwareSerial.h>
 
 const char DisplayBuffer::colorCodes[16] = { 
@@ -34,6 +35,24 @@ void DisplayBuffer::bindColor(uint16_t _color, char _colorCode)
 {
     bindedCodes.insert_or_assign(_color, _colorCode);
     bindedColors.insert_or_assign(_colorCode, _color);
+}
+
+void DisplayBuffer::bindColors(std::shared_ptr<ResourceTheme> _resourceTheme)
+{
+	bindColor(_resourceTheme->getUndefinedColor().toUint16(), colorCodes[0]);
+    bindColor(_resourceTheme->getFocusColor().toUint16(), colorCodes[1]);
+    bindColor(_resourceTheme->getUnfocusColor().toUint16(), colorCodes[2]);
+    bindColor(_resourceTheme->getBorderColor().toUint16(), colorCodes[3]);
+    bindColor(_resourceTheme->getBackgroundMenuColor().toUint16(), colorCodes[4]); 
+    bindColor(_resourceTheme->getBackgroundGameColor().toUint16(), colorCodes[5]); 
+    bindColor(_resourceTheme->getNetColor().toUint16(), colorCodes[6]); 
+    bindColor(_resourceTheme->getFigureIColor().toUint16(), colorCodes[7]); 
+    bindColor(_resourceTheme->getFigureLColor().toUint16(), colorCodes[8]); 
+    bindColor(_resourceTheme->getFigureJColor().toUint16(), colorCodes[9]); 
+    bindColor(_resourceTheme->getFigureZColor().toUint16(), colorCodes[10]); 
+    bindColor(_resourceTheme->getFigureSColor().toUint16(), colorCodes[11]); 
+    bindColor(_resourceTheme->getFigureTColor().toUint16(), colorCodes[12]); 
+    bindColor(_resourceTheme->getFigureOColor().toUint16(), colorCodes[13]); 
 }
 
 void DisplayBuffer::setColor(int _index, uint16_t _color)

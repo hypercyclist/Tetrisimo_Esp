@@ -24,12 +24,16 @@ enum class KeyboardKeys {
 class KeyboardHook
 {
     private:
+        const int INPUT_DELAY;
         std::shared_ptr<Config> config;
         GLFWwindow* window;
+        static KeyboardKeys lastInput;
+        time_t lastInputTimeMs;
     public:
         KeyboardHook(std::shared_ptr<Config> _config, std::shared_ptr<Display> _display);
         ~KeyboardHook();
         KeyboardKeys getPressedButton();
+        static void setLastInput(KeyboardKeys _key);
 };
 
 #endif

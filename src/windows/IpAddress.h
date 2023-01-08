@@ -1,15 +1,13 @@
 #ifndef IPADDRESS_H
 #define IPADDRESS_H
 
-// Class for TCP IP address. Like a structure.
-class IpAddress
+#include <stdint.h>
+
+// Structure for TCP IP address.
+struct IpAddress
 {
-    private:
-        unsigned char byte[4];
-    public:
-        IpAddress(unsigned char _byte0, unsigned char _byte1, unsigned char _byte2, unsigned char _byte3);
-        ~IpAddress();
-        void setIpAddress(unsigned char _byte0, unsigned char _byte1, unsigned char _byte2, unsigned char _byte3);
+    uint8_t byte[4];
+    IpAddress(uint8_t _byte0, uint8_t _byte1, uint8_t _byte2, uint8_t _byte3);
 };
 
 #endif

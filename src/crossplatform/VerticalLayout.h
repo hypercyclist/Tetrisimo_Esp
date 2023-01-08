@@ -15,7 +15,7 @@ class Widget;
 class VerticalLayout : public Layout
 {
     private: 
-        std::shared_ptr<Viewport> viewport;
+        std::shared_ptr<Point> offset;
 
     public:
         VerticalLayout(std::shared_ptr<Widget> _parent = nullptr);

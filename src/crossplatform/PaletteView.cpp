@@ -46,25 +46,17 @@ void PaletteView::render()
     // border around name, border arount text, separator border.
     painter->drawRect(*position, *size, backgroundColor);
     painter->drawBorder(*position, *size, outBorderColor);
-    Point position_1(x + 1, y + 1);
-    Size size_1(getWidth() - 2, getHeight() - 2);
-    painter->drawBorder(position_1, size_1, middleBorderColor);
-
-    // painter->paintBorder(
-    //     x + 2, 
-    //     y + 2, 
-    //     getWidth() - 4, 
-    //     getHeight() - 4, 
-    //     outBorderColor);
+    painter->drawBorder(Point(x + 1, y + 1), 
+        Size(getWidth() - 2, getHeight() - 2), middleBorderColor);
 
     painter->setPaintColor(netColor);
-    for (int i = x + border; i < x + getWidth() - border; i+= netSize + 1)
+    for (int i = x + border; i <= x + getWidth() - border; i+= netSize + 1)
     {
-        // painter->paintLine( Point(i, y + border), Point(i, y + getHeight() - border - 1) );
+        painter->drawLine( Point(i, y + border), Point(i, y + getHeight() - border - 1) );
     }
-    for (int i = y + border; i < y + getHeight() - border; i+= netSize + 1)
+    for (int i = y + border; i <= y + getHeight() - border; i+= netSize + 1)
     {
-        // painter->paintLine( Point(x + border, i), Point(x + getWidth() - border - 1, i) );
+        painter->drawLine( Point(x + border, i), Point(x + getWidth() - border - 1, i) );
     }
     Color figureIColor = painter->getResourceTheme()->getFigureIColor();
     Color figureJColor = painter->getResourceTheme()->getFigureJColor();
@@ -119,8 +111,8 @@ void PaletteView::processSizeUpdate()
     int netWidth = 12;
     int netHeight = 5;
     Size countedSize;
-    countedSize.setWidth( (netWidth * netSize) + (netWidth + 1) + (border * 2) );
-    countedSize.setHeight( (netHeight * netSize) + (netHeight + 1) + (border * 2) );
+    countedSize.setWidth( (netWidth * netSize) + (netWidth) + (border * 2) );
+    countedSize.setHeight( (netHeight * netSize) + (netHeight) + (border * 2) );
     setSize(countedSize);
 }
 
@@ -134,6 +126,6 @@ void PaletteView::paintBlock(int _x, int _y, Color _color)
         y + (_y * (netSize + 1)) + border);
     Size blockSize(netSize, netSize);
     painter->drawRect(realPosition, blockSize, _color);
-    Color borderColor(_color.getR() - 10, _color.getG() - 10, _color.getB() - 10);
-    painter->drawBorder(realPosition, blockSize, borderColor);
+    // Color borderColor(_color.getR() - 10, _color.getG() - 10, _color.getB() - 10);
+    // painter->drawBorder(realPosition, blockSize, borderColor);
 }

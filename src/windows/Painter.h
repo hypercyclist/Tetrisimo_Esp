@@ -81,18 +81,19 @@ class Painter
 
         void drawBuffer();
 
-        void drawPixel(Point& _position);
-        void drawLine(Point& _position1, Point& _position2);
-        void drawLine(Point& _position1, Point& _position2, int _lineWidth);
+        void drawPixel(Point _position);
+        void drawLine(Point _position1, Point _position2);
+        void drawLine(Point _position1, Point _position2, int _lineWidth);
         
-        void drawRect(Point& _position, Size& _size);
-        void drawRect(Point& _position, Size& _size, Color& _color);
+        void drawRect(Point _position, Size _size);
+        void drawRect(Point _position, Size _size, Color _color);
 
-        void drawBorder(Point& _position, Size& _size);
-        void drawBorder(Point& _position, Size& _size, Color& _color);
+        void drawBorder(Point _position, Size _size);
+        void drawBorder(Point _position, Size _size, Color _color);
 
-        void drawText(Point& _position, std::string& _text);
-        void clearScreen(Color& _backgroundColor);
+        void drawText(Point _position, std::string& _text);
+        void drawText(Point _position, std::string& _text, Color _color);
+        void clearScreen(Color _backgroundColor);
         void testFont(int _fontPage);
         // Count how many letters can be contained into widget width.
         int countWrapSize(int _textSize, int _widgetWidth);

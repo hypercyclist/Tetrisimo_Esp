@@ -1,7 +1,10 @@
 #ifndef DISPLAYBUFFER_H
 #define DISPLAYBUFFER_H
 
+class ResourceTheme;
+
 #include <map>
+#include <memory>
 
 class DisplayBuffer
 {
@@ -26,6 +29,7 @@ class DisplayBuffer
 
         void clearBuffer();
         static void bindColor(uint16_t _color, char _colorCode);
+        static void bindColors(std::shared_ptr<ResourceTheme> _resourceTheme);
         void setColor(int _index, uint16_t _color);
         uint16_t getColor(int _index);
         void test(uint16_t _color);

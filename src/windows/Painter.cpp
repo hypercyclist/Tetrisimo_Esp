@@ -53,6 +53,7 @@ std::shared_ptr<Painter> Painter::getPainter()
 void Painter::setResourceTheme(ResourceTheme _resourceTheme)
 {
     currentResourceTheme = std::make_shared<ResourceTheme>(_resourceTheme);
+	DisplayBuffer::bindColors(currentResourceTheme);
 }
 
 const std::shared_ptr<ResourceTheme> Painter::getResourceTheme()
@@ -447,12 +448,12 @@ void Painter::writeOpenGLBuffer()
     glBindVertexArray(0);
 }
 
-void Painter::drawPixel(Point& _position) 
+void Painter::drawPixel(Point _position) 
 {
     writePixel(_position.getX(), _position.getY(), drawColor->toUint16());
 }
 
-void Painter::drawLine(Point& _position1, Point& _position2) 
+void Painter::drawLine(Point _position1, Point _position2) 
 {
 	// Update in subclasses if desired!
 	int16_t _x0 = _position1.getX();
@@ -462,13 +463,13 @@ void Painter::drawLine(Point& _position1, Point& _position2)
 	
 	if (_x0 == _x1) 
 	{
-		if (y0 > y1) 
+		if (_y0 > _y1) 
 		{
 			_swap_int16_t(_y0, _y1);
 		}
 		writeFastVLine(_x0, _y0, _y1 - _y0 + 1, drawColor->toUint16());
 	} 
-	else if (y0 == y1) 
+	else if (_y0 == _y1) 
 	{
 		if (_x0 > _x1)
 		{
@@ -482,7 +483,7 @@ void Painter::drawLine(Point& _position1, Point& _position2)
 	}
 }
 
-void Painter::drawLine(Point& _pointA, Point& _pointB, int _lineWidth)
+void Painter::drawLine(Point _pointA, Point _pointB, int _lineWidth)
 {
     int offsetX, offsetY;
     if( _pointA.getY() == _pointB.getY() )
@@ -505,37 +506,47 @@ void Painter::drawLine(Point& _pointA, Point& _pointB, int _lineWidth)
     }
 }
 
-void Painter::drawRect(Point& _position, Size& _size) 
+void Painter::drawRect(Point _position, Size _size) 
 {
     writeFillRect(_position.getX(), _position.getY(), 
 		_size.getWidth(), _size.getHeight(), drawColor->toUint16());
 }
 
-void Painter::drawRect(Point& _position, Size& _size, Color& _color) 
+void Painter::drawRect(Point _position, Size _size, Color _color) 
 {
     writeFillRect(_position.getX(), _position.getY(), 
 		_size.getWidth(), _size.getHeight(), _color.toUint16());
 }
 
-void Painter::drawBorder(Point& _position, Size& _size) 
+void Painter::drawBorder(Point _position, Size _size) 
 {
-    writeFillRect(_position.getX(), _position.getY(), 
-		_size.getWidth(), _size.getHeight(), drawColor->toUint16());
+	writeLine(_position.getX(), _position.getY(), _position.getX() + _size.getWidth(), _position.getY(), drawColor->toUint16());
+	writeLine(_position.getX(), _position.getY() + _size.getHeight(), _position.getX() + _size.getWidth(), _position.getY() + _size.getHeight(), drawColor->toUint16());
+	writeLine(_position.getX(), _position.getY(), _position.getX(), _position.getY() + _size.getHeight(), drawColor->toUint16());
+	writeLine(_position.getX() + _size.getWidth(), _position.getY(), _position.getX() + _size.getWidth(), _position.getY() + _size.getHeight(), drawColor->toUint16());
 }
 
-void Painter::drawBorder(Point& _position, Size& _size, Color& _color) 
+void Painter::drawBorder(Point _position, Size _size, Color _color) 
 {
-    writeFillRect(_position.getX(), _position.getY(), 
-		_size.getWidth(), _size.getHeight(), _color.toUint16());
+    writeLine(_position.getX(), _position.getY(), _position.getX() + _size.getWidth(), _position.getY(), _color.toUint16());
+	writeLine(_position.getX(), _position.getY() + _size.getHeight(), _position.getX() + _size.getWidth(), _position.getY() + _size.getHeight(), _color.toUint16());
+	writeLine(_position.getX(), _position.getY(), _position.getX(), _position.getY() + _size.getHeight(), _color.toUint16());
+	writeLine(_position.getX() + _size.getWidth(), _position.getY(), _position.getX() + _size.getWidth(), _position.getY() + _size.getHeight(), _color.toUint16());
 }
 
-void Painter::drawText(Point& _position, std::string& _text)
+void Painter::drawText(Point _position, std::string& _text)
 {
     writeText(_position.getX(), _position.getY(), 
 		_text, drawColor->toUint16(), textSize);
 }
 
-void Painter::clearScreen(Color& _backgroundColor)
+void Painter::drawText(Point _position, std::string& _text, Color _color)
+{
+    writeText(_position.getX(), _position.getY(), 
+		_text, _color.toUint16(), textSize);
+}
+
+void Painter::clearScreen(Color _backgroundColor)
 {
     writeFillRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT, 
 		_backgroundColor.toUint16());

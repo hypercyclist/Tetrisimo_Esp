@@ -2,6 +2,7 @@
 #define CONFIG_H
 
 class Color;
+class IpAddress;
 class Resistor;
 class ResourceTheme;
 class Size;
@@ -10,6 +11,7 @@ class WifiSettings;
 
 #include <memory>
 #include <string>
+#include <vector>
 
 // Class describe game config. Config values load values from EEPROM if it's
 // changeable values, or initialize from hardcode. Nextly values will be pushed 
@@ -29,8 +31,14 @@ class Config
         std::unique_ptr<ResourceTheme> redQuakeTheme;
         std::unique_ptr<ResourceTheme> customTheme;
         std::string playerName;
+        std::string serverName;
+        int gameMode;
+        int serverType;
         std::unique_ptr<WifiSettings> wifiSettings;
         std::unique_ptr<ServiceAddress> globalServerAddress;
+        bool useNetState;
+        bool useGhostState;
+        bool useVibrationState;
         // As long I will use in my physical buttons resistors it will need to
         // count and store their voltage to compare with ADC values.
         std::unique_ptr<Resistor> upButtonResistor;
@@ -41,11 +49,29 @@ class Config
         std::unique_ptr<Resistor> backButtonResistor;
         // ADC pin on processor.
         int pinKeyboardAdc;
+        int recordsCount;
+        std::vector<int> records;
+
+        void stringToByteArray(std::string _string, int _stringWantSize, 
+            std::vector<uint8_t>& _byteArray);
+        std::string stringFromByteArray(int _stringSize, 
+            std::vector<uint8_t>& _byteArray);
+        void ipAddressToByteArray(IpAddress _ipAddress, 
+            std::vector<uint8_t>& _byteArray);
+        IpAddress ipAddressFromByteArray(std::vector<uint8_t>& _byteArray);
+        void intToByteArray(int _int, std::vector<uint8_t>& _byteArray);
+        int intFromByteArray(std::vector<uint8_t>& _byteArray);
+        void uint16ToByteArray(uint16_t _uint16, 
+            std::vector<uint8_t>& _byteArray);
+        uint16_t uint16FromByteArray(std::vector<uint8_t>& _byteArray);
+        void uint8ToByteArray(uint8_t _uint8, std::vector<uint8_t>& _byteArray);
+        uint8_t uint8FromByteArray(std::vector<uint8_t>& _byteArray);
         
     public:
         Config();
         ~Config();
         void initializeConstants();
+        void initializeWifiSettings();
         void readConfig();
         void writeConfig();
 
@@ -68,6 +94,12 @@ class Config
         void setWifiSettings(WifiSettings _wifiSettings);
         ServiceAddress getGlobalServerAddress();
         void setGlobalServerAddress(ServiceAddress _globalServerAddress);
+        bool getUseNetState();
+        void setUseNetState(bool _state);
+        bool getUseGhostState();
+        void setUseGhostState(bool _state);
+        bool getUseVibrationState();
+        void setUseVibrationState(bool _state);
         
         Resistor getUpButtonResistor();
         void setUpButtonResistor(Resistor _upButtonResistor);

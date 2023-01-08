@@ -31,21 +31,9 @@
 // #include "Port.h"
 // #include "ServiceAddress.h"
 
-// game.h buttons to class;
-// game.cpp display->getActiveScene to this->getActiveScene()
-// game.cpp pressedButtonUp in scene wtf. to control class with initbuttons
+Game::Game() { }
 
-// init scene with (config, background headerText, headerTextSize
-
-// initializeStandartFunctions to game.
-
-Game::Game()
-{
-}
-
-Game::~Game()
-{
-}
+Game::~Game() { }
 
 void Game::start()
 {
@@ -53,12 +41,17 @@ void Game::start()
     run();
 }
 
+void Game::stop()
+{
+    bool gameRunning = false;
+}
+
 void Game::initialize()
 {
     Log::init();
     initializeConfig();
     initializeDisplay();
-    initializeButtons();
+    initializeKeyboardHook();
 
     display->getPainter()->setResourceTheme( config->getCaveLightsTheme() );
 
@@ -66,7 +59,7 @@ void Game::initialize()
     initializeWidgetViewer();
     initializeGameSettings();
     initializeColorsSettings();
-    initializeResistorSettings();
+    // initializeResistorSettings();
     initializeAdvancedSettings();
     initializeAboutSettings();
     initializeMultiplayer();
@@ -74,64 +67,33 @@ void Game::initialize()
     initializeHighScore();
     initializeMainMenu();
 
-    display->setActiveScene(mainMenu);
+    setActiveScene(mainMenu);
 }
 
 void Game::run()
 {
-    time_t roundTimeMs = 0;
-    time_t lastInputTimeMs = 0;
-    bool run = true;
-    while (run)
+    gameRunning = true;
+    while (gameRunning)
     {
-        roundTimeMs = PlatformTime::getTimeMs();
-        display->getActiveScene()->render();
+        PlatformTime::updateTime();
+        activeScene->render();
         display->drawBuffer();
         do
         {
-            KeyboardKeys pressedButton = keyboardHook->getPressedButton();
-            if (pressedButton != KeyboardKeys::NO_KEY)
-            {
-                if ( (PlatformTime::getTimeMs() - lastInputTimeMs) > 200 )
-                {
-                    lastInputTimeMs = PlatformTime::getTimeMs();
-                    processPressedButton(pressedButton);
-                    break;
-                }
-            }
-            PlatformTime::delayTimeMs(5);
+            PlatformTime::sleepTimeMs(5);
+            processKeyboard();
             display->pollEvents();
-            // std::cout << PlatformTime::getTimeMs() - roundTimeMs << std::endl;
         }
-        while ( (PlatformTime::getTimeMs() - roundTimeMs) < display->getActiveScene()->getFrameTime() );
+        while (PlatformTime::getDeltaTimeMs() < activeScene->getFrameTime());
     }
 }
 
-void Game::processPressedButton(KeyboardKeys _pressedButton)
+void Game::processKeyboard()
 {
-    if (_pressedButton == KeyboardKeys::KEY_UP)
+    KeyboardKeys pressedButton = keyboardHook->getPressedButton();
+    if (pressedButton != KeyboardKeys::NO_KEY)
     {
-        display->getActiveScene()->pressedButtonUp();
-    }
-    if (_pressedButton == KeyboardKeys::KEY_DOWN)
-    {
-        display->getActiveScene()->pressedButtonDown();
-    }
-    if (_pressedButton == KeyboardKeys::KEY_LEFT)
-    {
-        display->getActiveScene()->pressedButtonLeft();
-    }
-    if (_pressedButton == KeyboardKeys::KEY_RIGHT)
-    {
-        display->getActiveScene()->pressedButtonRight();
-    }
-    if (_pressedButton == KeyboardKeys::KEY_OK)
-    {
-        display->getActiveScene()->pressedButtonOk();
-    }
-    if (_pressedButton == KeyboardKeys::KEY_BACK)
-    {
-        display->getActiveScene()->pressedButtonBack();
+        activeScene->processKeyboard(pressedButton);
     }
 }
 
@@ -145,7 +107,7 @@ void Game::initializeDisplay()
     display = std::make_shared<Display>(config);
 }
 
-void Game::initializeButtons()
+void Game::initializeKeyboardHook()
 {
     keyboardHook = std::make_shared<KeyboardHook> (config, display);
 }
@@ -158,4 +120,19 @@ void Game::initializeBackground()
 std::shared_ptr<Display> Game::getDisplay()
 {
     return display;
+}
+
+std::shared_ptr<Scene> Game::getActiveScene()
+{
+    return activeScene;
+}
+
+void Game::setActiveScene(std::shared_ptr<Scene> _activeScene)
+{
+    if (activeScene != nullptr)
+    {
+        activeScene->onHide();
+    }
+    activeScene = _activeScene;
+    activeScene->onShow();
 }

@@ -6,23 +6,31 @@
 
 #include <iostream>
 
+time_t PlatformTime::deltaTimeMs;
+
 PlatformTime::PlatformTime() { }
 PlatformTime::~PlatformTime() { }
 
-void PlatformTime::delayTimeMs(int _timeMs)
+void PlatformTime::sleepTimeMs(int _timeMs)
 {
-    // Linux version.
     usleep(_timeMs * 1000);
-    // Windows version.
-    // Sleep(_timeMs);
 }
 
 time_t PlatformTime::getTimeMs()
 {
-    // Windows version.
     struct timespec now;
     clock_gettime(CLOCK_MONOTONIC, &now);
     return now.tv_sec * 1000 + now.tv_nsec / 1000000.0;
+}
+
+void PlatformTime::updateTime()
+{
+    deltaTimeMs = getTimeMs();
+}
+
+time_t PlatformTime::getDeltaTimeMs()
+{
+    return getTimeMs() - deltaTimeMs;
 }
 
 // static time_t s_frequency;

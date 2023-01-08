@@ -3,7 +3,7 @@
 // #include "Background.h"
 #include "Button.h"
 #include "CheckBox.h"
-// #include "Config.h"
+#include "Config.h"
 #include "Display.h"
 // #include "KeyboardHook.h"
 // #include "Label.h"
@@ -31,7 +31,7 @@ void Game::initializeGameSettings()
     std::shared_ptr<VerticalLayout> gameSettingsLayout = 
         std::static_pointer_cast<VerticalLayout>( gameSettings->getCentralWidget() );
 
-    std::shared_ptr<CheckBox> useNetButton = std::make_shared<CheckBox>("Сетка", true);
+    std::shared_ptr<CheckBox> useNetButton = std::make_shared<CheckBox>("Сетка", config->getUseNetState());
     gameSettingsLayout->addWidget(useNetButton);
     useNetButton->setExecuteFunction(
         [this, useNetButton] ()
@@ -40,7 +40,7 @@ void Game::initializeGameSettings()
         }
     );
 
-    std::shared_ptr<CheckBox> useGhostButton = std::make_shared<CheckBox>("Тень", true);
+    std::shared_ptr<CheckBox> useGhostButton = std::make_shared<CheckBox>("Тень", config->getUseGhostState());
     gameSettingsLayout->addWidget(useGhostButton);
     useGhostButton->setExecuteFunction(
         [this, useGhostButton] ()
@@ -49,12 +49,23 @@ void Game::initializeGameSettings()
         }
     );
 
-    std::shared_ptr<CheckBox> useVibrationButton = std::make_shared<CheckBox>("Вибро", true);
+    std::shared_ptr<CheckBox> useVibrationButton = std::make_shared<CheckBox>("Вибро", config->getUseVibrationState());
     gameSettingsLayout->addWidget(useVibrationButton);
     useVibrationButton->setExecuteFunction(
         [this, useVibrationButton] ()
         {
             useVibrationButton->setState( !useVibrationButton->getState() );
+        }
+    );
+
+    gameSettings->setOnHideFunction(
+        [this, useNetButton, useGhostButton, useVibrationButton] () 
+        {
+            gameSettings->unfocus();
+            config->setUseNetState(useNetButton->getState());
+            config->setUseGhostState(useGhostButton->getState());
+            config->setUseVibrationState(useVibrationButton->getState());
+            config->writeConfig();
         }
     );
 }

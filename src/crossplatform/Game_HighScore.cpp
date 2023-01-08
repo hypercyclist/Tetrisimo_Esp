@@ -43,6 +43,11 @@ void Game::initializeHighScore()
     personalBest->addText("8...............0");
     personalBest->addText("9...............0");
     personalBest->addText("10..............0");
+    personalBest->addText("11..............0");
+    personalBest->addText("12..............0");
+    personalBest->addText("13..............0");
+    personalBest->addText("14..............0");
+    personalBest->addText("15..............0");
     personalBest->minimize();
     personalBest->focus();
     personalBest->setExecuteFunction(
@@ -50,7 +55,7 @@ void Game::initializeHighScore()
         {
             widgetViewer->setPreviousScene(highScore);
             std::static_pointer_cast<VerticalLayout>(widgetViewer->getCentralWidget())->addWidget(personalBest);
-            display->setActiveScene(widgetViewer);
+            setActiveScene(widgetViewer);
         }
     );
     highScoreLayout->addWidget(personalBest);
@@ -67,13 +72,18 @@ void Game::initializeHighScore()
     networkBest->addText("8...............0");
     networkBest->addText("9...............0");
     networkBest->addText("10..............0");
+    networkBest->addText("11..............0");
+    networkBest->addText("12..............0");
+    networkBest->addText("13..............0");
+    networkBest->addText("14..............0");
+    networkBest->addText("15..............0");
     networkBest->minimize();
     networkBest->setExecuteFunction(
         [this, networkBest] ()
         {
             widgetViewer->setPreviousScene(highScore);
             std::static_pointer_cast<VerticalLayout>(widgetViewer->getCentralWidget())->addWidget(networkBest);
-            display->setActiveScene(widgetViewer);
+            setActiveScene(widgetViewer);
         }
     );
     highScoreLayout->addWidget(networkBest);

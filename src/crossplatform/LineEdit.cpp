@@ -38,6 +38,7 @@ void LineEdit::render()
     // Body is textHeight + 1px separator * lines count.
     int x = position->getX();
     int y = position->getY();
+    painter->setTextSize(textSize);
     int border = 3;
     Size textSpace = painter->countTextSize(name, textSize);
     int separator = 1;
@@ -76,11 +77,8 @@ void LineEdit::render()
     painter->drawBorder(position_3, size_3, outBorderColor);
 
     painter->setPaintColor(middleBorderColor);
-    // painter->paintLine(
-    //     x + 1, 
-    //     y + ( border * 2) + textSpace.getHeight(), 
-    //     x + getWidth() - 2, 
-    //     y + ( border * 2) + textSpace.getHeight());
+    painter->drawLine(Point(x + 1, y + ( border * 2) + textSpace.getHeight()), 
+        Point(x + 1 + getWidth() - 2, y + ( border * 2) + textSpace.getHeight()));
 
     // Draw name and text.
     painter->setPaintColor( painter->getResourceTheme()->getUnfocusColor() );

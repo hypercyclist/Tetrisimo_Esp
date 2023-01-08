@@ -43,7 +43,7 @@ void Game::initializeAdvancedSettings()
     resistorsButton->setExecuteFunction(
         [this] ()
         {
-            display->setActiveScene(resistorsSettings);
+            setActiveScene(resistorsSettings);
         }
     );
     resistorsSettings->setPreviousScene(advansedSettings);

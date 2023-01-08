@@ -24,7 +24,7 @@ class TableView : public Widget
 
         void setParent(std::shared_ptr<Widget> _parent);
 
-        void render(std::shared_ptr<Viewport> _viewport);
+        void render();
         void processSizeUpdate();
         
         void setName(std::string _name);

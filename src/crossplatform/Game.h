@@ -17,8 +17,12 @@ enum class KeyboardKeys;
 class Game : public std::enable_shared_from_this<Game>
 {
     private:
+        bool gameRunning;
         std::shared_ptr<Config> config;
         std::shared_ptr<KeyboardHook> keyboardHook;
+        std::shared_ptr<Display> display;
+        // Always point to current scene.
+        std::shared_ptr<Scene> activeScene;
 
         std::shared_ptr<Background> background;
         std::shared_ptr<Scene> mainMenu;
@@ -39,14 +43,11 @@ class Game : public std::enable_shared_from_this<Game>
         std::shared_ptr<Scene> aboutSettings;
         std::shared_ptr<Scene> highScore;
         std::shared_ptr<Scene> widgetViewer;
-        std::shared_ptr<Display> display;
-
-        time_t inputTimeStartMs;
 
         void initialize();
         void initializeConfig();
         void initializeDisplay();
-        void initializeButtons();
+        void initializeKeyboardHook();
         void initializeBackground();
         void initializeMainMenu();
         void initializeSingleGame();
@@ -67,8 +68,7 @@ class Game : public std::enable_shared_from_this<Game>
         void initializeWidgetViewer();
         void initializeHighScore();
         void run();
-        void processPressedButton(KeyboardKeys _pressedButton);
-        time_t getTimeMs();
+        void processKeyboard();
 
     public:
         Game();
@@ -76,6 +76,8 @@ class Game : public std::enable_shared_from_this<Game>
         void start();
         void stop();
         std::shared_ptr<Display> getDisplay();
+        std::shared_ptr<Scene> getActiveScene();
+        void setActiveScene(std::shared_ptr<Scene> _activeScene);
 };
 
 #endif

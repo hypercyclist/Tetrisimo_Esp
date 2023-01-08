@@ -22,7 +22,6 @@ class Label : public Widget
         ~Label();
 
         void render();
-        void render(std::shared_ptr<Viewport> _viewport);
         void processSizeUpdate();
         
         std::string getText();

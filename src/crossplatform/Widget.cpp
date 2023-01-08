@@ -20,43 +20,22 @@ Widget::Widget()
     visible(true),
     focusability(false),
     focused(false),
-    maximized(true)
-{
-}
+    maximized(true) { }
 
-Widget::~Widget()
-{
-    WidgetId::removeId(id);
-}
+Widget::~Widget() { WidgetId::removeId(id); }
 
-int Widget::getId()
-{
-    return id;
-}
+int Widget::getId() { return id; }
 
-int Widget::generateId()
-{
-    return WidgetId::generateId();
-}
+int Widget::generateId() { return WidgetId::generateId(); }
 
-void Widget::execute()
-{
-    executeFunction();
-}
-void Widget::setExecuteFunction(std::function<void()> _function)
-{
+void Widget::execute() { executeFunction(); }
+void Widget::setExecuteFunction(std::function<void()> _function) {
     executeFunction = _function;
 }
 
-std::shared_ptr<Widget> Widget::getParent()
-{
-    return parent;
-}
+std::shared_ptr<Widget> Widget::getParent() { return parent; }
 
-void Widget::setParent(std::shared_ptr<Widget> _parent)
-{
-    parent = _parent;
-}
+void Widget::setParent(std::shared_ptr<Widget> _parent) { parent = _parent; }
 
 int Widget::indexOf( std::vector< std::shared_ptr<Widget> >& _vector, 
     std::shared_ptr<Widget> _widget )
@@ -84,101 +63,47 @@ void Widget::removeChildren(std::shared_ptr<Widget> _children)
     }
 }
 
-Point Widget::getPosition()
-{
-    return *position;
-}
+Point Widget::getPosition() { return *position; }
 
-void Widget::setPosition(Point _position)
-{
+void Widget::setPosition(Point _position) {
     position = std::make_unique<Point>(_position);
 }
 
-int Widget::getX()
-{
-    return position->getX();
-}
+int Widget::getX() { return position->getX(); }
 
-int Widget::getY()
-{
-    return position->getY();
-}
+int Widget::getY() { return position->getY(); }
 
-Size Widget::getSize()
-{
-    return *size;
-}
+Size Widget::getSize() { return *size; }
 
-void Widget::setSize(Size _size)
-{
-    size = std::make_unique<Size>(_size);
-}
+void Widget::setSize(Size _size) { size = std::make_unique<Size>(_size); }
 
-int Widget::getWidth()
-{
-    return size->getWidth();
-}
+int Widget::getWidth() { return size->getWidth(); }
 
-int Widget::getHeight()
-{
-    return size->getHeight();
-}
+int Widget::getHeight() { return size->getHeight(); }
 
-void Widget::processSizeUpdate()
-{
-}
+void Widget::processSizeUpdate() { }
 
 void Widget::render()
 {
-    // Log::println("Widget::render", "LOW");
     for (int i = 0; i < childrens.size(); i++)
     {
         childrens[i]->render();
     }
 }
 
-void Widget::render(std::shared_ptr<Viewport> _viewport)
-{
-    for (int i = 0; i < childrens.size(); i++)
-    {
-        childrens[i]->render(_viewport);
-    }
-}
+void Widget::show() { visible = true; }
 
-void Widget::show()
-{
-    visible = true;
-}
+void Widget::hide() { visible = false; }
 
-void Widget::hide()
-{
-    visible = false;
-}
+bool Widget::isVisible() { return visible ? true : false; }
 
-bool Widget::isVisible()
-{
-    return visible ? true : false;
-}
+void Widget::focus() { focused = true; }
 
-void Widget::focus()
-{
-    focused = true;
-}
+void Widget::unfocus() { focused = false; }
 
-void Widget::unfocus()
-{
-    focused = false;
-}
+bool Widget::isFocusable() { return focusability ? true : false; }
 
-bool Widget::isFocusable()
-{
-    return focusability ? true : false;
-}
-
-bool Widget::isFocused()
-{
-    return focused ? true : false;
-}
+bool Widget::isFocused() { return focused ? true : false; }
 
 void Widget::maximize()
 {
@@ -192,7 +117,4 @@ void Widget::minimize()
     processSizeUpdate();
 }
 
-bool Widget::isMaximized()
-{
-    return maximized;
-}
+bool Widget::isMaximized() { return maximized; }

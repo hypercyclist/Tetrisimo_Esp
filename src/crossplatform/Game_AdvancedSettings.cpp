@@ -34,18 +34,34 @@ void Game::initializeAdvancedSettings()
     std::shared_ptr<LineEdit> globalIpLineEdit = std::make_shared<LineEdit>
         ("Адрес гл. сервера", "193.9.61.92");
     advansedSettingsLayout->addWidget(globalIpLineEdit);
+    globalIpLineEdit->setExecuteFunction(
+        [this, globalIpLineEdit] ()
+        {
+            widgetViewer->setPreviousScene(advansedSettings);
+            std::static_pointer_cast<VerticalLayout>(widgetViewer->getCentralWidget())->addWidget(globalIpLineEdit);
+            setActiveScene(widgetViewer);
+        }
+    );
     std::shared_ptr<LineEdit> globalPortLineEdit = std::make_shared<LineEdit>
         ("Порт гл. сервера", "6452");
     advansedSettingsLayout->addWidget(globalPortLineEdit);
-    std::shared_ptr<Button> resistorsButton = std::make_shared<Button>("Резисторы");
-    advansedSettingsLayout->addWidget(resistorsButton);
-    resistorsButton->setExecuteFunction(
-        [this] ()
+    globalPortLineEdit->setExecuteFunction(
+        [this, globalPortLineEdit] ()
         {
-            display->setActiveScene(resistorsSettings);
+            widgetViewer->setPreviousScene(advansedSettings);
+            std::static_pointer_cast<VerticalLayout>(widgetViewer->getCentralWidget())->addWidget(globalPortLineEdit);
+            setActiveScene(widgetViewer);
         }
     );
-    resistorsSettings->setPreviousScene(advansedSettings);
+    // std::shared_ptr<Button> resistorsButton = std::make_shared<Button>("Резисторы");
+    // advansedSettingsLayout->addWidget(resistorsButton);
+    // resistorsButton->setExecuteFunction(
+    //     [this] ()
+    //     {
+    //         setActiveScene(resistorsSettings);
+    //     }
+    // );
+    // resistorsSettings->setPreviousScene(advansedSettings);
     std::shared_ptr<Button> hardResetButton = std::make_shared<Button>("Сброс");
     advansedSettingsLayout->addWidget(hardResetButton);
 }
