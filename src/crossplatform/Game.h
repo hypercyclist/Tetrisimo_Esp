@@ -5,7 +5,6 @@ class Background;
 class Config;
 class Display;
 class KeyboardHook;
-class PhysButton;
 class Size;
 class Scene;
 enum class KeyboardKeys;

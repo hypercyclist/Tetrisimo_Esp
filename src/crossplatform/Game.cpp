@@ -31,7 +31,9 @@
 // #include "Port.h"
 // #include "ServiceAddress.h"
 
-Game::Game() { }
+Game::Game() 
+    : gameRunning(false)
+{ }
 
 Game::~Game() { }
 

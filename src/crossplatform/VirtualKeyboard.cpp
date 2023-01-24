@@ -1,5 +1,6 @@
 #include "VirtualKeyboard.h"
-// #include "LineEdit.h"
+#include "VerticalLayout.h"
+#include "Button.h"
 
 VirtualKeyboard::VirtualKeyboard()
 {
@@ -33,11 +34,10 @@ VirtualKeyboard::VirtualKeyboard()
     layouts.resize(4);
     for(int i = 0; i < textLayouts.size(); i++)
     {
-        int currentY = config->screenHeight - textLayouts[i].size() * 13 - 1;
-        layouts[i] = new GridMenu();
+        layouts[i] = std::make_shared<VerticalLayout>();
         for(int j = 0; j < textLayouts[i].size(); j++)
         {
-            layouts[i]->addRow(new VerticalMenu());
+            layouts[i]->addWidget(std::make_shared<VerticalLayout>());
             int totalRowSize = 0;
             for(int k = 0; k < textLayouts[i][j].size(); k++)
             {
@@ -54,7 +54,6 @@ VirtualKeyboard::VirtualKeyboard()
                     totalRowSize += WIDTH_S;
                 }
             }
-            int currentX = (config->screenWidth - totalRowSize) / 2;
             int widgetWidth;
             for(int k = 0; k < textLayouts[i][j].size(); k++)
             {
@@ -70,21 +69,19 @@ VirtualKeyboard::VirtualKeyboard()
                 {
                     widgetWidth = WIDTH_S;
                 }
-                layouts.at(i)->getRow(j)->add(new Button(textLayouts[i][j][k], 1, currentX, currentY));
-                Button* button = ((Button*)layouts.at(i)->getRow(j)->getLastComponent());
-                button->setBox(true);
-                button->setBoxWidth(widgetWidth - 1);
-                button->setBoxHeight(12);
-                setFunction(button);
-                currentX += widgetWidth;
+                std::shared_ptr<Button> button = 
+                    std::make_shared<Button>(textLayouts[i][j][k]);
+                std::static_pointer_cast<VerticalLayout>(
+                    layouts[i]->getWidget(j))->addWidget(button);
+                button->setTextSize(1);
+                // setFunction(button);
             }
-            currentY += 13;
-            layouts.at(i)->getRow(j)->components[0]->unfocus();
+            std::static_pointer_cast<VerticalLayout>(
+                layouts[i]->getWidget(j))->getWidget(0)->unfocus();
         }
-        layouts[i]->setFocus(1, 4);
+        // layouts[i]->setFocus(1, 4);
     }
     currentLayout = layouts[0];
-    frameTime = 1000;
 }
 
 VirtualKeyboard::~VirtualKeyboard()
@@ -92,224 +89,201 @@ VirtualKeyboard::~VirtualKeyboard()
     // delete gridMenu;
 }
 
-void VirtualKeyboard::draw()
+void VirtualKeyboard::render()
 {
-     if(!isSceneRendered)
-     {
-        // Serial.println("void Settings::draw(): scene pre-render");
-        isSceneRendered = true;
-        drawNet();
-        drawHeader();
-        editableWidget->draw();
-        drawKeyboard();
-        drawMenu();
-     }
-    else
-    {
-        // Serial.println("void Settings::draw(): scene render");
-        if(((LineEdit*)editableWidget)->getLinesCount() < editableWidgetLinesCount)
-        {
-            setForceUpdate();
-            draw();
-        }
-        if(((LineEdit*)editableWidget)->getLinesCount() != editableWidgetLinesCount)
-        {
-            editableWidgetLinesCount = ((LineEdit*)editableWidget)->getLinesCount();
-        }
-        
-        editableWidget->render();
-        drawMenu();
-    }
+    // editableWidgetLinesCount = ((LineEdit*)editableWidget)->getLinesCount();
+    // editableWidget->render();
+    currentLayout->render();
 }
 
-void VirtualKeyboard::drawKeyboard()
-{
-    int keyBoardY = config->screenHeight - currentLayout->getRows() * 13 - 3;
-    tft->fillRect(0, keyBoardY, config->screenWidth, config->screenHeight - keyBoardY, tft->calculateColor(8, 8, 8));
-    tft->drawRect(0, keyBoardY, config->screenWidth, config->screenHeight - keyBoardY, tft->calculateColor(0, 0, 0));
-    currentLayout->setForceUpdate();
-}
+// void VirtualKeyboard::drawKeyboard()
+// {
+//     int keyBoardY = config->screenHeight - currentLayout->getRows() * 13 - 3;
+//     tft->fillRect(0, keyBoardY, config->screenWidth, config->screenHeight - keyBoardY, tft->calculateColor(8, 8, 8));
+//     tft->drawRect(0, keyBoardY, config->screenWidth, config->screenHeight - keyBoardY, tft->calculateColor(0, 0, 0));
+//     currentLayout->setForceUpdate();
+// }
 
-void VirtualKeyboard::drawHeader()
-{
-    tft->setRotation(0);
-    tft->setTextColor(config->styleRedColor);
-    tft->setTextSize(2);
-    tft->drawText("Keyboard", 16, 8);
-    tft->setPenColor(config->styleRedColor);
-    tft->drawLine(9,26,117,26);
-    tft->drawLine(9,27,117,27);
-}
+// void VirtualKeyboard::drawHeader()
+// {
+//     tft->setRotation(0);
+//     tft->setTextColor(config->styleRedColor);
+//     tft->setTextSize(2);
+//     tft->drawText("Keyboard", 16, 8);
+//     tft->setPenColor(config->styleRedColor);
+//     tft->drawLine(9,26,117,26);
+//     tft->drawLine(9,27,117,27);
+// }
 
-void VirtualKeyboard::drawMenu()
-{
-    currentLayout->draw();
-}
+// void VirtualKeyboard::drawMenu()
+// {
+//     currentLayout->draw();
+// }
 
-void VirtualKeyboard::logic()
-{
+// void VirtualKeyboard::logic()
+// {
 
-}
+// }
 
-void VirtualKeyboard::input(int _input)
-{
-    InputQualifier::ButtonType buttonType = inputQualifier->getButtonType(_input);
-    // Component* component = verticalMenu->components[verticalMenu->currentComponentIndex];
-    if(buttonType == InputQualifier::ButtonType::BUTTON_OK)
-    {
-        currentLayout->getCurrentComponent()->execute(this);
-        // component->execute(this);
-        // if(buttonText == "Custom")
-        // {
-        //     Scene::setActiveScene(custom);
-        //     custom->setForceUpdate();
-        // }
-    }
-    if(buttonType == InputQualifier::ButtonType::BUTTON_BACK)
-    {
-        editableWidget->setX(editableWidgetOldX);
-        editableWidget->setY(editableWidgetOldY);
-        ((LineEdit*)editableWidget)->setShowFull(false);
-        Scene::setActiveScene(parentScene);
-        parentScene->setForceUpdate();
-    }
-    if(buttonType == InputQualifier::ButtonType::BUTTON_RIGHT)
-    {
-        currentLayout->switchToNextColumn();
-    }
-    if(buttonType == InputQualifier::ButtonType::BUTTON_LEFT)
-    {
-        currentLayout->switchToPreviousColumn();
-    }
-    if(buttonType == InputQualifier::ButtonType::BUTTON_DOWN)
-    {
-        currentLayout->switchToNextRow();
-    }
-    if(buttonType == InputQualifier::ButtonType::BUTTON_UP)
-    {
-        currentLayout->switchToPreviousRow();
-    }
-}
+// void VirtualKeyboard::input(int _input)
+// {
+//     InputQualifier::ButtonType buttonType = inputQualifier->getButtonType(_input);
+//     // Component* component = verticalMenu->components[verticalMenu->currentComponentIndex];
+//     if(buttonType == InputQualifier::ButtonType::BUTTON_OK)
+//     {
+//         currentLayout->getCurrentComponent()->execute(this);
+//         // component->execute(this);
+//         // if(buttonText == "Custom")
+//         // {
+//         //     Scene::setActiveScene(custom);
+//         //     custom->setForceUpdate();
+//         // }
+//     }
+//     if(buttonType == InputQualifier::ButtonType::BUTTON_BACK)
+//     {
+//         editableWidget->setX(editableWidgetOldX);
+//         editableWidget->setY(editableWidgetOldY);
+//         ((LineEdit*)editableWidget)->setShowFull(false);
+//         Scene::setActiveScene(parentScene);
+//         parentScene->setForceUpdate();
+//     }
+//     if(buttonType == InputQualifier::ButtonType::BUTTON_RIGHT)
+//     {
+//         currentLayout->switchToNextColumn();
+//     }
+//     if(buttonType == InputQualifier::ButtonType::BUTTON_LEFT)
+//     {
+//         currentLayout->switchToPreviousColumn();
+//     }
+//     if(buttonType == InputQualifier::ButtonType::BUTTON_DOWN)
+//     {
+//         currentLayout->switchToNextRow();
+//     }
+//     if(buttonType == InputQualifier::ButtonType::BUTTON_UP)
+//     {
+//         currentLayout->switchToPreviousRow();
+//     }
+// }
 
-void VirtualKeyboard::setEditableWidget(Component* _editableWidget)
-{
-    editableWidget = _editableWidget;
-}
+// void VirtualKeyboard::setEditableWidget(Component* _editableWidget)
+// {
+//     editableWidget = _editableWidget;
+// }
 
-void VirtualKeyboard::setForceUpdate()
-{
-    isSceneRendered = false;
-}
+// void VirtualKeyboard::setForceUpdate()
+// {
+//     isSceneRendered = false;
+// }
 
-void VirtualKeyboard::setLayout(TextLayout _layout)
-{
-    int row = currentLayout->currentRowIndex;
-    int column = currentLayout->currentColumnIndex;
-    currentLayout = layouts[_layout];
-    currentLayout->setFocus(row, column);
-    drawKeyboard();
-}
+// void VirtualKeyboard::setLayout(TextLayout _layout)
+// {
+//     int row = currentLayout->currentRowIndex;
+//     int column = currentLayout->currentColumnIndex;
+//     currentLayout = layouts[_layout];
+//     currentLayout->setFocus(row, column);
+//     drawKeyboard();
+// }
 
-void VirtualKeyboard::setFunction(Button* _button)
-{
-    String buttonText = _button->getText(); 
-    if(buttonText == "Aa")
-    {
-        _button->setExecuteFunction (
-            [](Scene* _scene, Component* _component)
-            {
-                VirtualKeyboard* scene = ((VirtualKeyboard*)_scene);
-                if(scene->isLetterUpperCase)
-                {
-                    scene->setLayout(ENGLISH_LOWER);
-                }
-                else
-                {
-                   scene->setLayout(ENGLISH_UPPER);
-                }
-                scene->isLetterUpperCase = !scene->isLetterUpperCase;
-            }
-        );
-    }
-    else if(buttonText == "<>")
-    {
-        _button->setExecuteFunction (
-            [](Scene* _scene, Component* _component)
-            {
-                VirtualKeyboard* scene = ((VirtualKeyboard*)_scene);
-                if(scene->isNumsUpperCase)
-                {
-                    scene->setLayout(NUMERIC_LOWER);
-                }
-                else
-                {
-                    scene->setLayout(NUMERIC_UPPER);
-                }
-                scene->isNumsUpperCase = !scene->isNumsUpperCase;
-            }
-        );
-    }
-    else if(buttonText == "<-")
-    {
-        _button->setExecuteFunction (
-            [](Scene* _scene, Component* _component)
-            {
-                LineEdit* editableWidget = ((LineEdit*)((VirtualKeyboard*)_scene)->editableWidget);
-                editableWidget->setText(editableWidget->getText().substring(0, editableWidget->getText().length() - 1));
-                editableWidget->setForceUpdate();
-            }
-        );
-    }
-    else if(buttonText == "#1")
-    {
-        _button->setExecuteFunction (
-            [](Scene* _scene, Component* _component)
-            {
-                VirtualKeyboard* scene = ((VirtualKeyboard*)_scene);
-                scene->setLayout(NUMERIC_LOWER);
-            }
-        );
-    }
-    else if(buttonText == "Ab")
-    {
-        _button->setExecuteFunction (
-            [](Scene* _scene, Component* _component)
-            {
-                VirtualKeyboard* scene = ((VirtualKeyboard*)_scene);
-                scene->setLayout(ENGLISH_LOWER);
-            }
-        );
-    }
-    else if(buttonText == "Ln")
-    {
-        _button->setExecuteFunction (
-            [](Scene* _scene, Component* _component)
-            {
+// void VirtualKeyboard::setFunction(Button* _button)
+// {
+//     String buttonText = _button->getText(); 
+//     if(buttonText == "Aa")
+//     {
+//         _button->setExecuteFunction (
+//             [](Scene* _scene, Component* _component)
+//             {
+//                 VirtualKeyboard* scene = ((VirtualKeyboard*)_scene);
+//                 if(scene->isLetterUpperCase)
+//                 {
+//                     scene->setLayout(ENGLISH_LOWER);
+//                 }
+//                 else
+//                 {
+//                    scene->setLayout(ENGLISH_UPPER);
+//                 }
+//                 scene->isLetterUpperCase = !scene->isLetterUpperCase;
+//             }
+//         );
+//     }
+//     else if(buttonText == "<>")
+//     {
+//         _button->setExecuteFunction (
+//             [](Scene* _scene, Component* _component)
+//             {
+//                 VirtualKeyboard* scene = ((VirtualKeyboard*)_scene);
+//                 if(scene->isNumsUpperCase)
+//                 {
+//                     scene->setLayout(NUMERIC_LOWER);
+//                 }
+//                 else
+//                 {
+//                     scene->setLayout(NUMERIC_UPPER);
+//                 }
+//                 scene->isNumsUpperCase = !scene->isNumsUpperCase;
+//             }
+//         );
+//     }
+//     else if(buttonText == "<-")
+//     {
+//         _button->setExecuteFunction (
+//             [](Scene* _scene, Component* _component)
+//             {
+//                 LineEdit* editableWidget = ((LineEdit*)((VirtualKeyboard*)_scene)->editableWidget);
+//                 editableWidget->setText(editableWidget->getText().substring(0, editableWidget->getText().length() - 1));
+//                 editableWidget->setForceUpdate();
+//             }
+//         );
+//     }
+//     else if(buttonText == "#1")
+//     {
+//         _button->setExecuteFunction (
+//             [](Scene* _scene, Component* _component)
+//             {
+//                 VirtualKeyboard* scene = ((VirtualKeyboard*)_scene);
+//                 scene->setLayout(NUMERIC_LOWER);
+//             }
+//         );
+//     }
+//     else if(buttonText == "Ab")
+//     {
+//         _button->setExecuteFunction (
+//             [](Scene* _scene, Component* _component)
+//             {
+//                 VirtualKeyboard* scene = ((VirtualKeyboard*)_scene);
+//                 scene->setLayout(ENGLISH_LOWER);
+//             }
+//         );
+//     }
+//     else if(buttonText == "Ln")
+//     {
+//         _button->setExecuteFunction (
+//             [](Scene* _scene, Component* _component)
+//             {
 
-            }
-        );
-    }
-    else if(buttonText == "Ok")
-    {
-        _button->setExecuteFunction (
-            [](Scene* _scene, Component* _component)
-            {
-                Scene::setActiveScene(_scene->getParentScene());
-                _scene->getParentScene()->setForceUpdate();
-            }
-        );
-    }
-    else
-    {
-        _button->setExecuteFunction (
-            [](Scene* _scene, Component* _component)
-            {
-                LineEdit* editableWidget = ((LineEdit*)((VirtualKeyboard*)_scene)->editableWidget);
-                editableWidget->setText(editableWidget->getText() +
-                    ((Button*)_component)->getText()
-                );
-                editableWidget->setForceUpdate();
-            }
-        );
-    }
-}
+//             }
+//         );
+//     }
+//     else if(buttonText == "Ok")
+//     {
+//         _button->setExecuteFunction (
+//             [](Scene* _scene, Component* _component)
+//             {
+//                 Scene::setActiveScene(_scene->getParentScene());
+//                 _scene->getParentScene()->setForceUpdate();
+//             }
+//         );
+//     }
+//     else
+//     {
+//         _button->setExecuteFunction (
+//             [](Scene* _scene, Component* _component)
+//             {
+//                 LineEdit* editableWidget = ((LineEdit*)((VirtualKeyboard*)_scene)->editableWidget);
+//                 editableWidget->setText(editableWidget->getText() +
+//                     ((Button*)_component)->getText()
+//                 );
+//                 editableWidget->setForceUpdate();
+//             }
+//         );
+//     }
+// }

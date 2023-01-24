@@ -20,6 +20,7 @@
 // #include "TextView.h"
 // #include "DefineTime.h"
 #include "VerticalLayout.h"
+#include "VirtualKeyboard.h"
 
 // #include "Log.h"
 
@@ -33,6 +34,10 @@ void Game::initializeWidgetViewer()
 
     std::shared_ptr<VerticalLayout> widgetViewerLayout = std::make_shared<VerticalLayout>();
     widgetViewer->setCentralWidget(widgetViewerLayout);
+
+    std::shared_ptr<VirtualKeyboard> virtualKeyboard = std::make_shared<VirtualKeyboard>();
+    widgetViewerLayout->addWidget(virtualKeyboard);
+
     widgetViewer->setOnShowFunction(
         [this, widgetViewerLayout] ()
         {
