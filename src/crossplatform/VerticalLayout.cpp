@@ -102,6 +102,10 @@ void VerticalLayout::countLayout()
             heightOfAllWidgets = widgetY + countedWidgetSize.getHeight() + spacing;
         }
     }
+    if (parent != nullptr) 
+    {
+        std::static_pointer_cast<VerticalLayout>(parent)->countLayout();
+    }
 }
 
 void VerticalLayout::moveUp()

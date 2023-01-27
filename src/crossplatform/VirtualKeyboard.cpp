@@ -76,12 +76,11 @@ VirtualKeyboard::VirtualKeyboard()
                 button->setTextSize(1);
                 // setFunction(button);
             }
-            std::static_pointer_cast<VerticalLayout>(
-                layouts[i]->getWidget(j))->getWidget(0)->unfocus();
         }
         // layouts[i]->setFocus(1, 4);
     }
     currentLayout = layouts[0];
+    currentLayout->countLayout();
 }
 
 VirtualKeyboard::~VirtualKeyboard()

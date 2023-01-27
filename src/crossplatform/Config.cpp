@@ -25,7 +25,7 @@ Config::~Config()
 void Config::initializeConstants()
 {
     displaySize = std::make_unique<Size>(128, 160);
-    displayScale = 3;
+    displayScale = 2;
     int displayMaximumBrightness = 10;
     pinDisplayCS = 4;
     pinDisplayDC = 5;
