@@ -16,15 +16,15 @@
 #include "Scene.h"
 // #include "TableView.h"
 #include "TextView.h"
-#include "VerticalLayout.h"
+#include "Layout.h"
 
 // #include "Color.h"
 
 void Game::initializeAboutSettings()
 {
     aboutSettings = std::make_shared<Scene>( shared_from_this(), background, "О проекте", 2);
-    std::shared_ptr<VerticalLayout> aboutSettingsLayout = 
-        std::static_pointer_cast<VerticalLayout>( aboutSettings->getCentralWidget() );
+    std::shared_ptr<Layout> aboutSettingsLayout = 
+        std::static_pointer_cast<Layout>( aboutSettings->getCentralWidget() );
 
     std::shared_ptr<TextView> thanksTable = std::make_shared<TextView>
         ("Спасибо!", "Никите, Льву, Анастасии, Дмитрию, Игорю, Александру, Александре");

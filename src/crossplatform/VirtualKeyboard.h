@@ -6,7 +6,7 @@
 #include <memory>
 
 class Button;
-class VerticalLayout;
+class Layout;
 
 enum TextLayout
 {
@@ -21,8 +21,8 @@ class VirtualKeyboard : public Widget
     private:
         std::shared_ptr<Widget> editableWidget;
         int editableWidgetLinesCount;
-        std::vector<std::shared_ptr<VerticalLayout>> layouts;
-        std::shared_ptr<VerticalLayout> currentLayout;
+        std::vector<std::shared_ptr<Layout>> layouts;
+        std::shared_ptr<Layout> currentLayout;
         std::vector<std::vector<std::vector<std::string>>> textLayouts;
         bool isLetterUpperCase;
         bool isNumsUpperCase;

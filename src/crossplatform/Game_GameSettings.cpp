@@ -19,7 +19,7 @@
 // #include "TableView.h"
 // #include "TextView.h"
 // #include "DefineTime.h"
-#include "VerticalLayout.h"
+#include "Layout.h"
 
 // #include "Log.h"
 
@@ -28,8 +28,8 @@
 void Game::initializeGameSettings()
 {
     gameSettings = std::make_shared<Scene>( shared_from_this(), background, "Настройки", 2);
-    std::shared_ptr<VerticalLayout> gameSettingsLayout = 
-        std::static_pointer_cast<VerticalLayout>( gameSettings->getCentralWidget() );
+    std::shared_ptr<Layout> gameSettingsLayout = 
+        std::static_pointer_cast<Layout>( gameSettings->getCentralWidget() );
 
     std::shared_ptr<CheckBox> useNetButton = std::make_shared<CheckBox>("Сетка", config->getUseNetState());
     gameSettingsLayout->addWidget(useNetButton);

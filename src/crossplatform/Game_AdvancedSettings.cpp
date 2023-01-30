@@ -19,7 +19,7 @@
 // #include "TableView.h"
 // #include "TextView.h"
 // #include "DefineTime.h"
-#include "VerticalLayout.h"
+#include "Layout.h"
 
 // #include "Log.h"
 
@@ -28,8 +28,8 @@
 void Game::initializeAdvancedSettings()
 {
     advansedSettings = std::make_shared<Scene>( shared_from_this(), background, "Другие", 2);
-    std::shared_ptr<VerticalLayout> advansedSettingsLayout = 
-        std::static_pointer_cast<VerticalLayout>( advansedSettings->getCentralWidget() );
+    std::shared_ptr<Layout> advansedSettingsLayout = 
+        std::static_pointer_cast<Layout>( advansedSettings->getCentralWidget() );
 
     std::shared_ptr<LineEdit> globalIpLineEdit = std::make_shared<LineEdit>
         ("Адрес гл. сервера", "193.9.61.92");
@@ -38,7 +38,7 @@ void Game::initializeAdvancedSettings()
         [this, globalIpLineEdit] ()
         {
             widgetViewer->setPreviousScene(advansedSettings);
-            std::static_pointer_cast<VerticalLayout>(widgetViewer->getCentralWidget())->addWidget(globalIpLineEdit);
+            std::static_pointer_cast<Layout>(widgetViewer->getCentralWidget())->addWidget(globalIpLineEdit);
             setActiveScene(widgetViewer);
         }
     );
@@ -49,7 +49,7 @@ void Game::initializeAdvancedSettings()
         [this, globalPortLineEdit] ()
         {
             widgetViewer->setPreviousScene(advansedSettings);
-            std::static_pointer_cast<VerticalLayout>(widgetViewer->getCentralWidget())->addWidget(globalPortLineEdit);
+            std::static_pointer_cast<Layout>(widgetViewer->getCentralWidget())->addWidget(globalPortLineEdit);
             setActiveScene(widgetViewer);
         }
     );

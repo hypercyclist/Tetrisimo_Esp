@@ -19,7 +19,7 @@
 // #include "TableView.h"
 // #include "TextView.h"
 // #include "DefineTime.h"
-#include "VerticalLayout.h"
+#include "Layout.h"
 #include "VirtualKeyboard.h"
 
 // #include "Log.h"
@@ -32,7 +32,7 @@ void Game::initializeWidgetViewer()
     widgetViewer->setSize( display->getSize() );
     widgetViewer->setBackgroundWidget(background);
 
-    std::shared_ptr<VerticalLayout> widgetViewerLayout = std::make_shared<VerticalLayout>();
+    std::shared_ptr<Layout> widgetViewerLayout = std::make_shared<Layout>();
     widgetViewer->setCentralWidget(widgetViewerLayout);
 
     std::shared_ptr<VirtualKeyboard> virtualKeyboard = std::make_shared<VirtualKeyboard>();

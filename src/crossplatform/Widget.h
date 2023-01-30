@@ -5,10 +5,13 @@ class Painter;
 class Point;
 class Size;
 class Viewport;
+class Layout;
 
 #include <functional>
 #include <memory>
 #include <vector>
+
+enum class LayoutType { VERTICAL, HORIZONTAL };
 
 class Widget : public std::enable_shared_from_this<Widget>
 {
@@ -26,6 +29,7 @@ class Widget : public std::enable_shared_from_this<Widget>
         // Some widget have childrens, example is layouts. Render function checking
         // necessaty of update childrens of widgets, than render it.
         std::shared_ptr<Widget> parent;
+        std::shared_ptr<Layout> layout;
         std::vector< std::shared_ptr<Widget> > childrens;
         // Painter object draw widget graphics. Painter draw on selected display.
         std::shared_ptr<Painter> painter;
@@ -52,6 +56,7 @@ class Widget : public std::enable_shared_from_this<Widget>
         void setExecuteFunction(std::function<void()> _function);
         std::shared_ptr<Widget> getParent();
         virtual void setParent(std::shared_ptr<Widget> _parent);
+        std::shared_ptr<Layout> getLayout();
         // Searching widget by pointer in widgets array.
         static int indexOf( std::vector< std::shared_ptr<Widget> >& _vector, 
             std::shared_ptr<Widget> _widget);
@@ -66,10 +71,14 @@ class Widget : public std::enable_shared_from_this<Widget>
         void setSize(Size _size);
         int getWidth();
         int getHeight();
+        // If size of children widget changed, then we need to recount widgets
+        // sizes, positions. Recount widgets position with function countLayout.
+        virtual void countLayout();
         // If we change widget text or icon it also need to update his size.
         // Updating size things described in this function. Layouts take care
         // about positions.
-        virtual void processSizeUpdate();
+        virtual Size processWidgetSize();
+        virtual void processWidgetPosition();
         // Maybe there are no place for draw function. Now we use travers and 
         // render functions. As run platform limited in memory and clock speed
         // we haven't time for update full scene as on powerfull PC.

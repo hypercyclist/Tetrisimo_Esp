@@ -16,15 +16,15 @@
 #include "Scene.h"
 // #include "TableView.h"
 // #include "TextView.h"
-#include "VerticalLayout.h"
+#include "Layout.h"
 
 // #include "Color.h"
 
 void Game::initializeMultiplayer()
 {
     multiplayer = std::make_shared<Scene>( shared_from_this(), background, "Сеть", 2);
-    std::shared_ptr<VerticalLayout> multiplayerLayout = 
-        std::static_pointer_cast<VerticalLayout>( multiplayer->getCentralWidget() );
+    std::shared_ptr<Layout> multiplayerLayout = 
+        std::static_pointer_cast<Layout>( multiplayer->getCentralWidget() );
 
     std::shared_ptr<Button> clientButton = std::make_shared<Button>("Я клиент");
     multiplayerLayout->addWidget(clientButton);

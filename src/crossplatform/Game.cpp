@@ -19,7 +19,7 @@
 #include "TableView.h"
 #include "TextView.h"
 #include "PlatformTime.h"
-#include "VerticalLayout.h"
+#include "Layout.h"
 
 #include "Log.h"
 

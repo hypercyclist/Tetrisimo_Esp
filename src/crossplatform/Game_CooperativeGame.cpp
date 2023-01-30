@@ -16,7 +16,7 @@
 #include "Scene.h"
 // #include "TableView.h"
 // #include "TextView.h"
-#include "VerticalLayout.h"
+#include "Layout.h"
 
 // #include "Color.h"
 

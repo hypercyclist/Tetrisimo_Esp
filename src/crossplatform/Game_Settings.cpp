@@ -19,7 +19,7 @@
 // #include "TableView.h"
 // #include "TextView.h"
 // #include "DefineTime.h"
-#include "VerticalLayout.h"
+#include "Layout.h"
 
 // #include "Log.h"
 
@@ -28,8 +28,8 @@
 void Game::initializeSettings()
 {
     settings = std::make_shared<Scene>( shared_from_this(), background, "Настройки", 2);
-    std::shared_ptr<VerticalLayout> settingsLayout = 
-        std::static_pointer_cast<VerticalLayout>( settings->getCentralWidget() );
+    std::shared_ptr<Layout> settingsLayout = 
+        std::static_pointer_cast<Layout>( settings->getCentralWidget() );
 
     std::shared_ptr<Button> gameSettingsButton = std::make_shared<Button>("Игровые");
     settingsLayout->addWidget(gameSettingsButton);

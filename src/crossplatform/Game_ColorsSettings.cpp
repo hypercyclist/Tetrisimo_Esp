@@ -19,7 +19,7 @@
 #include "TableView.h"
 // #include "TextView.h"
 // #include "DefineTime.h"
-#include "VerticalLayout.h"
+#include "Layout.h"
 
 // #include "Log.h"
 
@@ -28,8 +28,8 @@
 void Game::initializeColorsSettings()
 {
     colorsSettings = std::make_shared<Scene>( shared_from_this(), background, "Палитра", 2);
-    std::shared_ptr<VerticalLayout> colorsSettingsLayout = 
-        std::static_pointer_cast<VerticalLayout>( colorsSettings->getCentralWidget() );
+    std::shared_ptr<Layout> colorsSettingsLayout = 
+        std::static_pointer_cast<Layout>( colorsSettings->getCentralWidget() );
 
     std::shared_ptr<PaletteView> paletteView = std::make_shared<PaletteView>();
     colorsSettingsLayout->addWidget(paletteView);

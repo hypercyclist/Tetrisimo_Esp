@@ -19,7 +19,7 @@
 #include "TableView.h"
 // #include "TextView.h"
 // #include "DefineTime.h"
-#include "VerticalLayout.h"
+#include "Layout.h"
 
 // #include "Log.h"
 
@@ -28,8 +28,8 @@
 void Game::initializeResistorSettings()
 {
     resistorsSettings = std::make_shared<Scene>( shared_from_this(), background, "Резисторы", 2);
-    std::shared_ptr<VerticalLayout> resistorsSettingsLayout = 
-        std::static_pointer_cast<VerticalLayout>( resistorsSettings->getCentralWidget() );
+    std::shared_ptr<Layout> resistorsSettingsLayout = 
+        std::static_pointer_cast<Layout>( resistorsSettings->getCentralWidget() );
 
     std::shared_ptr<TableView> resistorTable = std::make_shared<TableView>
         ("Сопротивления");

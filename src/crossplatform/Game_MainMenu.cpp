@@ -17,7 +17,7 @@
 #include "Scene.h"
 // #include "TableView.h"
 // #include "TextView.h"
-#include "VerticalLayout.h"
+#include "Layout.h"
 
 
 // #include "Color.h"
@@ -25,8 +25,8 @@
 void Game::initializeMainMenu()
 {
     mainMenu = std::make_shared<Scene>( shared_from_this(), background, "Тетрис", 3);
-    std::shared_ptr<VerticalLayout> menuLayout = 
-        std::static_pointer_cast<VerticalLayout>( mainMenu->getCentralWidget() );
+    std::shared_ptr<Layout> menuLayout = 
+        std::static_pointer_cast<Layout>( mainMenu->getCentralWidget() );
     menuLayout->setAdjusting(true);
 
     std::shared_ptr<Button> singleGameButton = std::make_shared<Button>("Новая игра");

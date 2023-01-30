@@ -19,7 +19,7 @@
 #include "TableView.h"
 // #include "TextView.h"
 // #include "DefineTime.h"
-#include "VerticalLayout.h"
+#include "Layout.h"
 
 // #include "Log.h"
 
@@ -28,8 +28,8 @@
 void Game::initializeHighScore()
 {
     highScore = std::make_shared<Scene>( shared_from_this(), background, "Рекорды", 2);
-    std::shared_ptr<VerticalLayout> highScoreLayout = 
-        std::static_pointer_cast<VerticalLayout>( highScore->getCentralWidget() );
+    std::shared_ptr<Layout> highScoreLayout = 
+        std::static_pointer_cast<Layout>( highScore->getCentralWidget() );
 
     std::shared_ptr<TableView> personalBest = std::make_shared<TableView>
         ("Мои рекорды");
@@ -54,7 +54,7 @@ void Game::initializeHighScore()
         [this, personalBest] ()
         {
             widgetViewer->setPreviousScene(highScore);
-            std::static_pointer_cast<VerticalLayout>(widgetViewer->getCentralWidget())->addWidget(personalBest);
+            std::static_pointer_cast<Layout>(widgetViewer->getCentralWidget())->addWidget(personalBest);
             setActiveScene(widgetViewer);
         }
     );
@@ -82,7 +82,7 @@ void Game::initializeHighScore()
         [this, networkBest] ()
         {
             widgetViewer->setPreviousScene(highScore);
-            std::static_pointer_cast<VerticalLayout>(widgetViewer->getCentralWidget())->addWidget(networkBest);
+            std::static_pointer_cast<Layout>(widgetViewer->getCentralWidget())->addWidget(networkBest);
             setActiveScene(widgetViewer);
         }
     );

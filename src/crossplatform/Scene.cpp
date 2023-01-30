@@ -11,7 +11,7 @@
 #include "Painter.h"
 #include "Point.h"
 #include "Size.h"
-#include "VerticalLayout.h"
+#include "Layout.h"
 
 Scene::Scene(std::shared_ptr<Game> _game)
     : Widget(),
@@ -44,12 +44,12 @@ void Scene::configureBasicMenuScene(std::shared_ptr<Background> _background,
 {
     setSize( game->getDisplay()->getSize() );
     setBackgroundWidget(_background);
-    setCentralWidget(std::make_shared<VerticalLayout>());
+    setCentralWidget(std::make_shared<Layout>());
 
     std::shared_ptr<Label> header = std::make_shared<Label>(_headerText);
     header->setTextSize(_headerTextSize);
     header->setUnderline(true);
-    std::static_pointer_cast<VerticalLayout>(widget)->addWidget(header);
+    std::static_pointer_cast<Layout>(widget)->addWidget(header);
 }
 
 std::shared_ptr<Scene> Scene::getPreviousScene()
@@ -98,28 +98,28 @@ void Scene::initializeStandartFunctions()
 {
     onShowFunctionPointer = [this] () 
     {
-        std::static_pointer_cast<VerticalLayout>(widget)->countLayout();
+        std::static_pointer_cast<Layout>(widget)->countLayout();
         widget->focus();
     };
     onHideFunctionPointer = [this] () 
     {
-        std::static_pointer_cast<VerticalLayout>(widget)->unfocus();
+        std::static_pointer_cast<Layout>(widget)->unfocus();
     };
     pressedButtonUpFunctionPointer = [this] () 
     {
-        // std::static_pointer_cast<VerticalLayout>(widget)->focusPrevious();
-        std::static_pointer_cast<VerticalLayout>(widget)->moveUp();
+        // std::static_pointer_cast<Layout>(widget)->focusPrevious();
+        std::static_pointer_cast<Layout>(widget)->moveUp();
     };
     pressedButtonDownFunctionPointer = [this] ()
     {
-        // std::static_pointer_cast<VerticalLayout>(widget)->focusNext();
-        std::static_pointer_cast<VerticalLayout>(widget)->moveDown();
+        // std::static_pointer_cast<Layout>(widget)->focusNext();
+        std::static_pointer_cast<Layout>(widget)->moveDown();
     };
     pressedButtonRightFunctionPointer = [this] () {};
     pressedButtonLeftFunctionPointer = [this] () {};
     pressedButtonOkFunctionPointer = [this] () 
     {
-        std::static_pointer_cast<VerticalLayout>(widget)->executeActiveWidget();
+        std::static_pointer_cast<Layout>(widget)->executeActiveWidget();
     };
     pressedButtonBackFunctionPointer = [this] () 
     {

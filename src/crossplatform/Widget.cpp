@@ -1,5 +1,6 @@
 #include "Widget.h"
 
+#include "Layout.h"
 #include "Painter.h"
 #include "Point.h"
 #include "Size.h"
@@ -12,6 +13,7 @@ Widget::Widget()
     id( generateId() ),
     executeFunction(nullptr),
     parent(nullptr),
+    layout(nullptr),
     painter( Painter::getPainter() ),
     position( std::make_unique<Point>(1, 1) ), 
     size( std::make_unique<Size>(1, 1) ), 
@@ -36,6 +38,16 @@ void Widget::setExecuteFunction(std::function<void()> _function) {
 std::shared_ptr<Widget> Widget::getParent() { return parent; }
 
 void Widget::setParent(std::shared_ptr<Widget> _parent) { parent = _parent; }
+
+std::shared_ptr<Layout> Widget::getLayout()
+{
+    if (layout) return layout;
+    else 
+    {
+        layout = std::make_shared<Layout>( shared_from_this() );
+        return layout;
+    }
+}
 
 int Widget::indexOf( std::vector< std::shared_ptr<Widget> >& _vector, 
     std::shared_ptr<Widget> _widget )
@@ -81,7 +93,40 @@ int Widget::getWidth() { return size->getWidth(); }
 
 int Widget::getHeight() { return size->getHeight(); }
 
-void Widget::processSizeUpdate() { }
+// Notificate parent about changing size.
+void Widget::countLayout()
+{
+    // Инициировать перерасчет может каждый виджет, но начинать нужно от 
+    // корневого виджета. Если есть родитель, то передать управление ему,
+    // если нет, то начать расчет размера.
+    if (parent) 
+    { 
+        parent->countLayout(); 
+        return;
+    }
+    
+    // Каждый виджет рекурсивно отвечает, сколько место ему нужно.
+    Size widgetSize = processWidgetSize();
+
+    // Расставляем виджеты на позиции.
+    processWidgetPosition();
+}
+
+Size Widget::processWidgetSize() 
+{
+    // Если виджет в композиторе один, то просто возвращаем размер.
+    if (getLayout()->getWidgetsCount() == 0) return *size;
+
+    size = std::make_unique<Size>(getLayout()->processWidgetSize());
+
+    return *size;
+}
+
+void Widget::processWidgetPosition()
+{
+    getLayout()->setPosition(*position);
+    getLayout()->processWidgetPosition();
+}
 
 void Widget::render()
 {
@@ -108,13 +153,13 @@ bool Widget::isFocused() { return focused ? true : false; }
 void Widget::maximize()
 {
     maximized = true;
-    processSizeUpdate();
+    countLayout();
 }
 
 void Widget::minimize()
 {
     maximized = false;
-    processSizeUpdate();
+    countLayout();
 }
 
 bool Widget::isMaximized() { return maximized; }
