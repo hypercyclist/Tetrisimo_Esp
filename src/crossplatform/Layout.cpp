@@ -8,10 +8,11 @@
 Layout::Layout(std::shared_ptr<Widget> _parent)
     : 
     Widget(),
-    spacing(9),
-    margin(5),
+    spacing(0),
+    margin(0),
     adjusting(false)
 {
+    setParent(_parent);
 }
 
 Layout::~Layout()
@@ -92,27 +93,9 @@ void Layout::executeActiveWidget()
     }
 }
 
-// Notificate parent about changing size.
-void Layout::countLayout()
-{
-    // Инициировать перерасчет может каждый виджет, но начинать нужно от 
-    // корневого виджета. Если есть родитель, то передать управление ему,
-    // если нет, то начать расчет размера.
-    if (parent) 
-    { 
-        parent->countLayout(); 
-        return;
-    }
-    
-    // Каждый виджет рекурсивно отвечает, сколько место ему нужно.
-    Size widgetSize = processWidgetSize();
-
-    // Расставляем виджеты на позиции.
-    processWidgetPosition();
-}
-
 Size Layout::processWidgetSize() 
 {
+    // Log::println("Size Layout::processWidgetSize() ", "LOW");
     // Если виджет в композиторе один, то просто возвращаем размер.
     if (childrens.size() == 0) return *size;
 
@@ -160,6 +143,9 @@ Size Layout::processWidgetSize()
 
 void Layout::processWidgetPosition()
 {
+    // if (size->getWidth() > 1) {
+    //     Log::println("Layout width = " + std::to_string(size->getWidth()), "LOW");
+    // }
     if (layoutType == LayoutType::VERTICAL)
     {
         int widgetWidth = position->getY();

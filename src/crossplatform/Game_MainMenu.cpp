@@ -24,16 +24,14 @@
 
 void Game::initializeMainMenu()
 {
-    mainMenu = std::make_shared<Scene>( shared_from_this(), background, "Тетрис", 3);
-    std::shared_ptr<Layout> menuLayout = 
-        std::static_pointer_cast<Layout>( mainMenu->getCentralWidget() );
-    menuLayout->setAdjusting(true);
+    mainMenu = std::make_shared<Scene>( shared_from_this());
+    mainMenu->configureBasicMenuScene(background, "Тетрис", 3);
 
     std::shared_ptr<Button> singleGameButton = std::make_shared<Button>("Новая игра");
-    menuLayout->addWidget(singleGameButton);
+    mainMenu->getLayout()->addWidget(singleGameButton);
 
     std::shared_ptr<Button> multiplayerButton = std::make_shared<Button>("Сеть");
-    menuLayout->addWidget(multiplayerButton);
+    mainMenu->getLayout()->addWidget(multiplayerButton);
     multiplayerButton->setExecuteFunction(
         [this] ()
         {
@@ -43,7 +41,7 @@ void Game::initializeMainMenu()
     multiplayer->setPreviousScene(mainMenu);
     
     std::shared_ptr<Button> settingsButton = std::make_shared<Button>("Настройки");
-    menuLayout->addWidget(settingsButton);
+    mainMenu->getLayout()->addWidget(settingsButton);
     settingsButton->setExecuteFunction(
         [this] ()
         {
@@ -53,7 +51,7 @@ void Game::initializeMainMenu()
     settings->setPreviousScene(mainMenu);
     
     std::shared_ptr<Button> highScoreButton = std::make_shared<Button>("Рекорды");
-    menuLayout->addWidget(highScoreButton);
+    mainMenu->getLayout()->addWidget(highScoreButton);
     highScoreButton->setExecuteFunction(
         [this] ()
         {
@@ -63,17 +61,17 @@ void Game::initializeMainMenu()
     highScore->setPreviousScene(mainMenu);
 
     // std::shared_ptr<Button> desk1 = std::make_shared<Button>("Заглушка1");
-    // menuLayout->addWidget(desk1);
+    // mainMenu->getLayout()->addWidget(desk1);
 
     // std::shared_ptr<Button> desk2 = std::make_shared<Button>("Заглушка2");
-    // menuLayout->addWidget(desk2);
+    // mainMenu->getLayout()->addWidget(desk2);
 
     // std::shared_ptr<Button> desk3 = std::make_shared<Button>("Заглушка3");
-    // menuLayout->addWidget(desk3);
+    // mainMenu->getLayout()->addWidget(desk3);
 
     // std::shared_ptr<Button> desk4 = std::make_shared<Button>("Заглушка4");
-    // menuLayout->addWidget(desk4);
+    // mainMenu->getLayout()->addWidget(desk4);
 
     std::shared_ptr<Label> highScoreLabel = std::make_shared<Label>("000000");
-    menuLayout->addWidget(highScoreLabel);
+    mainMenu->getLayout()->addWidget(highScoreLabel);
 }

@@ -27,12 +27,11 @@
 
 void Game::initializeSettings()
 {
-    settings = std::make_shared<Scene>( shared_from_this(), background, "Настройки", 2);
-    std::shared_ptr<Layout> settingsLayout = 
-        std::static_pointer_cast<Layout>( settings->getCentralWidget() );
+    settings = std::make_shared<Scene>( shared_from_this());
+    settings->configureBasicMenuScene(background, "Настройки", 2);
 
     std::shared_ptr<Button> gameSettingsButton = std::make_shared<Button>("Игровые");
-    settingsLayout->addWidget(gameSettingsButton);
+    settings->getLayout()->addWidget(gameSettingsButton);
     gameSettingsButton->setExecuteFunction(
         [this] ()
         {
@@ -42,10 +41,10 @@ void Game::initializeSettings()
     gameSettings->setPreviousScene(settings);
 
     std::shared_ptr<Button> networkSettingsButton = std::make_shared<Button>("Сетевые");
-    settingsLayout->addWidget(networkSettingsButton);
+    settings->getLayout()->addWidget(networkSettingsButton);
     
     std::shared_ptr<Button> colorsSettingsButton = std::make_shared<Button>("Палитра");
-    settingsLayout->addWidget(colorsSettingsButton);
+    settings->getLayout()->addWidget(colorsSettingsButton);
     colorsSettingsButton->setExecuteFunction(
         [this] ()
         {
@@ -55,7 +54,7 @@ void Game::initializeSettings()
     colorsSettings->setPreviousScene(settings);
 
     std::shared_ptr<Button> advancedSettingsButton = std::make_shared<Button>("Другие");
-    settingsLayout->addWidget(advancedSettingsButton); 
+    settings->getLayout()->addWidget(advancedSettingsButton); 
     advancedSettingsButton->setExecuteFunction(
         [this] ()
         {
@@ -65,7 +64,7 @@ void Game::initializeSettings()
     advansedSettings->setPreviousScene(settings);
 
     std::shared_ptr<Button> aboutButton = std::make_shared<Button>("О проекте");
-    settingsLayout->addWidget(aboutButton);
+    settings->getLayout()->addWidget(aboutButton);
     aboutButton->setExecuteFunction(
         [this] ()
         {

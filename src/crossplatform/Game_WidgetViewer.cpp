@@ -32,23 +32,20 @@ void Game::initializeWidgetViewer()
     widgetViewer->setSize( display->getSize() );
     widgetViewer->setBackgroundWidget(background);
 
-    std::shared_ptr<Layout> widgetViewerLayout = std::make_shared<Layout>();
-    widgetViewer->setCentralWidget(widgetViewerLayout);
-
     std::shared_ptr<VirtualKeyboard> virtualKeyboard = std::make_shared<VirtualKeyboard>();
-    widgetViewerLayout->addWidget(virtualKeyboard);
+    widgetViewer->getLayout()->addWidget(virtualKeyboard);
 
     widgetViewer->setOnShowFunction(
-        [this, widgetViewerLayout] ()
+        [this] ()
         {
-            widgetViewerLayout->getWidget(0)->maximize();
+            widgetViewer->getLayout()->getWidget(0)->maximize();
         }
     );
     widgetViewer->setOnHideFunction(
-        [this, widgetViewerLayout] ()
+        [this] ()
         {
-            widgetViewerLayout->getWidget(0)->minimize();
-            widgetViewerLayout->removeChildren(widgetViewerLayout->getWidget(0));
+            widgetViewer->getLayout()->getWidget(0)->minimize();
+            widgetViewer->getLayout()->removeChildren(widgetViewer->getLayout()->getWidget(0));
         }
     );
 }

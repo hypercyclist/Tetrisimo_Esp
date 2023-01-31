@@ -28,7 +28,6 @@ class Layout : public Widget
         std::shared_ptr<Widget> getWidget(int _index);
         int getWidgetsCount();
         virtual void removeWidget(std::shared_ptr<Widget> _widget);
-        void countLayout();
         virtual Size processWidgetSize();
         void processWidgetPosition();
         //This function call execute fucntion of focused widget.

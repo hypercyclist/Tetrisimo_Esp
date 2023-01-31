@@ -18,15 +18,12 @@ class Scene : public Widget
         // Every scene know single game object. Game is scene parent.
         std::shared_ptr<Game> game;
         std::shared_ptr<Background> background;
-        std::shared_ptr<Widget> widget;
         // If scene was changed from parent to it, then we should be able to come
         // back to parent scene.
         std::shared_ptr<Scene> previousScene;
         // If our scene is static, then we can decrease game framerate. Or increase.
         int framesPerSeconds;
 
-        void configureBasicMenuScene(std::shared_ptr<Background> _background, 
-            std::string _headerText, int _headerTextSize);
         // This is a pointers to functions, that was set from lambda.
         std::function<void()> onShowFunctionPointer;
         std::function<void()> onHideFunctionPointer;
@@ -40,18 +37,16 @@ class Scene : public Widget
     
     public:
         Scene(std::shared_ptr<Game> _game);
-        Scene(std::shared_ptr<Game> _game, 
-            std::shared_ptr<Background> _background, std::string _headerText, 
-            int _headerTextSize);
         ~Scene();
+
+        void configureBasicMenuScene(std::shared_ptr<Background> _background, 
+            std::string _headerText, int _headerTextSize);
 
         void render();
         std::shared_ptr<Scene> getPreviousScene();
         void setPreviousScene(std::shared_ptr<Scene> _previousScene);
         void setBackgroundWidget(std::shared_ptr<Background> _background);
         std::shared_ptr<Widget> getBackground();
-        void setCentralWidget(std::shared_ptr<Widget> _widget);
-        std::shared_ptr<Widget> getCentralWidget();
         
         int getFrameTime();
         void setFrameTime(int _framesPerSeconds);

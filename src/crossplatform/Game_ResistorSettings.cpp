@@ -27,9 +27,8 @@
 
 void Game::initializeResistorSettings()
 {
-    resistorsSettings = std::make_shared<Scene>( shared_from_this(), background, "Резисторы", 2);
-    std::shared_ptr<Layout> resistorsSettingsLayout = 
-        std::static_pointer_cast<Layout>( resistorsSettings->getCentralWidget() );
+    resistorsSettings = std::make_shared<Scene>( shared_from_this());
+    resistorsSettings->configureBasicMenuScene(background, "Резисторы", 2);
 
     std::shared_ptr<TableView> resistorTable = std::make_shared<TableView>
         ("Сопротивления");
@@ -41,5 +40,5 @@ void Game::initializeResistorSettings()
     resistorTable->addText("6.Назад       57К");
     resistorTable->addText("7.Подтягивающий  ");
     resistorTable->addText("              10К");
-    resistorsSettingsLayout->addWidget(resistorTable);
+    resistorsSettings->getLayout()->addWidget(resistorTable);
 }

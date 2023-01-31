@@ -20,15 +20,7 @@ Scene::Scene(std::shared_ptr<Game> _game)
     framesPerSeconds(30)
 {
     initializeStandartFunctions();
-    childrens.resize(2, nullptr);
-}
-
-Scene::Scene(std::shared_ptr<Game> _game, 
-    std::shared_ptr<Background> _background, std::string _headerText, 
-    int _headerTextSize) : 
-    Scene(_game) 
-{
-    configureBasicMenuScene(_background, _headerText, _headerTextSize);
+    setSize( game->getDisplay()->getSize() );
 }
 
 Scene::~Scene() { }
@@ -36,20 +28,18 @@ Scene::~Scene() { }
 void Scene::render()
 {
     background->render();
-    widget->render();
+    getLayout()->render();
 }
 
 void Scene::configureBasicMenuScene(std::shared_ptr<Background> _background, 
     std::string _headerText, int _headerTextSize)
 {
-    setSize( game->getDisplay()->getSize() );
     setBackgroundWidget(_background);
-    setCentralWidget(std::make_shared<Layout>());
 
     std::shared_ptr<Label> header = std::make_shared<Label>(_headerText);
     header->setTextSize(_headerTextSize);
     header->setUnderline(true);
-    std::static_pointer_cast<Layout>(widget)->addWidget(header);
+    getLayout()->addWidget(header);
 }
 
 std::shared_ptr<Scene> Scene::getPreviousScene()
@@ -73,17 +63,6 @@ std::shared_ptr<Widget> Scene::getBackground()
     return background;
 }
 
-void Scene::setCentralWidget(std::shared_ptr<Widget> _widget)
-{
-    widget = _widget;
-    widget->setSize(*size);
-}
-
-std::shared_ptr<Widget> Scene::getCentralWidget()
-{
-    return widget;
-}
-
 int Scene::getFrameTime()
 {
     return 1000 / framesPerSeconds;
@@ -98,28 +77,28 @@ void Scene::initializeStandartFunctions()
 {
     onShowFunctionPointer = [this] () 
     {
-        std::static_pointer_cast<Layout>(widget)->countLayout();
-        widget->focus();
+        getLayout()->countLayout();
+        getLayout()->focus();
     };
     onHideFunctionPointer = [this] () 
     {
-        std::static_pointer_cast<Layout>(widget)->unfocus();
+        getLayout()->unfocus();
     };
     pressedButtonUpFunctionPointer = [this] () 
     {
-        // std::static_pointer_cast<Layout>(widget)->focusPrevious();
-        std::static_pointer_cast<Layout>(widget)->moveUp();
+        // getLayout()->focusPrevious();
+        getLayout()->moveUp();
     };
     pressedButtonDownFunctionPointer = [this] ()
     {
-        // std::static_pointer_cast<Layout>(widget)->focusNext();
-        std::static_pointer_cast<Layout>(widget)->moveDown();
+        // getLayout()->focusNext();
+        getLayout()->moveDown();
     };
     pressedButtonRightFunctionPointer = [this] () {};
     pressedButtonLeftFunctionPointer = [this] () {};
     pressedButtonOkFunctionPointer = [this] () 
     {
-        std::static_pointer_cast<Layout>(widget)->executeActiveWidget();
+        getLayout()->executeActiveWidget();
     };
     pressedButtonBackFunctionPointer = [this] () 
     {

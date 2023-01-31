@@ -27,9 +27,8 @@
 
 void Game::initializeHighScore()
 {
-    highScore = std::make_shared<Scene>( shared_from_this(), background, "Рекорды", 2);
-    std::shared_ptr<Layout> highScoreLayout = 
-        std::static_pointer_cast<Layout>( highScore->getCentralWidget() );
+    highScore = std::make_shared<Scene>( shared_from_this());
+    highScore->configureBasicMenuScene(background, "Рекорды", 2);
 
     std::shared_ptr<TableView> personalBest = std::make_shared<TableView>
         ("Мои рекорды");
@@ -54,11 +53,11 @@ void Game::initializeHighScore()
         [this, personalBest] ()
         {
             widgetViewer->setPreviousScene(highScore);
-            std::static_pointer_cast<Layout>(widgetViewer->getCentralWidget())->addWidget(personalBest);
+            widgetViewer->getLayout()->addWidget(personalBest);
             setActiveScene(widgetViewer);
         }
     );
-    highScoreLayout->addWidget(personalBest);
+    highScore->getLayout()->addWidget(personalBest);
 
     std::shared_ptr<TableView> networkBest = std::make_shared<TableView>
         ("Интернет рекорды");
@@ -82,9 +81,9 @@ void Game::initializeHighScore()
         [this, networkBest] ()
         {
             widgetViewer->setPreviousScene(highScore);
-            std::static_pointer_cast<Layout>(widgetViewer->getCentralWidget())->addWidget(networkBest);
+            widgetViewer->getLayout()->addWidget(networkBest);
             setActiveScene(widgetViewer);
         }
     );
-    highScoreLayout->addWidget(networkBest);
+    highScore->getLayout()->addWidget(networkBest);
 }

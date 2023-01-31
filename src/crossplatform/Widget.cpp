@@ -7,6 +7,7 @@
 #include "WidgetId.h"
 
 #include "Log.h"
+#include <iostream>
 
 Widget::Widget()
     : 
@@ -101,10 +102,12 @@ void Widget::countLayout()
     // если нет, то начать расчет размера.
     if (parent) 
     { 
-        parent->countLayout(); 
+        parent->countLayout();
         return;
     }
-    
+    // Log::print("root starts processWidgetSize ", "LOW");
+    // std::cout << typeid(this).name() << std::endl;
+    // std::cout << this << std::endl;
     // Каждый виджет рекурсивно отвечает, сколько место ему нужно.
     Size widgetSize = processWidgetSize();
 
@@ -116,8 +119,15 @@ Size Widget::processWidgetSize()
 {
     // Если виджет в композиторе один, то просто возвращаем размер.
     if (getLayout()->getWidgetsCount() == 0) return *size;
+    Log::println("Size Widget::processWidgetSize() ", "LOW");
 
-    size = std::make_unique<Size>(getLayout()->processWidgetSize());
+    Size childrensSize = getLayout()->processWidgetSize();
+    if(parent) {
+        size = std::make_unique<Size>(childrensSize);
+    } else {
+        Log::println("Size: " + std::to_string(size->getWidth()) + " " + std::to_string(size->getHeight()), "LOW");
+    }
+    getLayout()->setSize(*size);
 
     return *size;
 }

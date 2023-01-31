@@ -27,14 +27,13 @@
 
 void Game::initializeColorsSettings()
 {
-    colorsSettings = std::make_shared<Scene>( shared_from_this(), background, "Палитра", 2);
-    std::shared_ptr<Layout> colorsSettingsLayout = 
-        std::static_pointer_cast<Layout>( colorsSettings->getCentralWidget() );
+    colorsSettings = std::make_shared<Scene>( shared_from_this());
+    colorsSettings->configureBasicMenuScene(background, "Палитра", 2);
 
     std::shared_ptr<PaletteView> paletteView = std::make_shared<PaletteView>();
-    colorsSettingsLayout->addWidget(paletteView);
+    colorsSettings->getLayout()->addWidget(paletteView);
     std::shared_ptr<TableView> colorThemesTable = std::make_shared<TableView>("Цветовые темы");
-    colorsSettingsLayout->addWidget(colorThemesTable);
+    colorsSettings->getLayout()->addWidget(colorThemesTable);
     colorThemesTable->addText("1.Пещерные огни");
     colorThemesTable->addText("2.Кровавая тряска");
     colorThemesTable->addText("3.Своя тема");

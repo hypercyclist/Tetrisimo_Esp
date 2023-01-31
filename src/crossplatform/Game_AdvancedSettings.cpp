@@ -27,29 +27,28 @@
 
 void Game::initializeAdvancedSettings()
 {
-    advansedSettings = std::make_shared<Scene>( shared_from_this(), background, "Другие", 2);
-    std::shared_ptr<Layout> advansedSettingsLayout = 
-        std::static_pointer_cast<Layout>( advansedSettings->getCentralWidget() );
+    advansedSettings = std::make_shared<Scene>( shared_from_this());
+    advansedSettings->configureBasicMenuScene(background, "Другие", 2);
 
     std::shared_ptr<LineEdit> globalIpLineEdit = std::make_shared<LineEdit>
         ("Адрес гл. сервера", "193.9.61.92");
-    advansedSettingsLayout->addWidget(globalIpLineEdit);
+    advansedSettings->getLayout()->addWidget(globalIpLineEdit);
     globalIpLineEdit->setExecuteFunction(
         [this, globalIpLineEdit] ()
         {
             widgetViewer->setPreviousScene(advansedSettings);
-            std::static_pointer_cast<Layout>(widgetViewer->getCentralWidget())->addWidget(globalIpLineEdit);
+            widgetViewer->getLayout()->addWidget(globalIpLineEdit);
             setActiveScene(widgetViewer);
         }
     );
     std::shared_ptr<LineEdit> globalPortLineEdit = std::make_shared<LineEdit>
         ("Порт гл. сервера", "6452");
-    advansedSettingsLayout->addWidget(globalPortLineEdit);
+    advansedSettings->getLayout()->addWidget(globalPortLineEdit);
     globalPortLineEdit->setExecuteFunction(
         [this, globalPortLineEdit] ()
         {
             widgetViewer->setPreviousScene(advansedSettings);
-            std::static_pointer_cast<Layout>(widgetViewer->getCentralWidget())->addWidget(globalPortLineEdit);
+            widgetViewer->getLayout()->addWidget(globalPortLineEdit);
             setActiveScene(widgetViewer);
         }
     );
@@ -63,5 +62,5 @@ void Game::initializeAdvancedSettings()
     // );
     // resistorsSettings->setPreviousScene(advansedSettings);
     std::shared_ptr<Button> hardResetButton = std::make_shared<Button>("Сброс");
-    advansedSettingsLayout->addWidget(hardResetButton);
+    advansedSettings->getLayout()->addWidget(hardResetButton);
 }
