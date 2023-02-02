@@ -51,6 +51,7 @@ void Layout::removeWidget(std::shared_ptr<Widget> _widget)
     if (pos != -1) { return; }
     childrens[pos]->setParent(nullptr);
     childrens.erase( childrens.begin() + pos );
+    countLayout();
 }
 
 void Layout::setAdjusting(bool _adjusting)
@@ -146,15 +147,24 @@ void Layout::processWidgetPosition()
     // if (size->getWidth() > 1) {
     //     Log::println("Layout width = " + std::to_string(size->getWidth()), "LOW");
     // }
+    if (childrens.size() == 0) return;
+
     if (layoutType == LayoutType::VERTICAL)
     {
+        int totalWidgetsHeight = 0;
+        for (std::shared_ptr<Widget> widget : childrens) 
+        {
+            totalWidgetsHeight += widget->getHeight();
+        }
+        int verticalSpacing = (size->getHeight() - totalWidgetsHeight) / childrens.size();
+
         int widgetWidth = position->getY();
         int widgetHeight = position->getX();
         for (std::shared_ptr<Widget> widget : childrens) 
         {
             int alignWidth = ( size->getWidth() - widget->getSize().getWidth() ) / 2;
             widget->setPosition(Point(widgetWidth + alignWidth, widgetHeight));
-            widgetHeight += spacing;
+            widgetHeight += verticalSpacing;
             widgetHeight += widget->getHeight();
             widget->processWidgetPosition();
         }
