@@ -39,6 +39,7 @@ class VirtualKeyboard : public Widget
         int editableWidgetOldY;
         VirtualKeyboard();
         ~VirtualKeyboard();
+        void createGraphics();
         void render();
         // void logic();
         // void input(int);

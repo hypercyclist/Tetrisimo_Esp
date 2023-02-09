@@ -31,6 +31,10 @@ VirtualKeyboard::VirtualKeyboard()
     textLayouts.at(NUMERIC_UPPER)[1] = {"~", "`", "|", "/", "*", "^", "{", "}"};
     textLayouts.at(NUMERIC_UPPER)[2] = {"<>", "[", "]", "%", "<", ">", "=", "<-"};
     textLayouts.at(NUMERIC_UPPER)[3] = {"Ab", ",", "Ln", " ", ".", "Ok"};
+}
+
+void VirtualKeyboard::createGraphics()
+{
     layouts.resize(4);
     for(int i = 0; i < textLayouts.size(); i++)
     {
@@ -38,6 +42,7 @@ VirtualKeyboard::VirtualKeyboard()
         for(int j = 0; j < textLayouts[i].size(); j++)
         {
             layouts[i]->addWidget(std::make_shared<Layout>());
+
             int totalRowSize = 0;
             for(int k = 0; k < textLayouts[i][j].size(); k++)
             {
@@ -72,13 +77,17 @@ VirtualKeyboard::VirtualKeyboard()
                 std::shared_ptr<Button> button = 
                     std::make_shared<Button>(textLayouts[i][j][k]);
                 std::static_pointer_cast<Layout>(
+                    layouts[i]->getWidget(j))->setLayoutType(LayoutType::HORIZONTAL);
+                std::static_pointer_cast<Layout>(
                     layouts[i]->getWidget(j))->addWidget(button);
                 button->setTextSize(1);
                 // setFunction(button);
             }
         }
+        getLayout()->addWidget(layouts[i]);
         // layouts[i]->setFocus(1, 4);
     }
+
     currentLayout = layouts[0];
     currentLayout->countLayout();
 }

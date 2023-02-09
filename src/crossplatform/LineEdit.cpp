@@ -105,7 +105,7 @@ void LineEdit::processSizeUpdate()
     {
         Size layoutSize = parent->getSize();
         countedSize = painter->countTextSize(name, textSize);
-        countedSize.setWidth( layoutSize.getWidth() * 0.87f );
+        // countedSize.setWidth( layoutSize.getWidth() * 0.87f );
     }
     else
     {
