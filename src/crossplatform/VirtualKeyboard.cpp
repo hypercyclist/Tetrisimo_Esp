@@ -1,6 +1,7 @@
 #include "VirtualKeyboard.h"
 #include "Layout.h"
 #include "Button.h"
+#include <iostream>
 
 VirtualKeyboard::VirtualKeyboard()
 {
@@ -35,13 +36,18 @@ VirtualKeyboard::VirtualKeyboard()
 
 void VirtualKeyboard::createGraphics()
 {
-    layouts.resize(4);
+    // Раскладок столько, сколько режимов клавиатуры.
+    layouts.resize(textLayouts.size());
     for(int i = 0; i < textLayouts.size(); i++)
     {
         layouts[i] = std::make_shared<Layout>();
+        layouts[i]->setLayoutType(LayoutType::VERTICAL); // Это вертикальнйы слой.
         for(int j = 0; j < textLayouts[i].size(); j++)
         {
-            layouts[i]->addWidget(std::make_shared<Layout>());
+            // А это строчки.
+            std::shared_ptr<Layout> row = std::make_shared<Layout>();
+            row->setLayoutType(LayoutType::HORIZONTAL); 
+            layouts[i]->addWidget(row);
 
             int totalRowSize = 0;
             for(int k = 0; k < textLayouts[i][j].size(); k++)
@@ -76,13 +82,12 @@ void VirtualKeyboard::createGraphics()
                 }
                 std::shared_ptr<Button> button = 
                     std::make_shared<Button>(textLayouts[i][j][k]);
-                std::static_pointer_cast<Layout>(
-                    layouts[i]->getWidget(j))->setLayoutType(LayoutType::HORIZONTAL);
-                std::static_pointer_cast<Layout>(
-                    layouts[i]->getWidget(j))->addWidget(button);
+                row->addWidget(button);
                 button->setTextSize(1);
                 // setFunction(button);
             }
+            layouts[i]->addWidget(row);
+            std::cout << row->getWidgetsCount() << std::endl;
         }
         getLayout()->addWidget(layouts[i]);
         // layouts[i]->setFocus(1, 4);

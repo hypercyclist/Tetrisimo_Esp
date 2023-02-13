@@ -8,6 +8,7 @@
 Layout::Layout(std::shared_ptr<Widget> _parent)
     : 
     Widget(),
+    layoutType(LayoutType::VERTICAL),
     spacing(0),
     margin(0),
     adjusting(false)

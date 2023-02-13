@@ -1,0 +1,8 @@
+src/crossplatform
+src/esp
+src/lib/include
+src/lib/include/glad
+src/lib/include/GLFW
+src/lib/include/glm/simd
+src/lib/include/KHR
+src/linux-windows
